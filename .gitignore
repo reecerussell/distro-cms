@@ -1,0 +1,14 @@
+*.user
+*/.vs/*
+
+Pages/API/bin/*
+Pages/API/obj/*
+Pages/Domain/bin/*
+Pages/Domain/obj/*
+Pages/Infrastructure/bin/*
+Pages/Infrastructure/obj/*
+
+Shared/Shared/bin/*
+Shared/Shared/obj/*
+Migrations/Migrations/bin/*
+Migrations/Migrations/obj/*
