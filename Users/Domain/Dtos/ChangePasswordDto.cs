@@ -1,4 +1,4 @@
-﻿namespace Domain.Dtos
+﻿namespace Users.Domain.Dtos
 {
     public class ChangePasswordDto
     {

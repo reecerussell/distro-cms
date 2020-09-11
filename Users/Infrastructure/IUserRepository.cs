@@ -1,8 +1,8 @@
-﻿using Domain.Models;
-using Shared.Entity;
+﻿using Shared.Entity;
 using System.Threading.Tasks;
+using Users.Domain.Models;
 
-namespace Infrastructure
+namespace Users.Infrastructure
 {
     public interface IUserRepository : IRepository<User>
     {

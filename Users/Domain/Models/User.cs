@@ -1,11 +1,11 @@
-﻿using Domain.Dtos;
-using Shared;
+﻿using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
 using Shared.Passwords;
 using System.Text.RegularExpressions;
+using Users.Domain.Dtos;
 
-namespace Domain.Models
+namespace Users.Domain.Models
 {
     public class User : Aggregate
     {

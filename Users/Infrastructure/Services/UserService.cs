@@ -1,13 +1,13 @@
-﻿using Domain.Dtos;
-using Domain.Models;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Shared;
 using Shared.Exceptions;
 using Shared.Passwords;
 using System;
 using System.Threading.Tasks;
+using Users.Domain.Dtos;
+using Users.Domain.Models;
 
-namespace Infrastructure.Services
+namespace Users.Infrastructure.Services
 {
     internal class UserService : IUserService
     {

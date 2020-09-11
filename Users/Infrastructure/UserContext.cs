@@ -1,9 +1,9 @@
-﻿using Infrastructure.Configurations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Users.Infrastructure.Configurations;
 
-namespace Infrastructure
+namespace Users.Infrastructure
 {
-    public class UserContext : DbContext
+    internal class UserContext : DbContext
     {
         public UserContext(DbContextOptions<UserContext> options)
             : base(options)

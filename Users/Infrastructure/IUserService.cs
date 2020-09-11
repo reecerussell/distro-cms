@@ -1,7 +1,7 @@
-﻿using Domain.Dtos;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Users.Domain.Dtos;
 
-namespace Infrastructure
+namespace Users.Infrastructure
 {
     public interface IUserService
     {

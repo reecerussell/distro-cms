@@ -1,10 +1,10 @@
-﻿using Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shared.Entity;
 using System.Threading.Tasks;
+using Users.Domain.Models;
 
-namespace Infrastructure.Repositories
+namespace Users.Infrastructure.Repositories
 {
     internal class UserRepository : Repository<User>, IUserRepository
     {

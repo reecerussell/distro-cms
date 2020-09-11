@@ -28,7 +28,10 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": true,
+      "environmentVariables": {
+        "CONNECTION_STRING": "Server=host.docker.internal,6000;Database=distro-blog;User Id=distro;Password=password;"
+      }
     }
   }
 }

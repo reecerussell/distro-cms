@@ -1,10 +1,10 @@
-﻿using Infrastructure.Repositories;
-using Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
+using Users.Infrastructure.Repositories;
+using Users.Infrastructure.Services;
 
-namespace Infrastructure
+namespace Users.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
@@ -16,7 +16,7 @@ namespace Infrastructure
             return services
                 .AddDbContext<UserContext>(options =>
                 {
-                    options.UseSqlServer(connectionString, x => x.MigrationsAssembly("Migrations"));
+                    options.UseSqlServer(connectionString, x => x.MigrationsAssembly("Infrastructure"));
                 })
                 .AddScoped<DbContext>(s => s.GetRequiredService<UserContext>())
                 .AddTransient<IUserRepository, UserRepository>()

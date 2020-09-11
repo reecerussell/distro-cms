@@ -1,10 +1,10 @@
-﻿using Domain.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.Entity;
+using Users.Domain.Models;
 
-namespace Infrastructure.Configurations
+namespace Users.Infrastructure.Configurations
 {
-    internal class UserConfiguration : BaseEntityConfiguration<User>
+    public class UserConfiguration : BaseEntityConfiguration<User>
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {
