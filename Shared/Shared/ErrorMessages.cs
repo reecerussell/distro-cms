@@ -14,5 +14,27 @@
         public const string PageNotFound = "PAGE:NOT_FOUND";
         public const string PageAlreadyActive = "PAGE:ALREADY_ACTIVE";
         public const string PageAlreadyInactive = "PAGE:ALREADY_INACTIVE";
+
+        // User errors
+        public const string UserFirstnameRequired = "USER:FIRSTNAME_REQUIRED";
+        public const string UserFirstnameTooLong = "USER:FIRSTNAME_TOO_LONG";
+        public const string UserLastnameRequired = "USER:LASTNAME_REQUIRED";
+        public const string UserLastnameTooLong = "USER:LASTNAME_TOO_LONG";
+        public const string UserEmailRequired = "USER:EMAIL_REQUIRED";
+        public const string UserEmailTooLong = "USER:EMAIL_TOO_LONG";
+        public const string UserEmailInvalid = "USER:EMAIL_INVALID";
+        public const string UserPasswordRequired = "USER:PASSWORD_REQUIRED";
+        public const string UserPasswordInvalid = "USER:PASSWORD_INVALID";
+        public const string UserConfirmPasswordRequired = "USER:CONFIRM_PASSWORD_REQUIRED";
+        public const string UserEmailTaken = "USER:EMAIL_TAKEN";
+
+        // Password errors
+        public const string PasswordRequired = "PASSWORD:REQUIRED";
+        public const string PasswordTooShort = "PASSWORD:TOO_SHORT:{0}";
+        public const string PasswordRequiresNonAlphanumeric = "PASSWORD:REQUIRES_NON_ALPHANUMERIC";
+        public const string PasswordRequiresDigit = "PASSWORD:REQUIRES_DIGIT";
+        public const string PasswordRequiresLowercase = "PASSWORD:REQUIRES_LOWERCASE";
+        public const string PasswordRequiresUppercase = "PASSWORD:REQUIRES_UPPERCASE";
+        public const string PasswordRequiresUniqueChars = "PASSWORD:REQUIRES_UNIQUE_CHARS:{0}";
     }
 }
