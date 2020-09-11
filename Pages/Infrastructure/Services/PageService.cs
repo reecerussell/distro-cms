@@ -1,12 +1,12 @@
-﻿using Domain.Dtos;
-using Domain.Models;
+﻿using Pages.Domain.Dtos;
+using Pages.Domain.Models;
 using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Services
+namespace Pages.Infrastructure.Services
 {
     internal class PageService : IPageService
     {

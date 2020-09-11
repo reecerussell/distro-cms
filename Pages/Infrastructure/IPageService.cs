@@ -1,8 +1,8 @@
-﻿using Domain.Dtos;
+﻿using Pages.Domain.Dtos;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace Infrastructure
+namespace Pages.Infrastructure
 {
     public interface IPageService
     {

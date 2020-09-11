@@ -1,4 +1,4 @@
-﻿namespace Domain.Dtos
+﻿namespace Pages.Domain.Dtos
 {
     public class UpdatePageDto
     {

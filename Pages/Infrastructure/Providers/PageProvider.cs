@@ -1,7 +1,7 @@
 ﻿using Dapper;
-using Domain.Dtos;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
+using Pages.Domain.Dtos;
 using Shared;
 using Shared.Exceptions;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Data;
 using System.Globalization;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Providers
+namespace Pages.Infrastructure.Providers
 {
     internal class PageProvider : IPageProvider
     {

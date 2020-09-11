@@ -1,11 +1,11 @@
-﻿using Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Pages.Domain.Models;
 using Shared.Entity;
 
-namespace Infrastructure.Configurations
+namespace Pages.Infrastructure.Configurations
 {
-    internal class PageConfiguration : BaseEntityConfiguration<Page>
+    public class PageConfiguration : BaseEntityConfiguration<Page>
     {
         public override void Configure(EntityTypeBuilder<Page> builder)
         {

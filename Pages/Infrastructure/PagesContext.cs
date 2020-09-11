@@ -1,7 +1,7 @@
-﻿using Infrastructure.Configurations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Pages.Infrastructure.Configurations;
 
-namespace Infrastructure
+namespace Pages.Infrastructure
 {
     public class PagesContext : DbContext
     {

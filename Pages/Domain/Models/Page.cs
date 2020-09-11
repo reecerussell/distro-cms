@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Domain.Dtos;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using Pages.Domain.Dtos;
 using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 
-namespace Domain.Models
+namespace Pages.Domain.Models
 {
     public class Page : Aggregate
     {

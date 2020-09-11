@@ -1,11 +1,11 @@
-﻿using Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Pages.Domain.Models;
 using Shared.Entity;
 
-namespace Infrastructure.Configurations
+namespace Pages.Infrastructure.Configurations
 {
-    internal class PageTranslationConfiguration : BaseEntityConfiguration<PageTranslation>
+    public class PageTranslationConfiguration : BaseEntityConfiguration<PageTranslation>
     {
         public override void Configure(EntityTypeBuilder<PageTranslation> builder)
         {

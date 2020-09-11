@@ -1,10 +1,10 @@
-﻿using System;
-using System.Globalization;
-using Shared;
+﻿using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
+using System;
+using System.Globalization;
 
-namespace Domain.Models
+namespace Pages.Domain.Models
 {
     public class PageTranslation : Entity
     {

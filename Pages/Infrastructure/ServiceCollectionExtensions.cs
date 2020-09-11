@@ -1,12 +1,13 @@
-﻿using Domain.Models;
-using Infrastructure.Providers;
-using Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Pages.Domain.Models;
+using Pages.Infrastructure;
+using Pages.Infrastructure.Providers;
+using Pages.Infrastructure.Services;
 using Shared;
 using Shared.Entity;
 
-namespace Infrastructure
+namespace Pages.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
