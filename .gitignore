@@ -8,6 +8,13 @@ Pages/Domain/obj/*
 Pages/Infrastructure/bin/*
 Pages/Infrastructure/obj/*
 
+Users/API/bin/*
+Users/API/obj/*
+Users/Domain/bin/*
+Users/Domain/obj/*
+Users/Infrastructure/bin/*
+Users/Infrastructure/obj/*
+
 Shared/Shared/bin/*
 Shared/Shared/obj/*
 Migrations/Migrations/bin/*
