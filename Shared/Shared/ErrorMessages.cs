@@ -27,6 +27,7 @@
         public const string UserPasswordInvalid = "USER:PASSWORD_INVALID";
         public const string UserConfirmPasswordRequired = "USER:CONFIRM_PASSWORD_REQUIRED";
         public const string UserEmailTaken = "USER:EMAIL_TAKEN";
+        public const string UserNotFound = "USER:NOT_FOUND";
 
         // Password errors
         public const string PasswordRequired = "PASSWORD:REQUIRED";

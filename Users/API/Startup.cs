@@ -20,7 +20,12 @@ namespace API
         {
             // Custom services
             services.AddShared();
-            services.AddPasswords(options => {/* CONFIGURE THIS */});
+            services.AddPasswords(options =>
+            {
+                options.Hasher.IterationCount = 15000;
+                options.Hasher.KeySize = 256;
+                options.Hasher.SaltSize = 128;
+            });
             services.AddInfrastructure();
 
             // Extensions

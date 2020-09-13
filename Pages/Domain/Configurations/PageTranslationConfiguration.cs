@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Pages.Domain.Models;
 using Shared.Entity;
 
-namespace Pages.Infrastructure.Configurations
+namespace Pages.Domain.Configurations
 {
     public class PageTranslationConfiguration : BaseEntityConfiguration<PageTranslation>
     {

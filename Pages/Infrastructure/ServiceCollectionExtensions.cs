@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Pages.Domain.Models;
-using Pages.Infrastructure;
 using Pages.Infrastructure.Providers;
 using Pages.Infrastructure.Services;
 using Shared;

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Pages.Domain.Models;
 using Shared.Entity;
 
-namespace Pages.Infrastructure.Configurations
+namespace Pages.Domain.Configurations
 {
-    public class PageConfiguration : BaseEntityConfiguration<Page>
+    public class PageConfiguration : BaseEntityConfiguration<Pages.Domain.Models.Page>
     {
         public override void Configure(EntityTypeBuilder<Page> builder)
         {

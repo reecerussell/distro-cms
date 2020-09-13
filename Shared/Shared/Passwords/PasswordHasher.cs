@@ -14,9 +14,9 @@ namespace Shared.Passwords
         private readonly RandomNumberGenerator _rng;
         private readonly PasswordHasherOptions _options;
 
-        public PasswordHasher(IOptions<PasswordHasherOptions> optionsProvider)
+        public PasswordHasher(IOptions<PasswordOptions> optionsProvider)
         {
-            var options = optionsProvider.Value;
+            var options = optionsProvider.Value?.Hasher;
             if (options == null)
             {
                 throw new NullReferenceException("PasswordHasherOptions must be configured before the PasswordService is used.");

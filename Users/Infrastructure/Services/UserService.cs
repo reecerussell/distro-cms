@@ -60,5 +60,49 @@ namespace Users.Infrastructure.Services
 
             return user.Id;
         }
+
+        /// <summary>
+        /// Updates an existing user's core data, then saves it to the data source.
+        /// </summary>
+        /// <param name="dto">The data required to update a user.</param>
+        /// <returns>Nothing :)</returns>
+        /// <exception cref="ArgumentNullException">Throws if <paramref name="dto"/> is null.</exception>
+        /// <exception cref="ValidationException">Throws if the data is invalid.</exception>
+        /// <exception cref="NotFoundException">Throws if the user does not exist.</exception>
+        public async Task UpdateAsync(UpdateUserDto dto)
+        {
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+
+            _logger.LogDebug("Updating user '{0}'...", dto.Id);
+
+            var user = await _repository.FindByIdAsync(dto.Id);
+            if (user == null)
+            {
+                _logger.LogDebug("User with id '{0}' could not be found.", dto.Id);
+
+                throw new NotFoundException(ErrorMessages.UserNotFound);
+            }
+
+            user.Update(dto);
+
+            if (await _repository.ExistsWithEmailAsync(user.Email))
+            {
+                _logger.LogDebug("The email address '{0}' has already been taken.", user.Email);
+
+                throw new ValidationException(ErrorMessages.UserEmailTaken);
+            }
+
+            await _repository.SaveChangesAsync();
+
+            _logger.LogDebug("Successfully updated user with id '{0}'.", user.Id);
+        }
+
+        public Task ChangePasswordAsync(ChangePasswordDto dto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

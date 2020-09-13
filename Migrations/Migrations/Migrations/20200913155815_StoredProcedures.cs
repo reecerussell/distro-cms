@@ -9,17 +9,17 @@ namespace Migrations.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceNames =
-                assembly.GetManifestResourceNames().
-                    Where(str => str.Contains("StoredProcedures") && str.EndsWith(".sql"));
+            var fileNames = Assembly.GetExecutingAssembly()
+                .GetManifestResourceNames()
+                .Where(x => x.Contains("StoredProcedures") && x.EndsWith(".sql"));
 
-            foreach (var resourceName in resourceNames)
+            foreach (var filename in fileNames)
             {
-                using var stream = assembly.GetManifestResourceStream(resourceName);
+                using var stream = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream(filename);
                 using var reader = new StreamReader(stream);
-
                 var sql = reader.ReadToEnd();
+
                 migrationBuilder.Sql(sql);
             }
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
+using Users.Infrastructure.Providers;
 using Users.Infrastructure.Repositories;
 using Users.Infrastructure.Services;
 
@@ -16,11 +17,12 @@ namespace Users.Infrastructure
             return services
                 .AddDbContext<UserContext>(options =>
                 {
-                    options.UseSqlServer(connectionString, x => x.MigrationsAssembly("Infrastructure"));
+                    options.UseSqlServer(connectionString);
                 })
                 .AddScoped<DbContext>(s => s.GetRequiredService<UserContext>())
                 .AddTransient<IUserRepository, UserRepository>()
-                .AddTransient<IUserService, UserService>();
+                .AddTransient<IUserService, UserService>()
+                .AddTransient<IUserProvider, UserProvider>();
         }
     }
 }

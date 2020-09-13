@@ -9,9 +9,9 @@ namespace Shared.Passwords
     {
         private readonly PasswordValidationOptions _options;
 
-        public PasswordValidator(IOptions<PasswordValidationOptions> optionsProvider)
+        public PasswordValidator(IOptions<PasswordOptions> optionsProvider)
         {
-            var options = optionsProvider.Value;
+            var options = optionsProvider.Value?.Validation;
             if (options == null)
             {
                 throw new InvalidOperationException("PasswordValidatorOptions must be configured before the PasswordValidator is used.");

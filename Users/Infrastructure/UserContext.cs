@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Users.Infrastructure.Configurations;
+﻿using Users.Domain.Configurations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Users.Infrastructure
 {

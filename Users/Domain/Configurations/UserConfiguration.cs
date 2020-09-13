@@ -1,13 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.Entity;
 using Users.Domain.Models;
 
-namespace Users.Infrastructure.Configurations
+namespace Users.Domain.Configurations
 {
     public class UserConfiguration : BaseEntityConfiguration<User>
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("Users");
+
             builder
                 .Property(x => x.Firstname)
                 .HasMaxLength(255)

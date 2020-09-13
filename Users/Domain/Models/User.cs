@@ -107,6 +107,18 @@ namespace Users.Domain.Models
         }
 
         /// <summary>
+        /// Updates a user's core values (not including password).
+        /// </summary>
+        /// <param name="dto">The data needed to update.</param>
+        /// <exception cref="ValidationException">Throws if the data is invalid.</exception>
+        public void Update(UpdateUserDto dto)
+        {
+            UpdateFirstname(dto.Firstname);
+            UpdateLastname(dto.Lastname);
+            UpdateEmail(dto.Email);
+        }
+
+        /// <summary>
         /// Creates a new instance of <see cref="User"/> ensuring all of the data is valid.
         /// </summary>
         /// <param name="dto">A DTO containing the data needed to create a user.</param>

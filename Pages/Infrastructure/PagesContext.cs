@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pages.Infrastructure.Configurations;
+using Pages.Domain.Configurations;
 
 namespace Pages.Infrastructure
 {

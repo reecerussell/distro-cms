@@ -13,12 +13,7 @@ namespace Shared.Extensions
 
         public static void AddPasswords(this IServiceCollection services, Action<PasswordOptions> options)
         {
-            var passwordOptions = new PasswordOptions();
-            options.Invoke(passwordOptions);
-
-            services.Configure<PasswordValidationOptions>(o => o = passwordOptions.Validation);
-            services.Configure<PasswordHasherOptions>(o => o = passwordOptions.Hasher);
-
+            services.Configure(options);
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IPasswordValidator, PasswordValidator>();
         }
