@@ -54,7 +54,6 @@ namespace API.Controllers
         }
 
         // TODO: list
-        // TODO: change password
         
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserDto dto)
@@ -107,6 +106,35 @@ namespace API.Controllers
             catch (Exception e)
             {
                 Logger.LogError(e, "An error occured while updating the user.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
+        [HttpPost("changePassword")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
+        {
+            try
+            {
+                await _service.ChangePasswordAsync(dto);
+
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                Logger.LogDebug("Could not change users '{0}' password as they could not be found.", dto.Id);
+
+                return NotFound(e.Message);
+            }
+            catch (ValidationException e)
+            {
+                Logger.LogDebug("A validation occured while changing user's '{0}' password.", e.Message);
+
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while changing the user's password");
 
                 return InternalServerError(e.Message);
             }

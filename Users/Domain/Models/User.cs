@@ -73,7 +73,7 @@ namespace Users.Domain.Models
         /// <param name="hasher">The hasher used to hash the password.</param>
         /// <param name="validator">The password validator.</param>
         /// <exception cref="ValidationException">Throws a <see cref="ValidationException"/> is the current password is not verified or if the new password is not valid.</exception>
-        internal void UpdatePassword(ChangePasswordDto dto, IPasswordHasher hasher, IPasswordValidator validator)
+        public void UpdatePassword(ChangePasswordDto dto, IPasswordHasher hasher, IPasswordValidator validator)
         {
             if (string.IsNullOrEmpty(dto.NewPassword))
             {

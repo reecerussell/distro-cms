@@ -100,9 +100,28 @@ namespace Users.Infrastructure.Services
             _logger.LogDebug("Successfully updated user with id '{0}'.", user.Id);
         }
 
-        public Task ChangePasswordAsync(ChangePasswordDto dto)
+        public async Task ChangePasswordAsync(ChangePasswordDto dto)
         {
-            throw new NotImplementedException();
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+
+            _logger.LogDebug("Changing password for user '{0}'", dto.Id);
+
+            var user = await _repository.FindByIdAsync(dto.Id);
+            if (user == null)
+            {
+                _logger.LogDebug("User with id '{0}' could not be found.", dto.Id);
+
+                throw new NotFoundException(ErrorMessages.UserNotFound);
+            }
+
+            user.UpdatePassword(dto, _passwordHasher, _passwordValidator);
+
+            await _repository.SaveChangesAsync();
+
+            _logger.LogDebug("Successfully change user's password.");
         }
     }
 }
