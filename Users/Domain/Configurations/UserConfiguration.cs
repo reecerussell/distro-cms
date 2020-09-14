@@ -28,8 +28,9 @@ namespace Users.Domain.Configurations
 
             builder
                 .Property(x => x.PasswordHash)
-                .HasMaxLength(255)
                 .IsRequired();
+
+            builder.HasIndex(x => x.Email);
 
             builder
                 .HasMany(x => x.Roles)
