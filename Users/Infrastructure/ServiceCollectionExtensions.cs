@@ -21,8 +21,10 @@ namespace Users.Infrastructure
                 })
                 .AddScoped<DbContext>(s => s.GetRequiredService<UserContext>())
                 .AddTransient<IUserRepository, UserRepository>()
+                .AddTransient<IRoleRepository, RoleRepository>()
                 .AddTransient<IUserService, UserService>()
-                .AddTransient<IUserProvider, UserProvider>();
+                .AddTransient<IUserProvider, UserProvider>()
+                .AddTransient<IRoleService, RoleService>();
         }
     }
 }

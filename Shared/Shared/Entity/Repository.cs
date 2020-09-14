@@ -12,7 +12,7 @@ namespace Shared.Entity
         private readonly DbContext _context;
         private DbSet<T> _set;
 
-        protected DbSet<T> Set => _set ?? (_set = _context.Set<T>());
+        protected DbSet<T> Set => _set ??= _context.Set<T>();
         protected readonly ILogger<Repository<T>> Logger;
 
         public Repository(

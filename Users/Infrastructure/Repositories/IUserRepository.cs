@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Users.Domain.Models;
 
-namespace Users.Infrastructure
+namespace Users.Infrastructure.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {

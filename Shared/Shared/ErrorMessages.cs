@@ -41,5 +41,7 @@
         // Role errors
         public const string RoleNameRequired = "ROLE:NAME_REQUIRED";
         public const string RoleNameTooLong = "ROLE:NAME_TOO_LONG";
+        public const string RoleNameTaken = "ROLE:NAME_TAKEN";
+        public const string RoleNotFound = "ROLE:NOT_FOUND";
     }
 }
