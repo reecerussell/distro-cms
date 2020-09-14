@@ -1,6 +1,4 @@
-﻿USE [distro-blog];
-GO
-CREATE PROCEDURE [dbo].GetUser
+﻿CREATE OR ALTER PROCEDURE [dbo].GetUser
 	@UserId NVARCHAR(36)
 AS
 BEGIN
