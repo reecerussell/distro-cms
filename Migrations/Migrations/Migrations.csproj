@@ -13,12 +13,14 @@
 
   <ItemGroup>
     <None Remove="StoredProcedures\GetPage.sql" />
+    <None Remove="StoredProcedures\GetRole.sql" />
     <None Remove="StoredProcedures\GetRoles.sql" />
     <None Remove="StoredProcedures\GetUser.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="StoredProcedures\GetPage.sql" />
+    <EmbeddedResource Include="StoredProcedures\GetRole.sql" />
     <EmbeddedResource Include="StoredProcedures\GetRoles.sql" />
     <EmbeddedResource Include="StoredProcedures\GetUser.sql" />
   </ItemGroup>

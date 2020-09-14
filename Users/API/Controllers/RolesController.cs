@@ -14,13 +14,56 @@ namespace API.Controllers
     public class RolesController : BaseController
     {
         private readonly IRoleService _service;
+        private readonly IRoleProvider _provider;
 
         public RolesController(
             IRoleService service,
+            IRoleProvider provider,
             ILogger<BaseController> logger) 
             : base(logger)
         {
             _service = service;
+            _provider = provider;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetList(string term = null)
+        {
+            try
+            {
+                var roles = await _provider.GetListAsync(term);
+
+                return Ok(roles);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while getting a list of roles.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            try
+            {
+                var role = await _provider.GetAsync(id);
+
+                return Ok(role);
+            }
+            catch (NotFoundException e)
+            {
+                Logger.LogDebug("Failed to get role with id '{0}': {1}", id, e.Message);
+
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while getting a role by id '{0}'", id);
+
+                return InternalServerError(e.Message);
+            }
         }
 
         [HttpPost]

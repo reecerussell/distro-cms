@@ -39,7 +39,7 @@ namespace Users.Infrastructure.Services
             _logger.LogDebug("Creating a new role...");
 
             var role = Role.Create(dto);
-            if (!await _repository.ExistsWithNameAsync(role.Name))
+            if (await _repository.ExistsWithNameAsync(role.Name))
             {
                 _logger.LogDebug("Failed to create new role as the name '{0}' has already been taken.", role.Name);
                 throw new ValidationException(ErrorMessages.RoleNameTaken);
@@ -81,7 +81,7 @@ namespace Users.Infrastructure.Services
             }
 
             role.Update(dto);
-            if (!await _repository.ExistsWithNameAsync(role.Name, role.Id))
+            if (await _repository.ExistsWithNameAsync(role.Name, role.Id))
             {
                 _logger.LogDebug("Failed to update role as the name '{0}' has already been taken.", role.Name);
                 throw new ValidationException(ErrorMessages.RoleNameTaken);

@@ -24,7 +24,8 @@ namespace Users.Infrastructure
                 .AddTransient<IRoleRepository, RoleRepository>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IUserProvider, UserProvider>()
-                .AddTransient<IRoleService, RoleService>();
+                .AddTransient<IRoleService, RoleService>()
+                .AddTransient<IRoleProvider, RoleProvider>();
         }
     }
 }
