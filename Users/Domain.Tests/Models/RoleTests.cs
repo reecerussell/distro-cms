@@ -1,6 +1,6 @@
-﻿using System;
-using Shared;
+﻿using Shared;
 using Shared.Exceptions;
+using System;
 using Users.Domain.Dtos;
 using Users.Domain.Models;
 using Xunit;
@@ -54,6 +54,34 @@ namespace Users.Domain.Tests.Models
 
             var ex = Assert.Throws<ValidationException>(() => { role.UpdateName(value); });
             Assert.Equal(ErrorMessages.RoleNameTooLong, ex.Message);
+        }
+
+        [Theory]
+        [InlineData("My Test Role")]
+        public void TestUpdate(string name)
+        {
+            var role = Role.Create(new CreateRoleDto { Name = "TestName" });
+
+            var dto = new UpdateRoleDto
+            {
+                Name = name
+            };
+
+            role.Update(dto);
+        }
+
+        [Theory]
+        [InlineData("")]
+        public void TestUpdateWithInvalidData(string name)
+        {
+            var role = Role.Create(new CreateRoleDto { Name = "TestName" });
+
+            var dto = new UpdateRoleDto
+            {
+                Name = name
+            };
+
+            Assert.Throws<ValidationException>(() => role.Update(dto));
         }
     }
 }
