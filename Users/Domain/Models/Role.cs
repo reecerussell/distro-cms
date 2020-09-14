@@ -1,15 +1,18 @@
 ﻿using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
+using System;
+using System.Runtime.CompilerServices;
 using Users.Domain.Dtos;
 
+[assembly: InternalsVisibleTo("Users.Domain.Tests")]
 namespace Users.Domain.Models
 {
     public class Role : Aggregate
     {
         public string Name { get; private set; }
 
-        private void UpdateName(string name)
+        internal void UpdateName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -31,6 +34,11 @@ namespace Users.Domain.Models
 
         public static Role Create(CreateRoleDto dto)
         {
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+
             var role = new Role();
             role.UpdateName(dto.Name);
             return role;

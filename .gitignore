@@ -12,6 +12,8 @@ Users/API/bin/*
 Users/API/obj/*
 Users/Domain/bin/*
 Users/Domain/obj/*
+Users/Domain.Tests/bin/*
+Users/Domain.Tests/obj/*
 Users/Infrastructure/bin/*
 Users/Infrastructure/obj/*
 
