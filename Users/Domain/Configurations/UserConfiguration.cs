@@ -31,6 +31,12 @@ namespace Users.Domain.Configurations
                 .HasMaxLength(255)
                 .IsRequired();
 
+            builder
+                .HasMany(x => x.Roles)
+                .WithOne()
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             base.Configure(builder);
         }
     }

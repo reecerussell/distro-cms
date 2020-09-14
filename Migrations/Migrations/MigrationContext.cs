@@ -18,6 +18,8 @@ namespace Migrations
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new Users.Domain.Configurations.UserConfiguration());
+            modelBuilder.ApplyConfiguration(new Users.Domain.Configurations.UserRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new Users.Domain.Configurations.RoleConfiguration());
 
             modelBuilder.ApplyConfiguration(new Pages.Domain.Configurations.PageConfiguration());
             modelBuilder.ApplyConfiguration(new Pages.Domain.Configurations.PageTranslationConfiguration());

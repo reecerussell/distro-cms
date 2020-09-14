@@ -37,5 +37,9 @@
         public const string PasswordRequiresLowercase = "PASSWORD:REQUIRES_LOWERCASE";
         public const string PasswordRequiresUppercase = "PASSWORD:REQUIRES_UPPERCASE";
         public const string PasswordRequiresUniqueChars = "PASSWORD:REQUIRES_UNIQUE_CHARS:{0}";
+
+        // Role errors
+        public const string RoleNameRequired = "ROLE:NAME_REQUIRED";
+        public const string RoleNameTooLong = "ROLE:NAME_TOO_LONG";
     }
 }

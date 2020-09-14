@@ -1,8 +1,10 @@
-﻿using Shared;
+﻿using System.Collections.Generic;
+using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
 using Shared.Passwords;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Users.Domain.Dtos;
 
 namespace Users.Domain.Models
@@ -13,6 +15,26 @@ namespace Users.Domain.Models
         public string Lastname { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+
+        private List<UserRole> _roles;
+
+        public IReadOnlyList<UserRole> Roles
+        {
+            get => _lazyLoader.Load(this, ref _roles);
+            protected set => _roles = (List<UserRole>) value;
+        }
+        
+        private readonly ILazyLoader _lazyLoader;
+
+        private User(ILazyLoader lazyLoader)
+        {
+            _lazyLoader = lazyLoader;
+        }
+
+        private User()
+        {
+            Roles = new List<UserRole>();
+        }
 
         internal void UpdateFirstname(string firstname)
         {
