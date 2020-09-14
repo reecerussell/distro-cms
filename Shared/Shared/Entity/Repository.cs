@@ -72,14 +72,20 @@ namespace Shared.Entity
             catch (DbUpdateConcurrencyException e)
             {
                 Logger.LogError(e, "A database concurrency error occured.");
+
+                throw;
             }
             catch (DbUpdateException e)
             {
                 Logger.LogError(e, "A database update error occured.");
+
+                throw;
             }
             catch (Exception e)
             {
                 Logger.LogError(e, "An unknown error occured while saving to the database.");
+
+                throw;
             }
         }
     }

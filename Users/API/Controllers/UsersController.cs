@@ -139,5 +139,70 @@ namespace API.Controllers
                 return InternalServerError(e.Message);
             }
         }
+
+        [HttpPost("{userId}/roles")]
+        public async Task<IActionResult> AddToRole([FromRoute]string userId, [FromBody]UserRoleDto dto)
+        {
+            try
+            {
+                dto.UserId = userId;
+                await _service.AddToRoleAsync(dto);
+
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                Logger.LogDebug("A resource could not be found: {0}", e.Message);
+
+                return NotFound(e.Message);
+            }
+            catch (ValidationException e)
+            {
+                Logger.LogDebug("A validation error occured: {0}", e.Message);
+
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while assigning a user to a role.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
+        [HttpDelete("{userId}/roles/{roleId}")]
+        public async Task<IActionResult> RemoveFromRole([FromRoute]UserRoleDto dto)
+        {
+            try
+            {
+                //await _service.RemoveFromRoleAsync(new UserRoleDto
+                //{
+                //    UserId = userId,
+                //    RoleId = roleId
+                //});
+
+                await _service.RemoveFromRoleAsync(dto);
+
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                Logger.LogDebug("A resource could not be found: {0}", e.Message);
+
+                return NotFound(e.Message);
+            }
+            catch (ValidationException e)
+            {
+                Logger.LogDebug("A validation error occured: {0}", e.Message);
+
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while assigning a user to a role.");
+
+                return InternalServerError(e.Message);
+            }
+        }
     }
 }

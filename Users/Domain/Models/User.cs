@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
 using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
 using Shared.Passwords;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Users.Domain.Dtos;
 
 namespace Users.Domain.Models
@@ -138,6 +140,39 @@ namespace Users.Domain.Models
             UpdateFirstname(dto.Firstname);
             UpdateLastname(dto.Lastname);
             UpdateEmail(dto.Email);
+        }
+
+        /// <summary>
+        /// Assigns the user to a role through a link record.
+        /// </summary>
+        /// <param name="roleId">The role id of the role to assign.</param>
+        /// <exception cref="ValidationException">Throws if the user is already assigned to the role.</exception>
+        /// <exception cref="ArgumentNullException">Throws if the user's id or the <paramref name="roleId"/> is null.</exception>
+        public void AddRole(string roleId)
+        {
+            if (Roles.Any(x => x.RoleId == roleId))
+            {
+                throw new ValidationException(ErrorMessages.UserAlreadyAssignedToRole);
+            }
+
+            var userRole = new UserRole(Id, roleId);
+            _roles.Add(userRole);
+        }
+
+        /// <summary>
+        /// Removes the link record between the user and the role with the given <paramref name="roleId"/>.
+        /// </summary>
+        /// <param name="roleId">The role id to remove the user from.</param>
+        /// <exception cref="ValidationException">Throws if the user is not assigned to the given role.</exception>
+        public void RemoveRole(string roleId)
+        {
+            var userRole = Roles.FirstOrDefault(x => x.RoleId == roleId);
+            if (userRole == null)
+            {
+                throw new ValidationException(ErrorMessages.UserNotAssignedToRole);
+            }
+
+            _roles.Remove(userRole);
         }
 
         /// <summary>

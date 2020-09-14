@@ -24,5 +24,12 @@ namespace Users.Infrastructure.Repositories
         {
             return await Set.AnyAsync(x => x.Name == name && x.Id != idToIgnore);
         }
+
+        public async Task<Role> FindByIdAsNoTrackingAsync(string id)
+        {
+            return await Set
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

@@ -13,17 +13,20 @@ namespace Users.Infrastructure.Services
     internal class UserService : IUserService
     {
         private readonly IUserRepository _repository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IPasswordValidator _passwordValidator;
         private readonly ILogger<UserService> _logger;
 
         public UserService(
             IUserRepository repository,
+            IRoleRepository roleRepository,
             IPasswordHasher passwordHasher,
             IPasswordValidator passwordValidator,
             ILogger<UserService> logger)
         {
             _repository = repository;
+            _roleRepository = roleRepository;
             _passwordHasher = passwordHasher;
             _passwordValidator = passwordValidator;
             _logger = logger;
@@ -55,6 +58,7 @@ namespace Users.Infrastructure.Services
 
             _logger.LogDebug("Adding to repository, then saving...");
             _repository.Add(user);
+
             await _repository.SaveChangesAsync();
 
             _logger.LogDebug("Created user, with id: {0}", user.Id);
@@ -101,6 +105,14 @@ namespace Users.Infrastructure.Services
             _logger.LogDebug("Successfully updated user with id '{0}'.", user.Id);
         }
 
+        /// <summary>
+        /// Changes the password of a user with the given id. Ensured the current password is valid.
+        /// </summary>
+        /// <param name="dto">Contains a user's id, new password and current password.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws if <paramref name="dto"/> is null.</exception>
+        /// <exception cref="NotFoundException">Throws if the user with the given id cannot be found.</exception>
+        /// <exception cref="ValidationException">Throws if the user's current password cannot be verified or if the new password is not valid.</exception>
         public async Task ChangePasswordAsync(ChangePasswordDto dto)
         {
             if (dto == null)
@@ -123,6 +135,90 @@ namespace Users.Infrastructure.Services
             await _repository.SaveChangesAsync();
 
             _logger.LogDebug("Successfully change user's password.");
+        }
+
+        /// <summary>
+        /// Assigns the given user to a role.
+        /// </summary>
+        /// <param name="dto">Contains the user's id and the target role.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws if <paramref name="dto"/> is null.</exception>
+        /// <exception cref="NotFoundException">Throws if the user or role cannot be found.</exception>
+        /// <exception cref="ValidationException">Throws if the user cannot be assigned to the role.</exception>
+        public async Task AddToRoleAsync(UserRoleDto dto)
+        {
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+
+            _logger.LogDebug("Adding user '{0}' to role '{1}'", dto.UserId, dto.RoleId);
+
+            var user = await _repository.FindByIdAsync(dto.UserId);
+            if (user == null)
+            {
+                _logger.LogDebug("Could not find user with id '{0}'", dto.UserId);
+
+                throw new NotFoundException(ErrorMessages.UserNotFound);
+            }
+
+            var role = await _roleRepository.FindByIdAsNoTrackingAsync(dto.RoleId);
+            if (role == null)
+            {
+                _logger.LogDebug("Could not find role with id '{0}'", dto.RoleId);
+
+                throw new NotFoundException(ErrorMessages.RoleNotFound);
+            }
+
+            user.AddRole(role.Id);
+
+            _logger.LogDebug("Saving the changes to the repository...");
+            
+            await _repository.SaveChangesAsync();
+
+            _logger.LogDebug("Successfully added the user '{0}' to the role '{1}'", user.Id, role.Id);
+        }
+
+        /// <summary>
+        /// Removed the user from the given role.
+        /// </summary>
+        /// <param name="dto">Contains the user's id and the target role.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws if <paramref name="dto"/> is null.</exception>
+        /// <exception cref="NotFoundException">Throws if the user or role cannot be found.</exception>
+        /// <exception cref="ValidationException">Throws if the user cannot be removed from the role.</exception>
+        public async Task RemoveFromRoleAsync(UserRoleDto dto)
+        {
+            if (dto == null)
+            {
+                throw new ArgumentNullException(nameof(dto));
+            }
+
+            _logger.LogDebug("Removing user '{0}' from role '{1}'", dto.UserId, dto.RoleId);
+
+            var user = await _repository.FindByIdAsync(dto.UserId);
+            if (user == null)
+            {
+                _logger.LogDebug("Could not find user with id '{0}'", dto.UserId);
+
+                throw new NotFoundException(ErrorMessages.UserNotFound);
+            }
+
+            var role = await _roleRepository.FindByIdAsNoTrackingAsync(dto.RoleId);
+            if (role == null)
+            {
+                _logger.LogDebug("Could not find role with id '{0}'", dto.RoleId);
+
+                throw new NotFoundException(ErrorMessages.RoleNotFound);
+            }
+
+            user.RemoveRole(role.Id);
+
+            _logger.LogDebug("Saving the changes to the repository...");
+
+            await _repository.SaveChangesAsync();
+
+            _logger.LogDebug("Successfully removed the user '{0}' from the role '{1}'", user.Id, role.Id);
         }
     }
 }

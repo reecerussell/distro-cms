@@ -28,6 +28,8 @@
         public const string UserConfirmPasswordRequired = "USER:CONFIRM_PASSWORD_REQUIRED";
         public const string UserEmailTaken = "USER:EMAIL_TAKEN";
         public const string UserNotFound = "USER:NOT_FOUND";
+        public const string UserAlreadyAssignedToRole = "USER:ALREADY_ASSIGNED_TO_ROLE";
+        public const string UserNotAssignedToRole = "USER:NOT_ASSIGNED_TO_ROLE";
 
         // Password errors
         public const string PasswordRequired = "PASSWORD:REQUIRED";

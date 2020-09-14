@@ -8,5 +8,6 @@ namespace Users.Infrastructure.Repositories
     {
         Task<bool> ExistsWithNameAsync(string name);
         Task<bool> ExistsWithNameAsync(string name, string idToIgnore);
+        Task<Role> FindByIdAsNoTrackingAsync(string id);
     }
 }
