@@ -175,12 +175,6 @@ namespace API.Controllers
         {
             try
             {
-                //await _service.RemoveFromRoleAsync(new UserRoleDto
-                //{
-                //    UserId = userId,
-                //    RoleId = roleId
-                //});
-
                 await _service.RemoveFromRoleAsync(dto);
 
                 return Ok();
