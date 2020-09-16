@@ -45,5 +45,11 @@
         public const string RoleNameTooLong = "ROLE:NAME_TOO_LONG";
         public const string RoleNameTaken = "ROLE:NAME_TAKEN";
         public const string RoleNotFound = "ROLE:NOT_FOUND";
+
+        // Dictionary errors
+        public const string DictionaryKeyRequired = "DICTIONARY:KEY_REQUIRED";
+        public const string DictionaryKeyTooLong = "DICTIONARY:KEY_TOO_LONG";
+        public const string DictionaryValueRequired = "DICTIONARY:VALUE_REQUIRED";
+        public const string DictionaryValueTooLong = "DICTIONARY:VENUE_TOO_LONG";
     }
 }
