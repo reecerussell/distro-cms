@@ -17,6 +17,13 @@ Users/Domain.Tests/obj/*
 Users/Infrastructure/bin/*
 Users/Infrastructure/obj/*
 
+Dictionary/API/bin/*
+Dictionary/API/obj/*
+Dictionary/Domain/bin/*
+Dictionary/Domain/obj/*
+Dictionary/Infrastructure/bin/*
+Dictionary/Infrastructure/obj/*
+
 Shared/Shared/bin/*
 Shared/Shared/obj/*
 Migrations/Migrations/bin/*
