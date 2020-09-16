@@ -18,7 +18,6 @@ import { RoleEffects } from "./store/roles/role.effect";
 
 // Reducers
 import * as RoleReducer from "./store/roles/role.reducer";
-import * as ErrorReducer from "./store/errors/error.reducer";
 
 @NgModule({
     declarations: [
@@ -34,7 +33,6 @@ import * as ErrorReducer from "./store/errors/error.reducer";
         FormsModule,
         StoreModule.forRoot({
             roles: RoleReducer.RoleReducer,
-            errors: ErrorReducer.ErrorReducer,
         }),
         EffectsModule.forRoot([RoleEffects]),
     ],
