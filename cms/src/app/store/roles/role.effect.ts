@@ -4,10 +4,13 @@ import { Action } from "@ngrx/store";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 
 import * as RoleActions from "./role.action";
-import * as ErrorActions from "../errors/error.action";
 
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import {
+    HttpClient,
+    HttpErrorResponse,
+    HttpHeaders,
+} from "@angular/common/http";
+import { Observable, of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { Router } from "@angular/router";
 
@@ -27,16 +30,13 @@ export class RoleEffects {
                     map(
                         (data) => new RoleActions.GetRolesSuccess(data["data"])
                     ),
-                    catchError((resp) => {
-                        if (resp.error?.error) {
-                            return [
-                                new ErrorActions.AddError(resp.error.error),
-                                new RoleActions.GetRolesError(),
-                            ];
-                        }
-
-                        return [new RoleActions.GetRolesError()];
-                    })
+                    catchError((resp: HttpErrorResponse) =>
+                        of(
+                            new RoleActions.GetRolesError(
+                                resp.error?.error ?? resp.statusText
+                            )
+                        )
+                    )
                 )
             )
         )
@@ -53,16 +53,13 @@ export class RoleEffects {
                             (data) =>
                                 new RoleActions.GetRoleSuccess(data["data"])
                         ),
-                        catchError((resp) => {
-                            if (resp.error?.error) {
-                                return [
-                                    new ErrorActions.AddError(resp.error.error),
-                                    new RoleActions.GetRoleError(),
-                                ];
-                            }
-
-                            return [new RoleActions.GetRoleError()];
-                        })
+                        catchError((resp: HttpErrorResponse) =>
+                            of(
+                                new RoleActions.GetRoleError(
+                                    resp.error?.error ?? resp.statusText
+                                )
+                            )
+                        )
                     )
             )
         )
@@ -90,16 +87,13 @@ export class RoleEffects {
                             );
                             return new RoleActions.CreateRoleSuccess(role);
                         }),
-                        catchError((resp) => {
-                            if (resp.error?.error) {
-                                return [
-                                    new ErrorActions.AddError(resp.error.error),
-                                    new RoleActions.CreateRoleError(),
-                                ];
-                            }
-
-                            return [new RoleActions.CreateRoleError()];
-                        })
+                        catchError((resp: HttpErrorResponse) =>
+                            of(
+                                new RoleActions.CreateRoleError(
+                                    resp.error?.error ?? resp.statusText
+                                )
+                            )
+                        )
                     )
             )
         );
@@ -124,16 +118,14 @@ export class RoleEffects {
                             (data) =>
                                 new RoleActions.UpdateRoleSuccess(data["data"])
                         ),
-                        catchError((resp) => {
-                            if (resp.error?.error) {
-                                return [
-                                    new ErrorActions.AddError(resp.error.error),
-                                    new RoleActions.UpdateRoleError(),
-                                ];
-                            }
-
-                            return [new RoleActions.UpdateRoleError()];
-                        })
+                        catchError((resp: HttpErrorResponse) =>
+                            of(
+                                new RoleActions.UpdateRoleError(
+                                    action.payload,
+                                    resp.error?.error ?? resp.statusText
+                                )
+                            )
+                        )
                     )
             )
         )
@@ -154,16 +146,13 @@ export class RoleEffects {
                                 action.payload
                             );
                         }),
-                        catchError((resp) => {
-                            if (resp.error?.error) {
-                                return [
-                                    new ErrorActions.AddError(resp.error.error),
-                                    new RoleActions.DeleteRoleError(),
-                                ];
-                            }
-
-                            return [new RoleActions.DeleteRoleError()];
-                        })
+                        catchError((resp: HttpErrorResponse) =>
+                            of(
+                                new RoleActions.DeleteRoleError(
+                                    resp.error?.error ?? resp.statusText
+                                )
+                            )
+                        )
                     )
             )
         )

@@ -11,7 +11,7 @@ export interface RoleState extends Role {
     refreshing: boolean;
 
     create: boolean;
-    error: boolean;
+    error: string;
 }
 
 export const initializeRoleState = () => ({
@@ -25,7 +25,7 @@ export const initializeRoleState = () => ({
     refreshing: false,
 
     create: false,
-    error: false,
+    error: null,
 });
 
 export interface RoleListState {

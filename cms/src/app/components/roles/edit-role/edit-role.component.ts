@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { RoleState } from "src/app/store/roles/role.state";
+import { RoleListState, RoleState } from "src/app/store/roles/role.state";
 import * as RoleActions from "src/app/store/roles/role.action";
 import AppState from "src/app/store/app.state";
 import { Observable } from "rxjs";
@@ -12,9 +12,8 @@ import { ActivatedRoute } from "@angular/router";
     styleUrls: ["./edit-role.component.scss"],
 })
 export class EditRoleComponent implements OnInit {
-    roleListState$: Observable<RoleState[]>;
+    roleListState$: Observable<RoleListState>;
     role: RoleState;
-    error: string = null;
 
     constructor(
         private store: Store<AppState>,
@@ -22,28 +21,19 @@ export class EditRoleComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.roleListState$ = this.store.select((state) => state.roles.roles);
+        this.roleListState$ = this.store.select((state) => state.roles);
         this.route.paramMap.subscribe((params) => {
             const id = params.get("id");
             this.store.dispatch(new RoleActions.GetRole(id));
 
-            this.roleListState$.subscribe(
-                (roles) =>
-                    (this.role = {
-                        ...roles.find((x) => x.id === id),
-                    } as RoleState)
-            );
-        });
-
-        this.store.subscribe((state) => {
-            console.log(state);
-            if (state.errors) {
-                if (state.errors.errors.length > 0) {
-                    this.error = state.errors.errors[0];
-                } else {
-                    this.error = null;
-                }
-            }
+            this.roleListState$.subscribe((state) => {
+                if (state.roles)
+                    [
+                        (this.role = {
+                            ...state.roles.find((x) => x.id === id),
+                        } as RoleState),
+                    ];
+            });
         });
     }
 

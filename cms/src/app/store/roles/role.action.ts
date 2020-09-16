@@ -1,7 +1,6 @@
 import { RoleState } from "./role.state";
 import Role from "../../models/role.model";
 import { Action } from "@ngrx/store";
-import { AddError } from "../errors/error.action";
 
 export const GET_ROLES = "[Role] GET ROLES";
 export const GET_ROLES_SUCCESS = "[Role] GET ROLES SUCCESS";
@@ -19,6 +18,8 @@ export class GetRolesSuccess implements Action {
 
 export class GetRolesError implements Action {
     readonly type = GET_ROLES_ERROR;
+
+    constructor(public error: string) {}
 }
 
 export const GET_ROLE = "[Role] GET ROLE";
@@ -39,6 +40,8 @@ export class GetRoleSuccess implements Action {
 
 export class GetRoleError implements Action {
     readonly type = GET_ROLE_ERROR;
+
+    constructor(public error: string) {}
 }
 
 export const CREATE_ROLE = "[Role] CREATE ROLE";
@@ -59,6 +62,8 @@ export class CreateRoleSuccess implements Action {
 
 export class CreateRoleError implements Action {
     readonly type = CREATE_ROLE_ERROR;
+
+    constructor(public error: string) {}
 }
 
 export const UPDATE_ROLE = "[Role] UPDATE ROLE";
@@ -79,6 +84,8 @@ export class UpdateRoleSuccess implements Action {
 
 export class UpdateRoleError implements Action {
     readonly type = UPDATE_ROLE_ERROR;
+
+    constructor(public payload: Role, public error: string) {}
 }
 
 export const DELETE_ROLE = "[Role] DELETE ROLE";
@@ -107,6 +114,8 @@ export class DeleteRoleSuccess implements Action {
 
 export class DeleteRoleError implements Action {
     readonly type = DELETE_ROLE_ERROR;
+
+    constructor(public error: string) {}
 }
 
 export type All =

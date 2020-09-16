@@ -50,10 +50,16 @@ export const RoleReducer = (state = defaultState, action: Action) => {
                 ),
                 loading: false,
                 loaded: true,
+                error: null,
             };
 
         case RoleActions.GET_ROLES_ERROR:
-            return { ...state, loaded: false, loading: false, error: true };
+            return {
+                ...state,
+                loaded: false,
+                loading: false,
+                error: action.error,
+            };
 
         /*
             GET ROLE ACTIONS
@@ -68,10 +74,16 @@ export const RoleReducer = (state = defaultState, action: Action) => {
                 roles: mergeRoles(state.roles, action.payload),
                 loading: false,
                 loaded: true,
+                error: null,
             };
 
         case RoleActions.GET_ROLE_ERROR:
-            return { ...state, loaded: false, loading: false, error: true };
+            return {
+                ...state,
+                loaded: false,
+                loading: false,
+                error: action.error,
+            };
 
         /*
             CREATE ROLE ACTIONS
@@ -83,13 +95,19 @@ export const RoleReducer = (state = defaultState, action: Action) => {
         case RoleActions.CREATE_ROLE_SUCCESS:
             return {
                 ...state,
-                roles: [...state.roles, action.payload],
+                roles: mergeRoles(state.roles, action.payload),
                 loading: false,
                 loaded: true,
+                error: null,
             };
 
         case RoleActions.CREATE_ROLE_ERROR:
-            return { ...state, loaded: false, loading: false, error: true };
+            return {
+                ...state,
+                loaded: false,
+                loading: false,
+                error: action.error,
+            };
 
         /*
             UPDATE ROLE ACTIONS
@@ -104,10 +122,17 @@ export const RoleReducer = (state = defaultState, action: Action) => {
                 roles: mergeRoles(state.roles, action.payload),
                 loading: false,
                 loaded: true,
+                error: null,
             };
 
         case RoleActions.UPDATE_ROLE_ERROR:
-            return { ...state, loaded: false, loading: false, error: true };
+            return {
+                ...state,
+                roles: mergeRoles(state.roles, action.payload),
+                loaded: false,
+                loading: false,
+                error: action.error,
+            };
 
         /*
             DELETE ROLE ACTIONS
@@ -122,9 +147,15 @@ export const RoleReducer = (state = defaultState, action: Action) => {
                 roles: state.roles.filter((x) => x.id != action.payload),
                 loading: false,
                 loaded: true,
+                error: null,
             };
 
         case RoleActions.DELETE_ROLE_ERROR:
-            return { ...state, loaded: false, loading: false, error: true };
+            return {
+                ...state,
+                loaded: false,
+                loading: false,
+                error: action.error,
+            };
     }
 };
