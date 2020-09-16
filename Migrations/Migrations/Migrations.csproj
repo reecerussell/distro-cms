@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Dictionary\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\Pages\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\Users\Domain\Domain.csproj" />
   </ItemGroup>

@@ -24,6 +24,8 @@ namespace Migrations
             modelBuilder.ApplyConfiguration(new Pages.Domain.Configurations.PageConfiguration());
             modelBuilder.ApplyConfiguration(new Pages.Domain.Configurations.PageTranslationConfiguration());
 
+            modelBuilder.ApplyConfiguration(new Dictionary.Domain.Configurations.DictionaryItemConfiguration());
+
             base.OnModelCreating(modelBuilder);
         }
     }
