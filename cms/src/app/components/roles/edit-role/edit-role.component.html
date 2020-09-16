@@ -1,0 +1,41 @@
+<h1>Edit Role</h1>
+
+<p>
+    <a routerLink="/roles">Back to list</a>
+</p>
+
+<ng-template [ngIf]="error !== null">
+    <p>{{ error }}</p>
+</ng-template>
+
+<ng-template [ngIf]="(roleListState$ | async).loading">
+    <p>Loading...</p>
+</ng-template>
+
+<ng-template [ngIf]="roleListState$ && role">
+    <form (submit)="onSubmit()">
+        <p>
+            <b>Id:</b> {{ role.id }}<br />
+            <b>Created:</b> {{ role.dateCreated | date }}<br />
+            <b>Updated:</b> {{ role.dateUpdated | date }}
+        </p>
+
+        <p>
+            <label for="name">Name</label>
+            <br />
+            <input
+                type="text"
+                id="name"
+                name="name"
+                autocomplete="off"
+                required
+                [(ngModel)]="role.name"
+            />
+        </p>
+
+        <p>
+            <button type="submit">Save</button>
+            <button type="button" (click)="onDelete()">Delete</button>
+        </p>
+    </form>
+</ng-template>

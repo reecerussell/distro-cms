@@ -1,0 +1,22 @@
+<h1>Roles</h1>
+
+<p>
+    <a routerLink="/roles/create">Add new role</a>
+</p>
+
+<ng-template [ngIf]="roleListState$ | async">
+    <ng-template
+        [ngIf]="(roleListState$ | async).loading"
+        [ngIfElse]="roleList"
+    >
+        <p>Loading...</p>
+    </ng-template>
+
+    <ng-template #roleList>
+        <ul>
+            <li *ngFor="let role of (roleListState$ | async).roles">
+                <a routerLink="/roles/{{ role.id }}/edit">{{ role.name }}</a>
+            </li>
+        </ul>
+    </ng-template>
+</ng-template>

@@ -1,0 +1,32 @@
+<h1>Create Role</h1>
+
+<p>
+    <a routerLink="/roles">Back to list</a>
+</p>
+
+<ng-template [ngIf]="error !== null">
+    <p>{{ error }}</p>
+</ng-template>
+
+<ng-template [ngIf]="role.loading">
+    <p>Loading...</p>
+</ng-template>
+
+<form (submit)="onSubmit()">
+    <p>
+        <label for="name">Name</label>
+        <br />
+        <input
+            type="text"
+            id="name"
+            name="name"
+            autocomplete="off"
+            required
+            [(ngModel)]="role.name"
+        />
+    </p>
+
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>
