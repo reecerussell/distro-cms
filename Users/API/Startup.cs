@@ -41,6 +41,8 @@ namespace API
                     options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbContext context)
@@ -48,6 +50,14 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseCors(options =>
+                {
+                    options.AllowAnyHeader();
+                    options.AllowAnyMethod();
+                    options.AllowCredentials();
+                    options.WithOrigins("http://localhost:4200");
+                });
             }
 
             // Ensure the database is up to date.
