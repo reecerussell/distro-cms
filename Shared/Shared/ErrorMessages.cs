@@ -51,5 +51,7 @@
         public const string DictionaryKeyTooLong = "DICTIONARY:KEY_TOO_LONG";
         public const string DictionaryValueRequired = "DICTIONARY:VALUE_REQUIRED";
         public const string DictionaryValueTooLong = "DICTIONARY:VENUE_TOO_LONG";
+        public const string DictionaryItemAlreadyExists = "DICTIONARY:ITEM_ALREADY_EXISTS";
+        public const string DictionaryItemNotFound = "DICTIONARY:ITEM_NOT_FOUND";
     }
 }
