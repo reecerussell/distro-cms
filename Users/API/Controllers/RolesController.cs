@@ -73,7 +73,7 @@ namespace API.Controllers
             {
                 var roleId = await _service.CreateAsync(dto);
 
-                return Ok(roleId);
+                return RedirectToAction(nameof(Get), new {id = roleId});
             }
             catch (ValidationException e)
             {
@@ -96,7 +96,7 @@ namespace API.Controllers
             {
                 await _service.UpdateAsync(dto);
 
-                return Ok();
+                return await Get(dto.Id);
             }
             catch (ValidationException e)
             {
