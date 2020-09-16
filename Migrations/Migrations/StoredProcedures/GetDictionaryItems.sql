@@ -3,11 +3,8 @@
 AS
 	SELECT
 		Id,
-		CultureName,
 		[Key],
-		[Value],
-		DateCreated,
-		DateUpdated
+		[Value]
 	FROM DictionaryItems
 	WHERE CultureName = @CultureName
 	ORDER BY [Key];
