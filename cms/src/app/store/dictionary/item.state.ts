@@ -14,12 +14,14 @@ export const initializeItemState = () => ({
 
 export interface ItemListState {
     items: ItemState[];
+    culture: string;
     loading: boolean;
     error: string;
 }
 
 export const initializeItemListState = () => ({
     loading: false,
+    culture: navigator.language,
     items: [],
     error: null,
 });

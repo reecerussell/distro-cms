@@ -7,6 +7,7 @@ const defaultState: ItemListState = {
     items: [],
     loading: false,
     error: null,
+    culture: navigator.language,
 };
 
 export const ItemReducer = (state = defaultState, action: Action) => {
@@ -25,6 +26,8 @@ export const ItemReducer = (state = defaultState, action: Action) => {
                 ),
                 loading: false,
                 error: null,
+                culture:
+                    localStorage.getItem("DICTIONARY_CULTURE") ?? state.culture,
             };
         case ItemActions.GET_ITEMS_ERROR:
             return {

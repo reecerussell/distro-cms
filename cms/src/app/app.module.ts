@@ -20,6 +20,7 @@ import { ItemEffects } from "./store/dictionary/item.effect";
 // Reducers
 import * as RoleReducer from "./store/roles/role.reducer";
 import * as ItemReducer from "./store/dictionary/item.reducer";
+import { ItemListComponent } from './components/dictionary/item-list/item-list.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import * as ItemReducer from "./store/dictionary/item.reducer";
         RoleListComponent,
         CreateRoleComponent,
         EditRoleComponent,
+        ItemListComponent,
     ],
     imports: [
         BrowserModule,

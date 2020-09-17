@@ -24,4 +24,15 @@ export class ItemEffects {
             )
         )
     );
+
+    SetCulture$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ItemActions.SET_CULTURE),
+            mergeMap((action: ItemActions.SetCulture) => {
+                localStorage.setItem("DICTIONARY_CULTURE", action.culture);
+
+                return of(new ItemActions.GetItems(action.culture));
+            })
+        )
+    );
 }

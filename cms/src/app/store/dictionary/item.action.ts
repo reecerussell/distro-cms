@@ -23,4 +23,12 @@ export class GetItemsError implements Action {
     constructor(public error: string) {}
 }
 
+export const SET_CULTURE = "[Dictionary] SET CULTURE";
+
+export class SetCulture implements Action {
+    readonly type = SET_CULTURE;
+
+    constructor(public culture: string) {}
+}
+
 export type All = GetItems | GetItemsSuccess | GetItemsError;
