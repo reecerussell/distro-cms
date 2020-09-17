@@ -47,7 +47,8 @@ namespace Dictionary.Infrastructure.Providers
             var connectionString = await _connectionStringProvider.GetConnectionString();
             await using var connection = new SqlConnection(connectionString);
 
-            var parameters = new Dictionary<string, string> { { "@CultureName", culture.Name } };
+            var parameters = new DynamicParameters();
+            parameters.Add("@CultureName", culture.Name);
             var items = await connection.QueryAsync<DictionaryListItemDto>("GetDictionaryItems",
                 parameters, commandType: CommandType.StoredProcedure);
 
