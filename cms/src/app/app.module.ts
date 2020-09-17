@@ -15,9 +15,11 @@ import { EditRoleComponent } from "./components/roles/edit-role/edit-role.compon
 
 // Effects
 import { RoleEffects } from "./store/roles/role.effect";
+import { ItemEffects } from "./store/dictionary/item.effect";
 
 // Reducers
 import * as RoleReducer from "./store/roles/role.reducer";
+import * as ItemReducer from "./store/dictionary/item.reducer";
 
 @NgModule({
     declarations: [
@@ -33,8 +35,9 @@ import * as RoleReducer from "./store/roles/role.reducer";
         FormsModule,
         StoreModule.forRoot({
             roles: RoleReducer.RoleReducer,
+            dictionary: ItemReducer.ItemReducer,
         }),
-        EffectsModule.forRoot([RoleEffects]),
+        EffectsModule.forRoot([RoleEffects, ItemEffects]),
     ],
     providers: [],
     bootstrap: [AppComponent],
