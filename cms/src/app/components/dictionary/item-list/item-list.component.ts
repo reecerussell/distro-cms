@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import AppState from "src/app/store/app.state";
-import { ItemListState } from "src/app/store/dictionary/item.state";
+import { ItemListState, ItemState } from "src/app/store/dictionary/item.state";
 import * as ItemActions from "src/app/store/dictionary/item.action";
 import { mergeMap } from "rxjs/operators";
 
@@ -10,6 +10,7 @@ import { mergeMap } from "rxjs/operators";
     selector: "app-item-list",
     templateUrl: "./item-list.component.html",
     styleUrls: ["./item-list.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemListComponent implements OnInit {
     itemListState$: Observable<ItemListState>;
@@ -34,5 +35,9 @@ export class ItemListComponent implements OnInit {
 
     onCultureChange(): void {
         this.store.dispatch(new ItemActions.SetCulture(this.culture));
+    }
+
+    onUpdated(item: ItemState): void {
+        this.store.dispatch(new ItemActions.UpdateItem(item));
     }
 }

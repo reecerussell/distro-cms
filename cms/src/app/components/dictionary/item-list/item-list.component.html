@@ -15,7 +15,13 @@
         </select>
     </p>
 
-    <ng-template [ngIf]="(itemListState$ | async).loading" [ngIfElse]="table">
+    <ng-template
+        [ngIf]="
+            (itemListState$ | async).loading &&
+            (itemListState$ | async).items.length < 1
+        "
+        [ngIfElse]="table"
+    >
         <p>Loading...</p>
     </ng-template>
 
@@ -25,14 +31,22 @@
                 <tr>
                     <th>Key</th>
                     <th>Value</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of (itemListState$ | async).items">
                     <td>{{ item.key }}</td>
-                    <td>{{ item.value }}</td>
-                    <td><button type="button">Edit</button></td>
+                    <td>
+                        <ng-template [ngIf]="item.loading">
+                            Loading...
+                        </ng-template>
+                        <ng-template [ngIf]="!item.loading">
+                            <app-item-list-edit-field
+                                [item]="item"
+                                (updated)="onUpdated($event)"
+                            ></app-item-list-edit-field>
+                        </ng-template>
+                    </td>
                 </tr>
             </tbody>
         </table>
