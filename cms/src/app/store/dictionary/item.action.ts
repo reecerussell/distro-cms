@@ -23,6 +23,28 @@ export class GetItemsError implements Action {
     constructor(public error: string) {}
 }
 
+export const UPDATE_ITEM = "[Dictionary] UPDATE ITEM";
+export const UPDATE_ITEM_SUCCESS = "[Dictionary] UPDATE ITEM SUCCESS";
+export const UPDATE_ITEM_ERROR = "[Dictionary] UPDATE ITEM ERROR";
+
+export class UpdateItem implements Action {
+    readonly type = UPDATE_ITEM;
+
+    constructor(public item: DictionaryItem) {}
+}
+
+export class UpdateItemSuccess implements Action {
+    readonly type = UPDATE_ITEM_SUCCESS;
+
+    constructor(public item: DictionaryItem) {}
+}
+
+export class UpdateItemError implements Action {
+    readonly type = UPDATE_ITEM_ERROR;
+
+    constructor(public error: string) {}
+}
+
 export const SET_CULTURE = "[Dictionary] SET CULTURE";
 
 export class SetCulture implements Action {
@@ -31,4 +53,11 @@ export class SetCulture implements Action {
     constructor(public culture: string) {}
 }
 
-export type All = GetItems | GetItemsSuccess | GetItemsError;
+export type All =
+    | GetItems
+    | GetItemsSuccess
+    | GetItemsError
+    | UpdateItem
+    | UpdateItemSuccess
+    | UpdateItemError
+    | SetCulture;

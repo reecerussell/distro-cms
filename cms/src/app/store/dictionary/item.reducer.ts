@@ -35,5 +35,39 @@ export const ItemReducer = (state = defaultState, action: Action) => {
                 loading: false,
                 error: action.error,
             };
+
+        case ItemActions.UPDATE_ITEM:
+            const items = [...state.items];
+            const idx = items.findIndex((x) => x.id == action.item.id);
+            items[idx] = { ...items[idx], loading: true };
+            return { ...state, items: items, loading: true };
+
+        case ItemActions.UPDATE_ITEM_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                items: state.items
+                    .filter((x) => x.id !== action.item.id)
+                    .concat({
+                        ...initializeItemState(),
+                        ...action.item,
+                    } as ItemState)
+                    .sort((a, b) => {
+                        if (a > b) {
+                            return 1;
+                        }
+                        if (a < b) {
+                            return 0;
+                        }
+                        return -1;
+                    }),
+            };
+
+        case ItemActions.UPDATE_ITEM_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
     }
 };

@@ -25,6 +25,20 @@ export class ItemEffects {
         )
     );
 
+    UpdateItem$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ItemActions.UPDATE_ITEM),
+            mergeMap((action: ItemActions.UpdateItem) =>
+                this.api.Update$(action.item).pipe(
+                    map((data) => new ItemActions.UpdateItemSuccess(data)),
+                    catchError((error) =>
+                        of(new ItemActions.UpdateItemError(error))
+                    )
+                )
+            )
+        )
+    );
+
     SetCulture$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(ItemActions.SET_CULTURE),
