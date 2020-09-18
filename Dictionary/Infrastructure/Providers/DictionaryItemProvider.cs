@@ -29,7 +29,7 @@ namespace Dictionary.Infrastructure.Providers
             var connectionString = await _connectionStringProvider.GetConnectionString();
             await using var connection = new SqlConnection(connectionString);
             
-            var parameters = new Dictionary<string, string>{{"@Id", id}};
+            var parameters = new Dictionary<string, object>{{"@Id", id}};
             var item = await connection.QuerySingleOrDefaultAsync<DictionaryItemDto>("GetDictionaryItem",
                 parameters, commandType: CommandType.StoredProcedure);
             if (item == null)
