@@ -9,7 +9,6 @@ import { ActivatedRoute } from "@angular/router";
 @Component({
     selector: "app-edit-role",
     templateUrl: "./edit-role.component.html",
-    styleUrls: ["./edit-role.component.scss"],
 })
 export class EditRoleComponent implements OnInit {
     roleListState$: Observable<RoleListState>;
