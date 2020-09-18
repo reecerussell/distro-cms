@@ -24,22 +24,18 @@ namespace Shared.Controllers
             Logger = logger;
         }
 
-        public override BadRequestObjectResult BadRequest(object error)
+        public IActionResult BadRequest(string error)
         {
             Logger.LogDebug("Creating BadRequest response, with error: {0}", error);
 
-            return new BadRequestObjectResult(CreateResponse(error: error.ToString()));
+            return CreateResponse(HttpStatusCode.BadRequest, error: error);
         }
 
         public ObjectResult NotFound(string error)
         {
             Logger.LogDebug("Creating NotFound response, with error: {0}", error);
 
-            var responseData = CreateResponse(error: error);
-            return new ObjectResult(responseData)
-            {
-                StatusCode = (int)HttpStatusCode.NotFound
-            };
+            return CreateResponse(HttpStatusCode.NotFound, error: error);
         }
 
         public override OkObjectResult Ok(object value)
@@ -47,27 +43,24 @@ namespace Shared.Controllers
             var json = JsonSerializer.Serialize(value, JsonOptions);
             Logger.LogDebug("Creating OK response, with data:\n{0}", json);
 
-            return new OkObjectResult(CreateResponse(value));
+            return CreateResponse(HttpStatusCode.OK, value);
         }
 
-        public ObjectResult InternalServerError(string error)
+        public IActionResult InternalServerError(string error)
         {
             Logger.LogDebug("Creating InternalServerError response, with error: {0}", error);
 
-            var responseData = CreateResponse(error: error);
-            return new ObjectResult(responseData)
-            {
-                StatusCode = (int)HttpStatusCode.InternalServerError
-            };
+            return CreateResponse(HttpStatusCode.InternalServerError, error: error);
         }
 
-        protected virtual ResponseData CreateResponse(object data = null, string error = null)
+        protected virtual OkObjectResult CreateResponse(HttpStatusCode status, object data = null, string error = null)
         {
-            return new ResponseData
+            return base.Ok(new ResponseData
             {
+                StatusCode = (int)status,
                 Data = data,
                 Error = error
-            };
+            });
         }
     }
 }
