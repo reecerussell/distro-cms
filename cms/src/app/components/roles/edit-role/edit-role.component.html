@@ -1,9 +1,3 @@
-<h1>Edit Role</h1>
-
-<p>
-    <a routerLink="/roles">Back to list</a>
-</p>
-
 <ng-template [ngIf]="roleListState$ && role">
     <ng-template [ngIf]="(roleListState$ | async).error">
         <p>{{ (roleListState$ | async).error }}</p>

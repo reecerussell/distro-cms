@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { RoleListState, RoleState } from "src/app/store/roles/role.state";
 import * as RoleActions from "src/app/store/roles/role.action";
@@ -14,25 +14,21 @@ export class EditRoleComponent implements OnInit {
     roleListState$: Observable<RoleListState>;
     role: RoleState;
 
-    constructor(
-        private store: Store<AppState>,
-        private route: ActivatedRoute
-    ) {}
+    @Input() id: string;
+
+    constructor(private store: Store<AppState>) {}
 
     ngOnInit(): void {
         this.roleListState$ = this.store.select((state) => state.roles);
-        this.route.paramMap.subscribe((params) => {
-            const id = params.get("id");
-            this.store.dispatch(new RoleActions.GetRole(id));
+        this.store.dispatch(new RoleActions.GetRole(this.id));
 
-            this.roleListState$.subscribe((state) => {
-                if (state.roles)
-                    [
-                        (this.role = {
-                            ...state.roles.find((x) => x.id === id),
-                        } as RoleState),
-                    ];
-            });
+        this.roleListState$.subscribe((state) => {
+            if (state.roles)
+                [
+                    (this.role = {
+                        ...state.roles.find((x) => x.id === this.id),
+                    } as RoleState),
+                ];
         });
     }
 
