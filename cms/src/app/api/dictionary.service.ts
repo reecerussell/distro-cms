@@ -27,4 +27,25 @@ export class DictionaryService {
             })
         );
     }
+
+    Update$(item: DictionaryItem): Observable<DictionaryItem> {
+        const options = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            }),
+        };
+
+        return this.http
+            .put(
+                environment.api_base_url + "items",
+                JSON.stringify(item),
+                options
+            )
+            .pipe(
+                map((data) => data["data"]),
+                catchError((resp: HttpErrorResponse) => {
+                    throw new Error(resp.error?.error ?? resp.statusText);
+                })
+            );
+    }
 }
