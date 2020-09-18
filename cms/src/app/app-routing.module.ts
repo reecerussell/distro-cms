@@ -1,11 +1,12 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { ItemListComponent } from "./components/dictionary/item-list/item-list.component";
+
+// Components
 import { CreateRoleComponent } from "./components/roles/create-role/create-role.component";
 import { EditRoleComponent } from "./components/roles/edit-role/edit-role.component";
 import { RoleListComponent } from "./components/roles/role-list/role-list.component";
 
-const routes: Routes = [
+export const routes: Routes = [
     {
         path: "roles",
         children: [
@@ -30,12 +31,10 @@ const routes: Routes = [
     },
     {
         path: "dictionary",
-        children: [
-            {
-                path: "",
-                component: ItemListComponent,
-            },
-        ],
+        loadChildren: () =>
+            import("./views/dictionary/dictionary.module").then(
+                (c) => c.DictionaryModule
+            ),
     },
 ];
 

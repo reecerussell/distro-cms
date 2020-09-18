@@ -7,7 +7,7 @@ import * as ItemActions from "src/app/store/dictionary/item.action";
 import DictionaryItem from "src/app/models/dictionary-item.model";
 
 @Component({
-    selector: "app-item-list",
+    selector: "app-dictionary-item-list",
     templateUrl: "./item-list.component.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

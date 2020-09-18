@@ -1,12 +1,13 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-
-import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
 import { FormsModule } from "@angular/forms";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { HttpClientModule } from "@angular/common/http";
+
+// App
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
 
 // Components
 import { RoleListComponent } from "./components/roles/role-list/role-list.component";
@@ -20,9 +21,6 @@ import { ItemEffects } from "./store/dictionary/item.effect";
 // Reducers
 import * as RoleReducer from "./store/roles/role.reducer";
 import * as ItemReducer from "./store/dictionary/item.reducer";
-import { ItemListComponent } from "./components/dictionary/item-list/item-list.component";
-import { ItemListEditFieldComponent } from "./components/dictionary/item-list-edit-field/item-list-edit-field.component";
-import { CreateItemComponent } from './components/dictionary/create-item/create-item.component';
 
 @NgModule({
     declarations: [
@@ -30,9 +28,6 @@ import { CreateItemComponent } from './components/dictionary/create-item/create-
         RoleListComponent,
         CreateRoleComponent,
         EditRoleComponent,
-        ItemListComponent,
-        ItemListEditFieldComponent,
-        CreateItemComponent,
     ],
     imports: [
         BrowserModule,
