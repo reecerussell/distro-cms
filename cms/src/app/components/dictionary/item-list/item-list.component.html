@@ -15,6 +15,14 @@
         </select>
     </p>
 
+    <ng-template [ngIf]="(itemListState$ | async).error">
+        <p>
+            {{ (itemListState$ | async).error }}
+        </p>
+    </ng-template>
+
+    <app-create-item (created)="onCreated($event)"></app-create-item>
+
     <ng-template
         [ngIf]="
             (itemListState$ | async).loading &&

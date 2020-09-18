@@ -1,0 +1,24 @@
+<form (submit)="create()">
+    <h3>New item</h3>
+    <p>
+        <label id="newItemKey">Key:&nbsp;</label>
+        <input
+            type="text"
+            name="key"
+            id="newItemKey"
+            [(ngModel)]="key"
+            maxlength="45"
+            required
+        />
+        <label id="newItemValue">Value:&nbsp;</label>
+        <input
+            type="text"
+            name="key"
+            id="newItemValue"
+            [(ngModel)]="value"
+            maxlength="255"
+            required
+        />
+        <button type="submit">Save</button>
+    </p>
+</form>

@@ -1,5 +1,6 @@
 import { initializeItemState, ItemListState, ItemState } from "./item.state";
 import * as ItemActions from "./item.action";
+import DictionaryItem from "src/app/models/dictionary-item.model";
 
 export type Action = ItemActions.All;
 
@@ -8,6 +9,26 @@ const defaultState: ItemListState = {
     loading: false,
     error: null,
     culture: navigator.language,
+};
+
+const mergeItems = (existingItems: ItemState[], newItem: DictionaryItem) => {
+    const sortFunc = (a, b) => {
+        if (a.key < b.key) {
+            return -1;
+        }
+        if (a.key > b.key) {
+            return 1;
+        }
+        return 0;
+    };
+
+    return existingItems
+        .filter((x) => x.id !== newItem.id)
+        .concat({
+            ...initializeItemState(),
+            ...newItem,
+        } as ItemState)
+        .sort(sortFunc);
 };
 
 export const ItemReducer = (state = defaultState, action: Action) => {
@@ -36,6 +57,22 @@ export const ItemReducer = (state = defaultState, action: Action) => {
                 error: action.error,
             };
 
+        case ItemActions.CREATE_ITEM:
+            return { ...state, loading: true };
+        case ItemActions.CREATE_ITEM_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                items: mergeItems(state.items, action.item),
+            };
+        case ItemActions.CREATE_ITEM_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
+
         case ItemActions.UPDATE_ITEM:
             const items = [...state.items];
             const idx = items.findIndex((x) => x.id == action.item.id);
@@ -46,21 +83,8 @@ export const ItemReducer = (state = defaultState, action: Action) => {
             return {
                 ...state,
                 loading: false,
-                items: state.items
-                    .filter((x) => x.id !== action.item.id)
-                    .concat({
-                        ...initializeItemState(),
-                        ...action.item,
-                    } as ItemState)
-                    .sort((a, b) => {
-                        if (a > b) {
-                            return 1;
-                        }
-                        if (a < b) {
-                            return 0;
-                        }
-                        return -1;
-                    }),
+                error: null,
+                items: mergeItems(state.items, action.item),
             };
 
         case ItemActions.UPDATE_ITEM_ERROR:

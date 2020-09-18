@@ -1,0 +1,53 @@
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    OnInit,
+    Output,
+} from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
+import DictionaryItem from "src/app/models/dictionary-item.model";
+import AppState from "src/app/store/app.state";
+import { ItemListState } from "src/app/store/dictionary/item.state";
+
+@Component({
+    selector: "app-create-item",
+    templateUrl: "./create-item.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CreateItemComponent implements OnInit {
+    itemListState$: Observable<ItemListState>;
+    count: number;
+
+    key: string = "";
+    value: string = "";
+
+    @Output() created = new EventEmitter<DictionaryItem>();
+
+    constructor(private store: Store<AppState>) {}
+
+    ngOnInit(): void {
+        this.itemListState$ = this.store.select((state) => state.dictionary);
+        this.itemListState$.subscribe((state) => {
+            if (!this.count) {
+                this.count = state?.items.length ?? 0;
+            }
+
+            if (this.count < state?.items.length ?? 0) {
+                this.key = "";
+                this.value = "";
+            }
+        });
+    }
+
+    create(): void {
+        const item = {
+            ...DictionaryItem.generateMockItem(),
+            key: this.key,
+            value: this.value,
+        };
+
+        this.created.emit(item);
+    }
+}

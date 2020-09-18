@@ -23,6 +23,28 @@ export class GetItemsError implements Action {
     constructor(public error: string) {}
 }
 
+export const CREATE_ITEM = "[Dictionary] CREATE ITEM";
+export const CREATE_ITEM_SUCCESS = "[Dictionary] CREATE ITEM SUCCESS";
+export const CREATE_ITEM_ERROR = "[Dictionary] CREATE ITEM ERROR";
+
+export class CreateItem implements Action {
+    readonly type = CREATE_ITEM;
+
+    constructor(public item: DictionaryItem, public culture: string) {}
+}
+
+export class CreateItemSuccess implements Action {
+    readonly type = CREATE_ITEM_SUCCESS;
+
+    constructor(public item: DictionaryItem) {}
+}
+
+export class CreateItemError implements Action {
+    readonly type = CREATE_ITEM_ERROR;
+
+    constructor(public error: string) {}
+}
+
 export const UPDATE_ITEM = "[Dictionary] UPDATE ITEM";
 export const UPDATE_ITEM_SUCCESS = "[Dictionary] UPDATE ITEM SUCCESS";
 export const UPDATE_ITEM_ERROR = "[Dictionary] UPDATE ITEM ERROR";
@@ -57,6 +79,9 @@ export type All =
     | GetItems
     | GetItemsSuccess
     | GetItemsError
+    | CreateItem
+    | CreateItemSuccess
+    | CreateItemError
     | UpdateItem
     | UpdateItemSuccess
     | UpdateItemError

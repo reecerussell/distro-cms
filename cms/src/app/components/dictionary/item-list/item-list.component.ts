@@ -4,12 +4,11 @@ import { Observable } from "rxjs";
 import AppState from "src/app/store/app.state";
 import { ItemListState, ItemState } from "src/app/store/dictionary/item.state";
 import * as ItemActions from "src/app/store/dictionary/item.action";
-import { mergeMap } from "rxjs/operators";
+import DictionaryItem from "src/app/models/dictionary-item.model";
 
 @Component({
     selector: "app-item-list",
     templateUrl: "./item-list.component.html",
-    styleUrls: ["./item-list.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemListComponent implements OnInit {
@@ -39,5 +38,9 @@ export class ItemListComponent implements OnInit {
 
     onUpdated(item: ItemState): void {
         this.store.dispatch(new ItemActions.UpdateItem(item));
+    }
+
+    onCreated(item: DictionaryItem): void {
+        this.store.dispatch(new ItemActions.CreateItem(item, this.culture));
     }
 }
