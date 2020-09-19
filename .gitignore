@@ -28,3 +28,5 @@ Shared/Shared/bin/*
 Shared/Shared/obj/*
 Migrations/Migrations/bin/*
 Migrations/Migrations/obj/*
+Gateway/Gateway/bin/*
+Gateway/Gateway/obj/*
