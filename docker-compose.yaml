@@ -1,0 +1,52 @@
+version: "3.7"
+
+networks:
+    cms:
+        driver: bridge
+
+# PORTS
+# - 4500:Gateway
+# - 4501:Dictionary
+# - 4502:Users
+# - 4503:Pages
+
+services:
+    gateway:
+        build:
+            context: .
+            dockerfile: ./Gateway/Gateway/Dockerfile
+        ports:
+            - 4500:443
+        networks:
+            - cms
+        depends_on:
+            - dictionary
+            - users
+            - pages
+
+    dictionary:
+        build:
+            context: .
+            dockerfile: ./Dictionary/API/Dockerfile
+        ports:
+            - 4501:80
+        networks:
+            - cms
+
+    users:
+        build:
+            context: .
+            dockerfile: ./Users/API/Dockerfile
+        ports:
+            - 4502:80
+        networks:
+            - cms
+
+    pages:
+        build:
+            context: .
+            dockerfile: ./Pages/API/Dockerfile
+        ports:
+            - 4503:80
+        networks:
+            - cms

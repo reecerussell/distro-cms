@@ -1,7 +1,7 @@
-﻿using Domain.Dtos;
-using Infrastructure;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Pages.Domain.Dtos;
+using Pages.Infrastructure;
 using Shared.Controllers;
 using Shared.Exceptions;
 using System;

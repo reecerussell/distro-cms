@@ -7,14 +7,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["API/API.csproj", "API/"]
-COPY ["../Shared/Shared/Shared.csproj", "../Shared/Shared/"]
-COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["../Migrations/Migrations/Migrations.csproj", "../Migrations/Migrations/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
-RUN dotnet restore "API/API.csproj"
+COPY ["Pages/API/API.csproj", "Pages/API/"]
+COPY ["Shared/Shared/Shared.csproj", "Shared/Shared/"]
+COPY ["Pages/Domain/Domain.csproj", "Pages/Domain/"]
+COPY ["Pages/Infrastructure/Infrastructure.csproj", "Pages/Infrastructure/"]
+RUN dotnet restore "Pages/API/API.csproj"
 COPY . .
-WORKDIR "/src/API"
+WORKDIR "/src/Pages/API"
 RUN dotnet build "API.csproj" -c Release -o /app/build
 
 FROM build AS publish
