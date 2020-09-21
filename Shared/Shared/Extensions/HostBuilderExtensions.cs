@@ -19,19 +19,21 @@ namespace Shared.Extensions
         {
             if (environment.IsDevelopment())
             {
-                filename += ".development.json";
-            }
-            else
-            {
-                filename += ".json";
+                var devFilename = filename + ".development.json";
+                if (File.Exists(devFilename))
+                {
+                    builder.AddJsonFile(devFilename);
+                    return;
+                }
             }
 
-            if (!File.Exists(filename))
+            var defaultFilename = filename + ".json";
+            if (!File.Exists(defaultFilename))
             {
                 return;
             }
 
-            builder.AddJsonFile(filename);
+            builder.AddJsonFile(defaultFilename);
         }
     }
 }

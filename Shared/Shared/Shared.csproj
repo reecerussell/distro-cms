@@ -10,7 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="settings.json" />
+    <Content Include="settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
