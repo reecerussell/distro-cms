@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -45,7 +44,7 @@ namespace API
             services.AddCors();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -59,9 +58,6 @@ namespace API
                     options.WithOrigins("http://localhost:4200");
                 });
             }
-
-            // Ensure the database is up to date.
-            context.Database.EnsureCreated();
 
             app.UseRouting();
 
