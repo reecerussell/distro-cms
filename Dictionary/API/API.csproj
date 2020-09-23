@@ -5,7 +5,6 @@
     <UserSecretsId>755de723-94af-45bb-a293-5270c34a27cb</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..</DockerfileContext>
-    <DockerfileFile>./API/Dockerfile</DockerfileFile>
   </PropertyGroup>
 
   <ItemGroup>
