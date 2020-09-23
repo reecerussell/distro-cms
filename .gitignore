@@ -1,6 +1,8 @@
 *.user
 */.vs/*
 
+.env
+
 Pages/API/bin/*
 Pages/API/obj/*
 Pages/Domain/bin/*
