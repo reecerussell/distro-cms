@@ -24,14 +24,14 @@ namespace Shared.Controllers
             Logger = logger;
         }
 
-        public IActionResult BadRequest(string error)
+        protected IActionResult BadRequest(string error)
         {
             Logger.LogDebug("Creating BadRequest response, with error: {0}", error);
 
             return CreateResponse(HttpStatusCode.BadRequest, error: error);
         }
 
-        public ObjectResult NotFound(string error)
+        protected ObjectResult NotFound(string error)
         {
             Logger.LogDebug("Creating NotFound response, with error: {0}", error);
 
@@ -46,7 +46,7 @@ namespace Shared.Controllers
             return CreateResponse(HttpStatusCode.OK, value);
         }
 
-        public IActionResult InternalServerError(string error)
+        protected IActionResult InternalServerError(string error)
         {
             Logger.LogDebug("Creating InternalServerError response, with error: {0}", error);
 
