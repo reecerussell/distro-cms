@@ -21,16 +21,18 @@ export class DictionaryService {
             headers: new HttpHeaders({ "API-Culture": culture }),
         };
 
-        return this.http.get(environment.api_base_url + "items", options).pipe(
-            map((responseBody: ResponseBody) => {
-                const { statusCode, data, error } = responseBody;
-                if (statusCode === 200) {
-                    return data as DictionaryItem[];
-                }
+        return this.http
+            .get(environment.api_base_url + "dictionary/items", options)
+            .pipe(
+                map((responseBody: ResponseBody) => {
+                    const { statusCode, data, error } = responseBody;
+                    if (statusCode === 200) {
+                        return data as DictionaryItem[];
+                    }
 
-                throw new Error(error);
-            })
-        );
+                    throw new Error(error);
+                })
+            );
     }
 
     Create$(item: DictionaryItem, culture: string): Observable<DictionaryItem> {
@@ -43,7 +45,7 @@ export class DictionaryService {
 
         return this.http
             .post(
-                environment.api_base_url + "items",
+                environment.api_base_url + "dictionary/items",
                 JSON.stringify(item),
                 options
             )
@@ -68,7 +70,7 @@ export class DictionaryService {
 
         return this.http
             .put(
-                environment.api_base_url + "items",
+                environment.api_base_url + "dictionary/items",
                 JSON.stringify(item),
                 options
             )
