@@ -10,6 +10,15 @@
             maxlength="45"
             required
         />
+        <label id="newItemDisplayName">Display Name:&nbsp;</label>
+        <input
+            type="text"
+            name="displayName"
+            id="newItemDisplayName"
+            [(ngModel)]="displayName"
+            maxlength="255"
+            required
+        />
         <label id="newItemValue">Value:&nbsp;</label>
         <input
             type="text"

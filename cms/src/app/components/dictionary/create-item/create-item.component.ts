@@ -22,6 +22,7 @@ export class CreateItemComponent implements OnInit {
 
     key: string = "";
     value: string = "";
+    displayName: string = "";
 
     @Output() created = new EventEmitter<DictionaryItem>();
 
@@ -46,6 +47,7 @@ export class CreateItemComponent implements OnInit {
             ...DictionaryItem.generateMockItem(),
             key: this.key,
             value: this.value,
+            displayName: this.displayName,
         };
 
         this.created.emit(item);
