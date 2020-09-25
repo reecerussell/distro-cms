@@ -5,6 +5,9 @@ AS
 		Id,
 		CultureName,
 		[Key],
-		[Value]
+		DisplayName,
+		[Value],
+		DateCreated,
+		DateUpdated
 	FROM DictionaryItems
 	WHERE Id = @Id;
