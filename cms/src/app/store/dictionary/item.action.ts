@@ -67,6 +67,36 @@ export class UpdateItemError implements Action {
     constructor(public error: string) {}
 }
 
+export const DELETE_ITEM = "[Dictionary] DELETE ITEM";
+export const DELETE_ITEM_SUCCESS = "[Dictionary] DELETE ITEM SUCCESS";
+export const DELETE_ITEM_ERROR = "[Dictionary] DELETE ITEM ERROR";
+
+export class DeleteItem implements Action {
+    readonly type = DELETE_ITEM;
+
+    constructor(public id: string) {}
+}
+
+export class DeleteItemSuccess implements Action {
+    readonly type = DELETE_ITEM_SUCCESS;
+
+    constructor(public id: string) {}
+}
+
+export class DeleteItemError implements Action {
+    readonly type = DELETE_ITEM_ERROR;
+
+    constructor(public error: string) {}
+}
+
+export const SET_EDITING = "[Dictionary] SET EDITING";
+
+export class SetEditing implements Action {
+    readonly type = SET_EDITING;
+
+    constructor(public item: DictionaryItem, public editing: boolean) {}
+}
+
 export const SET_CULTURE = "[Dictionary] SET CULTURE";
 
 export class SetCulture implements Action {
@@ -85,4 +115,8 @@ export type All =
     | UpdateItem
     | UpdateItemSuccess
     | UpdateItemError
+    | DeleteItem
+    | DeleteItemSuccess
+    | DeleteItemError
+    | SetEditing
     | SetCulture;

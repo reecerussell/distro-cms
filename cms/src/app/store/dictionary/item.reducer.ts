@@ -11,7 +11,7 @@ const defaultState: ItemListState = {
     culture: navigator.language,
 };
 
-const mergeItems = (existingItems: ItemState[], newItem: DictionaryItem) => {
+const mergeItems = (existingItems: ItemState[], newItem: ItemState) => {
     const sortFunc = (a, b) => {
         if (a.displayName < b.displayName) {
             return -1;
@@ -24,10 +24,7 @@ const mergeItems = (existingItems: ItemState[], newItem: DictionaryItem) => {
 
     return existingItems
         .filter((x) => x.id !== newItem.id)
-        .concat({
-            ...initializeItemState(),
-            ...newItem,
-        } as ItemState)
+        .concat(newItem)
         .sort(sortFunc);
 };
 
@@ -64,7 +61,10 @@ export const ItemReducer = (state = defaultState, action: Action) => {
                 ...state,
                 loading: false,
                 error: null,
-                items: mergeItems(state.items, action.item),
+                items: mergeItems(state.items, {
+                    ...initializeItemState(),
+                    ...action.item,
+                } as ItemState),
             };
         case ItemActions.CREATE_ITEM_ERROR:
             return {
@@ -84,7 +84,10 @@ export const ItemReducer = (state = defaultState, action: Action) => {
                 ...state,
                 loading: false,
                 error: null,
-                items: mergeItems(state.items, action.item),
+                items: mergeItems(state.items, {
+                    ...initializeItemState(),
+                    ...action.item,
+                } as ItemState),
             };
 
         case ItemActions.UPDATE_ITEM_ERROR:
@@ -92,6 +95,32 @@ export const ItemReducer = (state = defaultState, action: Action) => {
                 ...state,
                 loading: false,
                 error: action.error,
+            };
+
+        case ItemActions.DELETE_ITEM:
+            return { ...state, loading: true };
+
+        case ItemActions.DELETE_ITEM_SUCCESS:
+            return {
+                ...state,
+                items: state.items.filter((x) => x.id !== action.id),
+                loading: false,
+            };
+
+        case ItemActions.DELETE_ITEM_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
+
+        case ItemActions.SET_EDITING:
+            return {
+                ...state,
+                items: mergeItems(state.items, {
+                    ...action.item,
+                    editing: action.editing,
+                } as ItemState),
             };
     }
 };

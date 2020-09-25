@@ -13,6 +13,7 @@ import DictionaryItem from "src/app/models/dictionary-item.model";
 })
 export class ItemListComponent implements OnInit {
     itemListState$: Observable<ItemListState>;
+    items: ItemState[];
     culture: string;
 
     constructor(private store: Store<AppState>) {}
@@ -29,6 +30,8 @@ export class ItemListComponent implements OnInit {
                 state?.culture ??
                 localStorage.getItem("DICTIONARY_CULTURE") ??
                 navigator.language;
+
+            this.items = state.items.map((i) => ({ ...i } as ItemState));
         });
     }
 
@@ -36,8 +39,16 @@ export class ItemListComponent implements OnInit {
         this.store.dispatch(new ItemActions.SetCulture(this.culture));
     }
 
-    onUpdated(item: ItemState): void {
+    toggleEdit(item: ItemState): void {
+        this.store.dispatch(new ItemActions.SetEditing(item, !item.editing));
+    }
+
+    saveItem(item: ItemState): void {
         this.store.dispatch(new ItemActions.UpdateItem(item));
+    }
+
+    deleteItem(item: ItemState): void {
+        this.store.dispatch(new ItemActions.DeleteItem(item.id));
     }
 
     onCreated(item: DictionaryItem): void {

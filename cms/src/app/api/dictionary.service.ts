@@ -85,4 +85,18 @@ export class DictionaryService {
                 })
             );
     }
+
+    Delete$(id: string): Observable<any> {
+        return this.http
+            .delete(environment.api_base_url + "dictionary/items/" + id)
+            .pipe(
+                map((responseBody: any) => {
+                    if (!responseBody || responseBody.statusCode === 200) {
+                        return null;
+                    }
+
+                    throw new Error(responseBody.error);
+                })
+            );
+    }
 }

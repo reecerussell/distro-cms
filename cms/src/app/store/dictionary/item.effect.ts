@@ -53,6 +53,20 @@ export class ItemEffects {
         )
     );
 
+    DeleteItem$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ItemActions.DELETE_ITEM),
+            mergeMap((action: ItemActions.DeleteItem) =>
+                this.api.Delete$(action.id).pipe(
+                    map((data) => new ItemActions.DeleteItemSuccess(action.id)),
+                    catchError((error: Error) =>
+                        of(new ItemActions.DeleteItemError(error.message))
+                    )
+                )
+            )
+        )
+    );
+
     SetCulture$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(ItemActions.SET_CULTURE),
