@@ -77,12 +77,14 @@ namespace Dictionary.Domain.Models
         public void Update(UpdateDictionaryItem dto)
         {
             UpdateValue(dto.Value);
+            UpdateDisplayName(dto.DisplayName);
         }
 
         public static DictionaryItem Create(CreateDictionaryItem dto, CultureInfo culture)
         {
             var item = new DictionaryItem(culture, dto.Key);
             item.UpdateValue(dto.Value);
+            item.UpdateDisplayName(dto.DisplayName);
             return item;
         }
     }
