@@ -41,7 +41,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of (itemListState$ | async).items">
-                    <td>{{ item.name }}</td>
+                    <td>{{ item.displayName }}</td>
                     <td>
                         <ng-template [ngIf]="item.loading">
                             Loading...

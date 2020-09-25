@@ -2,7 +2,7 @@ export default class DictionaryItem {
     id?: string;
     cultureName: string;
     key: string;
-    name: string;
+    displayName: string;
     value: string;
     dateCreated: Date;
     dateUpdated?: Date;
@@ -21,7 +21,7 @@ export default class DictionaryItem {
             id: "",
             cultureName: "",
             key: "",
-            name: "",
+            displayName: "",
             value: "",
             dateCreated: new Date(),
             dateUpdated: null,

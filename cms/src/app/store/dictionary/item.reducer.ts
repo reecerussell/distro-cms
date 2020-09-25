@@ -13,10 +13,10 @@ const defaultState: ItemListState = {
 
 const mergeItems = (existingItems: ItemState[], newItem: DictionaryItem) => {
     const sortFunc = (a, b) => {
-        if (a.key < b.key) {
+        if (a.displayName < b.displayName) {
             return -1;
         }
-        if (a.key > b.key) {
+        if (a.displayName > b.displayName) {
             return 1;
         }
         return 0;
