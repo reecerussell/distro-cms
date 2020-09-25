@@ -16,7 +16,13 @@ services:
             context: .
             dockerfile: ./Gateway/Gateway/Dockerfile
         ports:
-            - 4500:443
+            - 4500:80
+        environment:
+            - ASPNETCORE_URLS=http://0.0.0.0:80
+            - ASPNETCORE_ENVIRONMENT=Development
+            - DICTIONARY_URL=http://dictionary:80
+            - PAGES_URL=http://pages:80
+            - USERS_URL=http://users:80
         networks:
             - cms
         depends_on:
@@ -28,8 +34,9 @@ services:
         build:
             context: .
             dockerfile: ./Dictionary/API/Dockerfile
-        ports:
-            - 4501:80
+        environment:
+            - "ASPNETCORE_ENVIRONMENT=Development"
+            - "CONNECTION_STRING=${CONNECTION_STRING}"
         networks:
             - cms
 
@@ -37,8 +44,9 @@ services:
         build:
             context: .
             dockerfile: ./Users/API/Dockerfile
-        ports:
-            - 4502:80
+        environment:
+            - "ASPNETCORE_ENVIRONMENT=Development"
+            - "CONNECTION_STRING=${CONNECTION_STRING}"
         networks:
             - cms
 
@@ -46,7 +54,8 @@ services:
         build:
             context: .
             dockerfile: ./Pages/API/Dockerfile
-        ports:
-            - 4503:80
+        environment:
+            - "ASPNETCORE_ENVIRONMENT=Development"
+            - "CONNECTION_STRING=${CONNECTION_STRING}"
         networks:
             - cms
