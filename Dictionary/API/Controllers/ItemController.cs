@@ -30,6 +30,8 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
+            Logger.LogInformation("Incoming request to retrieve a list of dictionary items for the culture: {0}", CultureInfo.CurrentCulture.Name);
+
             try
             {
                 var items = await _provider.GetListAsync(CultureInfo.CurrentCulture);
