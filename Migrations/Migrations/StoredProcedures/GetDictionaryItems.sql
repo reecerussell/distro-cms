@@ -3,7 +3,7 @@
 AS
 	SELECT
 		Id,
-		[DisplayName] AS [Name],
+		[DisplayName],
 		[Value]
 	FROM DictionaryItems
 	WHERE CultureName = @CultureName
