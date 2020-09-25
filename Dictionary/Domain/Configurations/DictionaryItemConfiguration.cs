@@ -25,6 +25,11 @@ namespace Dictionary.Domain.Configurations
                 .HasIndex(x => new {x.Key, x.CultureName});
 
             builder
+                .Property(x => x.DisplayName)
+                .HasMaxLength(255)
+                .IsRequired();
+
+            builder
                 .Property(x => x.Value)
                 .HasMaxLength(255)
                 .IsRequired();

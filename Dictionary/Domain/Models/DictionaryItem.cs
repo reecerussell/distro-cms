@@ -11,6 +11,7 @@ namespace Dictionary.Domain.Models
     {
         public string CultureName { get; private set; }
         public string Key { get; private set; }
+        public string DisplayName { get; private set; }
         public string Value { get; private set; }
 
         private DictionaryItem()
@@ -41,6 +42,21 @@ namespace Dictionary.Domain.Models
             }
 
             Key = key;
+        }
+
+        internal void UpdateDisplayName(string displayName)
+        {
+            if (string.IsNullOrEmpty(displayName))
+            {
+                throw new ValidationException(ErrorMessages.DictionaryDisplayNameRequired);
+            }
+
+            if (displayName.Length > 255)
+            {
+                throw new ValidationException(ErrorMessages.DictionaryDisplayNameTooLong);
+            }
+
+            DisplayName = displayName;
         }
 
         internal void UpdateValue(string value)
