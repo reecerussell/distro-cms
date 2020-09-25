@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace Gateway.Middleware
 {
@@ -59,27 +59,26 @@ namespace Gateway.Middleware
             await context.Response.Body.WriteAsync(content);
         }
 
-        private static HttpRequestMessage CreateTargetMessage(HttpContext context, Uri targetUri)
+        private HttpRequestMessage CreateTargetMessage(HttpContext context, Uri targetUri)
         {
+            _logger.LogDebug("Creating proxy request message, to: {0}", targetUri);
+
             var requestMessage = new HttpRequestMessage();
+            var streamContent = new StreamContent(context.Request.Body);
+            requestMessage.Content = streamContent;
+            requestMessage.RequestUri = targetUri;
 
-            var requestMethod = context.Request.Method;
-            if (!HttpMethods.IsGet(requestMethod) &&
-                !HttpMethods.IsHead(requestMethod) &&
-                !HttpMethods.IsDelete(requestMethod) &&
-                !HttpMethods.IsTrace(requestMethod))
-            {
-                var streamContent = new StreamContent(context.Request.Body);
-                requestMessage.Content = streamContent;
-            }
-
+            _logger.LogDebug("Headers:");
             foreach (var header in context.Request.Headers)
             {
+                _logger.LogDebug("\t{0}: {1}", header.Key, string.Join(",", header.Value.ToArray()));
+                requestMessage.Content.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
                 requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
             }
 
-            requestMessage.RequestUri = targetUri;
             requestMessage.Headers.Host = targetUri.Host;
+
+            _logger.LogDebug("Method: {0}", context.Request.Method);
             requestMessage.Method = new HttpMethod(context.Request.Method);
 
             return requestMessage;
