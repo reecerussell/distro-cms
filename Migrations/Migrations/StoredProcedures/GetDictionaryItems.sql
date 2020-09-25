@@ -3,8 +3,8 @@
 AS
 	SELECT
 		Id,
-		[Key],
+		[DisplayName] AS [Name],
 		[Value]
 	FROM DictionaryItems
 	WHERE CultureName = @CultureName
-	ORDER BY [Key];
+	ORDER BY [DisplayName] ASC;
