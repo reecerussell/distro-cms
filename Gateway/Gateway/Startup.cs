@@ -15,6 +15,8 @@ namespace Gateway
             services.AddHttpClient();
             services.AddLogging(options => options.AddConsole());
             services.AddScoped<ReverseProxyMiddleware>();
+
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -22,6 +24,14 @@ namespace Gateway
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseCors(options =>
+                {
+                    options.AllowAnyHeader();
+                    options.AllowAnyMethod();
+                    options.AllowCredentials();
+                    options.WithOrigins("http://localhost:4200");
+                });
             }
 
             app.UseMiddleware<ReverseProxyMiddleware>();

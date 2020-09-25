@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Gateway.Middleware
 {
@@ -63,7 +64,6 @@ namespace Gateway.Middleware
             var requestMessage = new HttpRequestMessage();
 
             var requestMethod = context.Request.Method;
-
             if (!HttpMethods.IsGet(requestMethod) &&
                 !HttpMethods.IsHead(requestMethod) &&
                 !HttpMethods.IsDelete(requestMethod) &&
@@ -75,7 +75,7 @@ namespace Gateway.Middleware
 
             foreach (var header in context.Request.Headers)
             {
-                requestMessage.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+                requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
             }
 
             requestMessage.RequestUri = targetUri;
@@ -87,11 +87,9 @@ namespace Gateway.Middleware
 
         private Uri GetTargetUri(HttpContext context)
         {
-            var request = context.Request;
-
             Uri targetUri = null;
 
-            var path = request.Path.Value;
+            var path = context.Request.Path.Value;
             if (path.StartsWith("/api/dictionary", StringComparison.InvariantCultureIgnoreCase))
             {
                 _logger.LogInformation("Path {0} matches /api/dictionary", path);
@@ -99,8 +97,7 @@ namespace Gateway.Middleware
                 var baseUrl = Environment.GetEnvironmentVariable(Constants.DictionaryUrlVariable);
                 if (!string.IsNullOrEmpty(baseUrl))
                 {
-                    targetUri = new Uri(baseUrl + path.Replace("/dictionary", string.Empty));
-                    _logger.LogInformation("Destination: {0}", targetUri);
+                    targetUri = new Uri(baseUrl + path.Replace("/dictionary", string.Empty) + context.Request.QueryString.Value);
                 }
             }
             else if (path.StartsWith("/api/auth", StringComparison.InvariantCultureIgnoreCase))
@@ -110,8 +107,7 @@ namespace Gateway.Middleware
                 var baseUrl = Environment.GetEnvironmentVariable(Constants.UsersUrlVariable);
                 if (!string.IsNullOrEmpty(baseUrl))
                 {
-                    targetUri = new Uri(baseUrl + path.Replace("/auth", string.Empty));
-                    _logger.LogInformation("Destination: {0}", targetUri);
+                    targetUri = new Uri(baseUrl + path.Replace("/auth", string.Empty) + context.Request.QueryString.Value);
                 }
             }
             else if (path.StartsWith("/api/pages", StringComparison.InvariantCultureIgnoreCase))
@@ -121,10 +117,11 @@ namespace Gateway.Middleware
                 var baseUrl = Environment.GetEnvironmentVariable(Constants.PagesUrlVariable);
                 if (!string.IsNullOrEmpty(baseUrl))
                 {
-                    targetUri = new Uri(baseUrl + path);
-                    _logger.LogInformation("Destination: {0}", targetUri);
+                    targetUri = new Uri(baseUrl + path + context.Request.QueryString.Value);
                 }
             }
+
+            _logger.LogInformation("Destination: {0}", targetUri);
 
             return targetUri;
         }
