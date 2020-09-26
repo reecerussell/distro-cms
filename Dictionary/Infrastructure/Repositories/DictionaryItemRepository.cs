@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shared.Entity;
-using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Dictionary.Infrastructure.Repositories
@@ -16,10 +15,11 @@ namespace Dictionary.Infrastructure.Repositories
         {
         }
 
-        public Task<bool> ExistsAsync(string key, CultureInfo culture)
+        public Task<bool> ExistsAsync(string key, SupportedCulture culture)
         {
-            return Set.AnyAsync(x => x.Key == key &&
-                                           x.CultureName == culture.Name);
+            return Set
+                .Include(x => x.Culture)
+                .AnyAsync(x => x.Key == key && x.Culture == culture);
         }
     }
 }

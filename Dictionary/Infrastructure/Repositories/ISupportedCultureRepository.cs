@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace Dictionary.Infrastructure.Repositories
 {
-    public interface IDictionaryItemRepository : IRepository<DictionaryItem>
+    public interface ISupportedCultureRepository : IRepository<SupportedCulture>
     {
-        Task<bool> ExistsAsync(string key, SupportedCulture culture);
+        Task<SupportedCulture> FindByNameAsync(string name);
     }
 }
