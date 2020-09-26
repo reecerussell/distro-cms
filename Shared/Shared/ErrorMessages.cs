@@ -55,5 +55,11 @@
         public const string DictionaryValueTooLong = "DICTIONARY:VENUE_TOO_LONG";
         public const string DictionaryItemAlreadyExists = "DICTIONARY:ITEM_ALREADY_EXISTS";
         public const string DictionaryItemNotFound = "DICTIONARY:ITEM_NOT_FOUND";
+        public const string DictionaryUnsupportedCulture = "DICTIONARY:UNSUPPORTED_CULTURE";
+
+        // Supported Culture errors
+        public const string SupportedCultureNameRequired = "SUPPORTED_CULTURE:NAME_REQUIRED";
+        public const string SupportedCultureNameTooLong = "SUPPORTED_CULTURE:NAME_TOO_LONG";
+        public const string SupportedCultureUnrecognisedCulture = "SUPPORTED_CULTURE:UNRECOGNISED_CULTURE";
     }
 }
