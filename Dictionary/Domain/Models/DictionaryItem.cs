@@ -3,29 +3,30 @@ using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
 using System;
-using System.Globalization;
 
 namespace Dictionary.Domain.Models
 {
     public class DictionaryItem : Aggregate
     {
-        public string CultureName { get; private set; }
+        public string CultureId { get; private set; }
         public string Key { get; private set; }
         public string DisplayName { get; private set; }
         public string Value { get; private set; }
+
+        public SupportedCulture Culture { get; private set; }
 
         private DictionaryItem()
         {
         }
 
-        private DictionaryItem(CultureInfo culture, string key)
+        private DictionaryItem(SupportedCulture culture, string key)
         {
             if (culture == null)
             {
                 throw new ArgumentNullException(nameof(culture));
             }
 
-            CultureName = culture.Name;
+            Culture = culture;
             SetKey(key);
         }
 
@@ -80,7 +81,7 @@ namespace Dictionary.Domain.Models
             UpdateDisplayName(dto.DisplayName);
         }
 
-        public static DictionaryItem Create(CreateDictionaryItem dto, CultureInfo culture)
+        public static DictionaryItem Create(CreateDictionaryItem dto, SupportedCulture culture)
         {
             var item = new DictionaryItem(culture, dto.Key);
             item.UpdateValue(dto.Value);

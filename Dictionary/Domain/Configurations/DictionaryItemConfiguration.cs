@@ -17,12 +17,12 @@ namespace Dictionary.Domain.Configurations
                 .IsRequired();
 
             builder
-                .Property(x => x.CultureName)
-                .HasMaxLength(14)
+                .Property(x => x.CultureId)
+                .HasMaxLength(36)
                 .IsRequired();
 
             builder
-                .HasIndex(x => new {x.Key, x.CultureName});
+                .HasIndex(x => new {x.Key, x.CultureId});
 
             builder
                 .Property(x => x.DisplayName)
@@ -33,6 +33,11 @@ namespace Dictionary.Domain.Configurations
                 .Property(x => x.Value)
                 .HasMaxLength(255)
                 .IsRequired();
+
+            builder
+                .HasOne(x => x.Culture)
+                .WithMany()
+                .HasForeignKey(x => x.CultureId);
 
             base.Configure(builder);
         }
