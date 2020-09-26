@@ -19,6 +19,7 @@ namespace Dictionary.Infrastructure
                 .AddDbContext<DictionaryContext>(options =>
                     options.UseSqlServer(connectionString))
                 .AddScoped<DbContext>(p => p.GetRequiredService<DictionaryContext>())
+                .AddTransient<ISupportedCultureRepository, SupportedCultureRepository>()
                 .AddTransient<IDictionaryItemRepository, DictionaryItemRepository>()
                 .AddTransient<IDictionaryService, DictionaryService>()
                 .AddTransient<IDictionaryItemProvider, DictionaryItemProvider>();
