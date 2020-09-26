@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Shared.Exceptions;
 
 namespace Dictionary.Infrastructure.Providers
 {
@@ -36,7 +37,7 @@ namespace Dictionary.Infrastructure.Providers
             {
                 _logger.LogDebug("Could not find a dictionary item with id '{0}'", id);
 
-                return null;
+                throw new NotFoundException(ErrorMessages.DictionaryItemNotFound);
             }
 
             return item;
