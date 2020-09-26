@@ -9,6 +9,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200913155516_InitialCreation.cs" />
     <Compile Remove="Migrations\20200913155516_InitialCreation.Designer.cs" />
+    <Compile Remove="Migrations\20200926184133_SupportedCultures.cs" />
+    <Compile Remove="Migrations\20200926184133_SupportedCultures.Designer.cs" />
+    <Compile Remove="Migrations\20200926185007_SupportedCultures.cs" />
+    <Compile Remove="Migrations\20200926185007_SupportedCultures.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

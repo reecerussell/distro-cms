@@ -3,7 +3,7 @@
 AS
 	SELECT
 		Id,
-		CultureName,
+		CultureId,
 		[Key],
 		DisplayName,
 		[Value],

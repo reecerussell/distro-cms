@@ -2,9 +2,10 @@
 	@CultureName NVARCHAR(14)
 AS
 	SELECT
-		Id,
-		[DisplayName],
-		[Value]
-	FROM DictionaryItems
-	WHERE CultureName = @CultureName
+		i.Id,
+		i.[DisplayName],
+		i.[Value]
+	FROM DictionaryItems AS [i]
+	INNER JOIN SupportedCultures AS [c] ON c.Id = i.CultureId
+	WHERE c.[Name] = @CultureName
 	ORDER BY [DisplayName] ASC;

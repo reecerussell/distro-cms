@@ -2,7 +2,8 @@
 	@Key NVARCHAR(45),
 	@CultureName NVARCHAR(14)
 AS
-	SELECT [Value] 
-	FROM DictionaryItems 
-	WHERE [Key] = @Key
-		AND CultureName = @CultureName;
+	SELECT i.[Value] 
+	FROM DictionaryItems AS i
+	INNER JOIN SupportedCultures AS c ON c.id = i.CultureId
+	WHERE i.[Key] = @Key
+		AND c.[Name] = @CultureName;
