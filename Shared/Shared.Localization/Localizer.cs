@@ -74,7 +74,7 @@ namespace Shared.Localization
 
             foreach (var message in errorMessages)
             {
-                var pattern = Regex.Replace(message, "/({[0-9]+?})/g", "([0-9]+[^:])");
+                var pattern = Regex.Replace(message, "({[0-9]+?})", "(.*[^:])");
                 var match = Regex.Match(key, pattern);
                 if (!match.Success)
                 {
@@ -82,7 +82,16 @@ namespace Shared.Localization
                 }
 
                 localizedString = await GetStringAsync(message);
-                return string.Format(localizedString, match.Captures.Select(x => x.Value));
+                var captureArgs = match.Groups.Values
+                    .Skip(1)
+                    .SelectMany(x => x.Captures.Select(y => y.Value))
+                    .ToList();
+                if (captureArgs.Count < 1)
+                {
+                    return localizedString ?? key;
+                }
+
+                return string.Format(localizedString, captureArgs);
             }
 
             return key;
