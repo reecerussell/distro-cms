@@ -7,6 +7,7 @@ using Shared.Exceptions;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
+using Shared.Localization;
 
 namespace API.Controllers
 {
@@ -16,15 +17,18 @@ namespace API.Controllers
     {
         private readonly IDictionaryService _service;
         private readonly IDictionaryItemProvider _provider;
+        private readonly ILocalizer _localizer;
 
         public ItemController(
             IDictionaryService service,
             IDictionaryItemProvider provider,
+            ILocalizer localizer,
             ILogger<BaseController> logger) 
             : base(logger)
         {
             _service = service;
             _provider = provider;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -59,7 +63,7 @@ namespace API.Controllers
             {
                 Logger.LogDebug("Could not find dictionary item '{0}'", id);
 
-                return NotFound(e.Message);
+                return NotFound(await _localizer.GetErrorAsync(e.Message));
             }
             catch (Exception e)
             {
@@ -82,7 +86,7 @@ namespace API.Controllers
             {
                 Logger.LogDebug("A validation error occured while creating a dictionary item: {0}", e.Message);
 
-                return BadRequest(e.Message);
+                return BadRequest(await _localizer.GetErrorAsync(e.Message));
             }
             catch (Exception e)
             {
@@ -105,13 +109,13 @@ namespace API.Controllers
             {
                 Logger.LogDebug("Could not find dictionary item '{0}'", dto.Id);
 
-                return NotFound(e.Message);
+                return NotFound(await _localizer.GetErrorAsync(e.Message));
             }
             catch (ValidationException e)
             {
                 Logger.LogDebug("A validation error occured while updating a dictionary item: {0}", e.Message);
 
-                return BadRequest(e.Message);
+                return BadRequest(await _localizer.GetErrorAsync(e.Message));
             }
             catch (Exception e)
             {
@@ -134,7 +138,7 @@ namespace API.Controllers
             {
                 Logger.LogDebug("Could not find dictionary item '{0}'", id);
 
-                return NotFound(e.Message);
+                return NotFound(await _localizer.GetErrorAsync(e.Message));
             }
             catch (Exception e)
             {
