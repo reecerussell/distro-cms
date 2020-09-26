@@ -28,6 +28,8 @@ Dictionary/Infrastructure/obj/*
 
 Shared/Shared/bin/*
 Shared/Shared/obj/*
+Shared/Shared.Localization/bin/*
+Shared/Shared.Localization/obj/*
 Migrations/Migrations/bin/*
 Migrations/Migrations/obj/*
 Gateway/Gateway/bin/*
