@@ -12,6 +12,7 @@ namespace Dictionary.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new SupportedCultureConfiguration());
             modelBuilder.ApplyConfiguration(new DictionaryItemConfiguration());
 
             base.OnModelCreating(modelBuilder);
