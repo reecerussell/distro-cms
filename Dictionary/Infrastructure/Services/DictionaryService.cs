@@ -12,13 +12,16 @@ namespace Dictionary.Infrastructure.Services
     internal class DictionaryService : IDictionaryService
     {
         private readonly IDictionaryItemRepository _repository;
+        private readonly ISupportedCultureRepository _cultureRepository;
         private readonly ILogger<DictionaryService> _logger;
 
         public DictionaryService(
             IDictionaryItemRepository repository,
+            ISupportedCultureRepository cultureRepository,
             ILogger<DictionaryService> logger)
         {
             _repository = repository;
+            _cultureRepository = cultureRepository;
             _logger = logger;
         }
 
@@ -26,11 +29,17 @@ namespace Dictionary.Infrastructure.Services
         {
             _logger.LogDebug("Creating a new dictionary item...");
 
-            var item = DictionaryItem.Create(dto, culture);
-            if (await _repository.ExistsAsync(item.Key, culture))
+            var supportedCulture = await _cultureRepository.FindByNameAsync(culture.Name);
+            if (supportedCulture == null)
+            {
+                throw new ValidationException(ErrorMessages.DictionaryUnsupportedCulture);
+            }
+
+            var item = DictionaryItem.Create(dto, supportedCulture);
+            if (await _repository.ExistsAsync(item.Key, supportedCulture))
             {
                 _logger.LogDebug("Failed to create a dictionary item as one already exists with culture '{0}' and key '{1}'",
-                    item.CultureName, item.Key);
+                    culture.Name, item.Key);
 
                 throw new ValidationException(ErrorMessages.DictionaryItemAlreadyExists);
             }
