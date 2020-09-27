@@ -1,4 +1,5 @@
-﻿using Shared;
+﻿using Dictionary.Domain.Dtos;
+using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
 using System.Globalization;
@@ -37,6 +38,21 @@ namespace Dictionary.Domain.Models
             {
                 throw new ValidationException(ErrorMessages.SupportedCultureUnrecognisedCulture);
             }
+        }
+
+        public void SetAsDefault()
+        {
+            IsDefault = true;
+        }
+
+        public void SetAsNotDefault()
+        {
+            IsDefault = false;
+        }
+
+        public static SupportedCulture Create(CreateSupportedCultureDto dto)
+        {
+            return new SupportedCulture(dto.Name);
         }
     }
 }
