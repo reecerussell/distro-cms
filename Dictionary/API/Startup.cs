@@ -1,15 +1,12 @@
 using Dictionary.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shared.Extensions;
 using Shared.Localization.Extensions;
-using Shared.Middleware;
-using System.Globalization;
 using System.Text.Json;
 
 namespace API
@@ -48,12 +45,7 @@ namespace API
 
             app.UseRouting();
 
-            app.UseRequestLocalization(options =>
-            {
-                options.DefaultRequestCulture = new RequestCulture("en-GB");
-                options.SupportedCultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-                options.RequestCultureProviders.Insert(0, new HeaderRequestCultureProvider());
-            });
+            app.UseCustomRequestLocalization();
 
             app.UseEndpoints(endpoints =>
             {
