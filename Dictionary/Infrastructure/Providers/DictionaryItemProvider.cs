@@ -2,13 +2,13 @@
 using Dictionary.Domain.Dtos;
 using Microsoft.Extensions.Logging;
 using Shared;
+using Shared.Exceptions;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Shared.Exceptions;
 
 namespace Dictionary.Infrastructure.Providers
 {
