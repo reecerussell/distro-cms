@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Localization;
 using Shared.Middleware;
 using System.Globalization;
 
-namespace Shared.Localization.Extensions
+namespace Shared.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
