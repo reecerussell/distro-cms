@@ -21,6 +21,7 @@ namespace Dictionary.Infrastructure
                 .AddScoped<DbContext>(p => p.GetRequiredService<DictionaryContext>())
                 .AddTransient<ISupportedCultureRepository, SupportedCultureRepository>()
                 .AddTransient<ISupportedCultureService, SupportedCultureService>()
+                .AddTransient<ISupportedCultureProvider, SupportedCultureProvider>()
                 .AddTransient<IDictionaryItemRepository, DictionaryItemRepository>()
                 .AddTransient<IDictionaryService, DictionaryService>()
                 .AddTransient<IDictionaryItemProvider, DictionaryItemProvider>();
