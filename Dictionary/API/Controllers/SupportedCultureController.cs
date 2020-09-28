@@ -6,6 +6,7 @@ using Shared.Controllers;
 using Shared.Exceptions;
 using Shared.Localization;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -15,16 +16,19 @@ namespace API.Controllers
     public class SupportedCultureController : BaseController
     {
         private readonly ISupportedCultureService _service;
+        private readonly ISupportedCultureProvider _provider;
         private readonly ILocalizer _localizer;
         private readonly ILogger<SupportedCultureController> _logger;
 
         public SupportedCultureController(
             ISupportedCultureService service,
+            ISupportedCultureProvider provider,
             ILocalizer localizer,
             ILogger<SupportedCultureController> logger)
             : base(logger)
         {
             _service = service;
+            _provider = provider;
             _localizer = localizer;
         }
 
@@ -86,6 +90,21 @@ namespace API.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, "An error occured while deleting a supported culture.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
+        [HttpGet("dropdown")]
+        public async Task<IActionResult> Dropdown()
+        {
+            try
+            {
+                return Ok(await _provider.GetDropdownItemsAsync(CultureInfo.CurrentCulture));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An error occured while getting a culture dropdown options.");
 
                 return InternalServerError(e.Message);
             }
