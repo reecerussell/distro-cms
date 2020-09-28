@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shared.Extensions;
-using Shared.Localization.Extensions;
 using System.Text.Json;
 
 namespace API
@@ -18,7 +17,6 @@ namespace API
             // Custom services
             services.AddShared();
             services.AddMemoryCache();
-            services.AddLocalizer();
             services.AddInfrastructure();
 
             // Extensions
