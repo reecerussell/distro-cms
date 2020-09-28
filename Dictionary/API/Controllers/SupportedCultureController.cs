@@ -18,7 +18,6 @@ namespace API.Controllers
         private readonly ISupportedCultureService _service;
         private readonly ISupportedCultureProvider _provider;
         private readonly ILocalizer _localizer;
-        private readonly ILogger<SupportedCultureController> _logger;
 
         public SupportedCultureController(
             ISupportedCultureService service,
@@ -47,7 +46,7 @@ namespace API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error occured while creating a supported culture.");
+                Logger.LogError(e, "An error occured while creating a supported culture.");
 
                 return InternalServerError(e.Message);
             }
@@ -68,7 +67,7 @@ namespace API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error occured while setting a supported culture as default.");
+                Logger.LogError(e, "An error occured while setting a supported culture as default.");
 
                 return InternalServerError(e.Message);
             }
@@ -89,7 +88,7 @@ namespace API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error occured while deleting a supported culture.");
+                Logger.LogError(e, "An error occured while deleting a supported culture.");
 
                 return InternalServerError(e.Message);
             }
@@ -104,7 +103,7 @@ namespace API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error occured while getting a culture dropdown options.");
+                Logger.LogError(e, "An error occured while getting a culture dropdown options.");
 
                 return InternalServerError(e.Message);
             }

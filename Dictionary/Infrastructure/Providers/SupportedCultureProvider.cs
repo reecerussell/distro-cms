@@ -25,11 +25,8 @@ namespace Dictionary.Infrastructure.Providers
             var connectionString = await _connectionStringProvider.GetConnectionString();
             await using var connection = new SqlConnection(connectionString);
 
-            var parameters = new DynamicParameters();
-            parameters.Add("@CultureName", culture.Name);
-
-            return (await connection.QueryAsync<SupportedCultureDropdownItemDto>("GetCulturesForDropdown", parameters,
-                commandType: CommandType.StoredProcedure)).ToList();
+            return (await connection.QueryAsync<SupportedCultureDropdownItemDto>(
+                "GetCulturesForDropdown", commandType: CommandType.StoredProcedure)).ToList();
         }
     }
 }
