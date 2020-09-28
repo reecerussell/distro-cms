@@ -1,4 +1,4 @@
-<ng-template [ngIf]="itemListState$">
+<ng-template [ngIf]="itemListState$ | async">
     <p>
         <label>Culture:</label>
         <br />
@@ -8,8 +8,12 @@
             (change)="onCultureChange()"
             [(ngModel)]="culture"
         >
-            <option value="en-GB">English (UK)</option>
-            <option value="pl-PL">Polish</option>
+            <option
+                *ngFor="let culture of (itemListState$ | async).cultures"
+                value="{{ culture.name }}"
+            >
+                {{ culture.displayName }}
+            </option>
         </select>
     </p>
 

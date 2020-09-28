@@ -1,7 +1,7 @@
-import { ItemListState } from "./dictionary/item.state";
+import { DictionaryState } from "./dictionary/dictionary.state";
 import { RoleListState } from "./roles/role.state";
 
 export default interface AppState {
     roles: RoleListState;
-    dictionary: ItemListState;
+    dictionary: DictionaryState;
 }

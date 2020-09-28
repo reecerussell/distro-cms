@@ -9,7 +9,7 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import DictionaryItem from "src/app/models/dictionary-item.model";
 import AppState from "src/app/store/app.state";
-import { ItemListState } from "src/app/store/dictionary/item.state";
+import { DictionaryState } from "src/app/store/dictionary/dictionary.state";
 
 @Component({
     selector: "app-create-item",
@@ -17,7 +17,7 @@ import { ItemListState } from "src/app/store/dictionary/item.state";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateItemComponent implements OnInit {
-    itemListState$: Observable<ItemListState>;
+    itemListState$: Observable<DictionaryState>;
     count: number;
 
     key: string = "";

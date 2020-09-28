@@ -1,9 +1,29 @@
-import DictionaryItem from "../../models/dictionary-item.model";
+import { DictionaryItem, SupportedCulture } from "src/app/models";
 import { Action } from "@ngrx/store";
 
 export const GET_ITEMS = "[Dictionary] GET ITEMS";
 export const GET_ITEMS_SUCCESS = "[Dictionary] GET ITEMS SUCCESS";
 export const GET_ITEMS_ERROR = "[Dictionary] GET ITEMS ERROR";
+export const CREATE_ITEM = "[Dictionary] CREATE ITEM";
+export const CREATE_ITEM_SUCCESS = "[Dictionary] CREATE ITEM SUCCESS";
+export const CREATE_ITEM_ERROR = "[Dictionary] CREATE ITEM ERROR";
+export const UPDATE_ITEM = "[Dictionary] UPDATE ITEM";
+export const UPDATE_ITEM_SUCCESS = "[Dictionary] UPDATE ITEM SUCCESS";
+export const UPDATE_ITEM_ERROR = "[Dictionary] UPDATE ITEM ERROR";
+export const DELETE_ITEM = "[Dictionary] DELETE ITEM";
+export const DELETE_ITEM_SUCCESS = "[Dictionary] DELETE ITEM SUCCESS";
+export const DELETE_ITEM_ERROR = "[Dictionary] DELETE ITEM ERROR";
+export const SET_EDITING = "[Dictionary] SET EDITING";
+export const SET_CULTURE = "[Dictionary] SET CULTURE";
+export const GET_DROPDOWN_ITEMS = "[Supported Cultures] GET DROPDOWN ITEMS";
+export const GET_DROPDOWN_ITEMS_SUCCESS =
+    "[Supported Cultures] GET DROPDOWN ITEMS SUCCESS";
+export const GET_DROPDOWN_ITEMS_ERROR =
+    "[Supported Cultures] GET DROPDOWN ITEMS ERROR";
+
+/*
+    GET DICTIONARY ITEMS
+*/
 
 export class GetItems implements Action {
     readonly type = GET_ITEMS;
@@ -23,9 +43,9 @@ export class GetItemsError implements Action {
     constructor(public error: string) {}
 }
 
-export const CREATE_ITEM = "[Dictionary] CREATE ITEM";
-export const CREATE_ITEM_SUCCESS = "[Dictionary] CREATE ITEM SUCCESS";
-export const CREATE_ITEM_ERROR = "[Dictionary] CREATE ITEM ERROR";
+/*
+    CREATE DICTIONARY ITEM
+*/
 
 export class CreateItem implements Action {
     readonly type = CREATE_ITEM;
@@ -45,9 +65,9 @@ export class CreateItemError implements Action {
     constructor(public error: string) {}
 }
 
-export const UPDATE_ITEM = "[Dictionary] UPDATE ITEM";
-export const UPDATE_ITEM_SUCCESS = "[Dictionary] UPDATE ITEM SUCCESS";
-export const UPDATE_ITEM_ERROR = "[Dictionary] UPDATE ITEM ERROR";
+/*
+    UPDATE DICTIONARY ITEM
+*/
 
 export class UpdateItem implements Action {
     readonly type = UPDATE_ITEM;
@@ -67,9 +87,9 @@ export class UpdateItemError implements Action {
     constructor(public error: string) {}
 }
 
-export const DELETE_ITEM = "[Dictionary] DELETE ITEM";
-export const DELETE_ITEM_SUCCESS = "[Dictionary] DELETE ITEM SUCCESS";
-export const DELETE_ITEM_ERROR = "[Dictionary] DELETE ITEM ERROR";
+/*
+    DELETE DICTIONARY ITEM
+*/
 
 export class DeleteItem implements Action {
     readonly type = DELETE_ITEM;
@@ -89,7 +109,9 @@ export class DeleteItemError implements Action {
     constructor(public error: string) {}
 }
 
-export const SET_EDITING = "[Dictionary] SET EDITING";
+/*
+    SET DICTIONARY ITEM AS EDITING
+*/
 
 export class SetEditing implements Action {
     readonly type = SET_EDITING;
@@ -97,12 +119,34 @@ export class SetEditing implements Action {
     constructor(public item: DictionaryItem, public editing: boolean) {}
 }
 
-export const SET_CULTURE = "[Dictionary] SET CULTURE";
+/*
+    SET UI CULTURE
+*/
 
 export class SetCulture implements Action {
     readonly type = SET_CULTURE;
 
     constructor(public culture: string) {}
+}
+
+/*
+    GET CULTURE DROPDOWN ITEMS
+*/
+
+export class GetDropdownItems implements Action {
+    readonly type = GET_DROPDOWN_ITEMS;
+}
+
+export class GetDropdownItemsSuccess implements Action {
+    readonly type = GET_DROPDOWN_ITEMS_SUCCESS;
+
+    constructor(public items: SupportedCulture[]) {}
+}
+
+export class GetDropdownItemsError implements Action {
+    readonly type = GET_DROPDOWN_ITEMS_ERROR;
+
+    constructor(public error: string) {}
 }
 
 export type All =
@@ -119,4 +163,7 @@ export type All =
     | DeleteItemSuccess
     | DeleteItemError
     | SetEditing
-    | SetCulture;
+    | SetCulture
+    | GetDropdownItems
+    | GetDropdownItemsSuccess
+    | GetDropdownItemsError;
