@@ -6,7 +6,6 @@ using Shared.Controllers;
 using Shared.Exceptions;
 using Shared.Localization;
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -99,7 +98,22 @@ namespace API.Controllers
         {
             try
             {
-                return Ok(await _provider.GetDropdownItemsAsync(CultureInfo.CurrentCulture));
+                return Ok(await _provider.GetDropdownItemsAsync());
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while getting a culture dropdown options.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
+        [HttpGet("dropdown/available")]
+        public async Task<IActionResult> DropdownAvailable()
+        {
+            try
+            {
+                return Ok(await _provider.GetAvailableDropdownItemsAsync());
             }
             catch (Exception e)
             {

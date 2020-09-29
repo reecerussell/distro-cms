@@ -20,13 +20,23 @@ namespace Dictionary.Infrastructure.Providers
             _connectionStringProvider = connectionStringProvider;
         }
 
-        public async Task<IReadOnlyList<SupportedCultureDropdownItemDto>> GetDropdownItemsAsync(CultureInfo culture)
+        public async Task<IReadOnlyList<SupportedCultureDropdownItemDto>> GetDropdownItemsAsync()
         {
             var connectionString = await _connectionStringProvider.GetConnectionString();
             await using var connection = new SqlConnection(connectionString);
 
             return (await connection.QueryAsync<SupportedCultureDropdownItemDto>(
                 "GetCulturesForDropdown", commandType: CommandType.StoredProcedure)).ToList();
+        }
+
+        public async Task<IReadOnlyList<SupportedCultureDropdownItemDto>> GetAvailableDropdownItemsAsync()
+        {
+            var supportedCultures = (await GetDropdownItemsAsync()).Select(x => x.Name).ToList();
+
+            return CultureInfo.GetCultures(CultureTypes.AllCultures)
+                .Where(x => !string.IsNullOrEmpty(x.Name) && !supportedCultures.Contains(x.Name))
+                .Select(x => new SupportedCultureDropdownItemDto{Name = x.Name, DisplayName = x.DisplayName})
+                .ToList();
         }
     }
 }
