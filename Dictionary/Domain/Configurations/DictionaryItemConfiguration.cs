@@ -36,7 +36,7 @@ namespace Dictionary.Domain.Configurations
 
             builder
                 .HasOne(x => x.Culture)
-                .WithMany()
+                .WithMany(x => x.DictionaryItems)
                 .HasForeignKey(x => x.CultureId);
 
             base.Configure(builder);

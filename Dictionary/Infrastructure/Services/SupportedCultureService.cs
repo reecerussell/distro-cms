@@ -11,21 +11,35 @@ namespace Dictionary.Infrastructure.Services
     internal class SupportedCultureService : ISupportedCultureService
     {
         private readonly ISupportedCultureRepository _repository;
+        private readonly IDictionaryItemRepository _dictionaryItemRepository;
         private readonly ILogger<SupportedCultureService> _logger;
 
         public SupportedCultureService(
             ISupportedCultureRepository repository,
+            IDictionaryItemRepository dictionaryItemRepository,
             ILogger<SupportedCultureService> logger)
         {
             _repository = repository;
+            _dictionaryItemRepository = dictionaryItemRepository;
             _logger = logger;
         }
 
         public async Task<string> CreateAsync(CreateSupportedCultureDto dto)
         {
-            _logger.LogDebug("Creating a new supported culture.");
+            SupportedCulture supportedCulture;
+            if (string.IsNullOrEmpty(dto.CloneCultureId))
+            {
+                _logger.LogDebug("Creating a new supported culture.");
 
-            var supportedCulture = SupportedCulture.Create(dto);
+                supportedCulture = SupportedCulture.Create(dto);
+            }
+            else
+            {
+                _logger.LogDebug("Creating a new supported culture, based on culture '{0}'", dto.CloneCultureId);
+
+                var itemsToClone = await _dictionaryItemRepository.GetItemsToCloneByCultureAsync(dto.CloneCultureId);
+                supportedCulture = SupportedCulture.Create(dto, itemsToClone);
+            }
             
             if (await _repository.ExistsWithNameAsync(supportedCulture.Name))
             {
