@@ -39,6 +39,26 @@ const mergeItems = (existingItems: ItemState[], newItem: ItemState) => {
         .sort(sortFunc);
 };
 
+const mergeCultures = (
+    existingCultures: CultureState[],
+    newCulture: CultureState
+) => {
+    const sortFunc = (a, b) => {
+        if (a.displayName < b.displayName) {
+            return -1;
+        }
+        if (a.displayName > b.displayName) {
+            return 1;
+        }
+        return 0;
+    };
+
+    return existingCultures
+        .filter((x) => x.id !== newCulture.id)
+        .concat(newCulture)
+        .sort(sortFunc);
+};
+
 export const DictionaryReducer = (state = defaultState, action: Action) => {
     switch (action.type) {
         /*
@@ -173,5 +193,26 @@ export const DictionaryReducer = (state = defaultState, action: Action) => {
                 loading: false,
                 error: action.error,
             };
+
+        /*
+            CREATE SUPPORTED CULTURE
+        */
+        case DictionaryActions.CREATE_CULTURE:
+            return {
+                ...state,
+                loading: true,
+            };
+        case DictionaryActions.CREATE_CULTURE_SUCCESS:
+            return {
+                ...state,
+                cultures: mergeCultures(state.cultures, {
+                    ...initializeCultureState(),
+                    ...action.culture,
+                }),
+                loading: false,
+                error: null,
+            };
+        case DictionaryActions.CREATE_CULTURE_ERROR:
+            return { ...state, loading: false, error: action.error };
     }
 };

@@ -2,17 +2,19 @@ import { Injectable } from "@angular/core";
 import { Action } from "@ngrx/store";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Observable, of } from "rxjs";
-import { catchError, map, mergeMap } from "rxjs/operators";
+import { catchError, map, mergeMap, switchMap, tap } from "rxjs/operators";
 import { DictionaryService, SupportedCultureService } from "src/app/api";
 
 import * as DictionaryActions from "./dictionary.action";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class DictionaryEffects {
     constructor(
         private actions$: Actions,
         private dictionary: DictionaryService,
-        private cultures: SupportedCultureService
+        private cultures: SupportedCultureService,
+        private router: Router
     ) {}
 
     GetItems$: Observable<Action> = createEffect(() =>
@@ -99,7 +101,7 @@ export class DictionaryEffects {
         this.actions$.pipe(
             ofType(DictionaryActions.GET_DROPDOWN_ITEMS),
             mergeMap((action: DictionaryActions.GetDropdownItems) =>
-                this.cultures.GetDropdownItems$().pipe(
+                this.cultures.GetDropdownItems$(action.forceRefresh).pipe(
                     map(
                         (data) =>
                             new DictionaryActions.GetDropdownItemsSuccess(data)
@@ -110,6 +112,28 @@ export class DictionaryEffects {
                                 error.message
                             )
                         )
+                    )
+                )
+            )
+        )
+    );
+
+    CreateCulture$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(DictionaryActions.CREATE_CULTURE),
+            switchMap((action: DictionaryActions.CreateCulture) =>
+                this.cultures.Create$(action.culture).pipe(
+                    switchMap((data) => {
+                        this.router.navigateByUrl("/dictionary");
+
+                        return [
+                            new DictionaryActions.CreateCultureSuccess(data),
+                            new DictionaryActions.GetDropdownItems(true),
+                            new DictionaryActions.SetCulture(data.name),
+                        ];
+                    }),
+                    catchError((error: Error) =>
+                        of(new DictionaryActions.CreateItemError(error.message))
                     )
                 )
             )

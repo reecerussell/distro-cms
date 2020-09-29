@@ -1,6 +1,9 @@
 <ng-template [ngIf]="itemListState$ | async">
     <p>
-        <label>Culture:</label>
+        <label
+            >Culture (<a routerLink="/dictionary/cultures/create">new culture</a
+            >):</label
+        >
         <br />
         <select
             name="culture"

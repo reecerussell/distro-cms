@@ -1,0 +1,15 @@
+<h1>Cultures</h1>
+<h4>Create</h4>
+<hr />
+
+<ng-template [ngIf]="dictionaryState$">
+    <ng-template [ngIf]="(dictionaryState$ | async)?.loading">
+        <p>Loading...</p>
+    </ng-template>
+
+    <ng-template [ngIf]="(dictionaryState$ | async)?.error">
+        <p>{{ (dictionaryState$ | async)?.error }}</p>
+    </ng-template>
+
+    <app-create-culture (created)="onCreate($event)"></app-create-culture>
+</ng-template>

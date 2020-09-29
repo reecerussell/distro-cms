@@ -1,0 +1,23 @@
+<form (submit)="create()">
+    <p>
+        <label>Culture</label>
+        <br />
+        <select name="culture" [(ngModel)]="culture" [disabled]="loading">
+            <ng-template [ngIf]="loading">
+                <option value="">Loading...</option>
+            </ng-template>
+            <ng-template [ngIf]="!loading">
+                <option
+                    *ngFor="let culture of cultures"
+                    value="{{ culture.name }}"
+                >
+                    {{ culture.displayName }}
+                </option>
+            </ng-template>
+        </select>
+    </p>
+
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>
