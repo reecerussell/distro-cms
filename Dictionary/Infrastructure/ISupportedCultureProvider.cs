@@ -6,6 +6,7 @@ namespace Dictionary.Infrastructure
 {
     public interface ISupportedCultureProvider
     {
+        Task<SupportedCultureDto> GetAsync(string id);
         Task<IReadOnlyList<SupportedCultureDropdownItemDto>> GetDropdownItemsAsync();
         Task<IReadOnlyList<SupportedCultureDropdownItemDto>> GetAvailableDropdownItemsAsync();
     }

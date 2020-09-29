@@ -30,6 +30,27 @@ namespace API.Controllers
             _localizer = localizer;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            try
+            {
+                var culture = await _provider.GetAsync(id);
+
+                return Ok(culture);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(await _localizer.GetErrorAsync(e.Message));
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while getting a supported culture.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateSupportedCultureDto dto)
         {
@@ -37,7 +58,7 @@ namespace API.Controllers
             {
                 var supportedCultureId = await _service.CreateAsync(dto);
 
-                return Ok(supportedCultureId);
+                return RedirectToAction(nameof(Get), new {id = supportedCultureId});
             }
             catch (ValidationException e)
             {
