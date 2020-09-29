@@ -8,8 +8,30 @@
             </ng-template>
             <ng-template [ngIf]="!loading">
                 <option
-                    *ngFor="let culture of cultures"
+                    *ngFor="let culture of availableCultures"
                     value="{{ culture.name }}"
+                >
+                    {{ culture.displayName }}
+                </option>
+            </ng-template>
+        </select>
+    </p>
+
+    <p>
+        <label>Clone Culture (optional):</label>
+        <br />
+        <select
+            name="cloneCulture"
+            [(ngModel)]="cloneCulture"
+            [disabled]="loading"
+        >
+            <ng-template [ngIf]="loading">
+                <option value="">Loading...</option>
+            </ng-template>
+            <ng-template [ngIf]="!loading">
+                <option
+                    *ngFor="let culture of supportedCultures"
+                    value="{{ culture.id }}"
                 >
                     {{ culture.displayName }}
                 </option>

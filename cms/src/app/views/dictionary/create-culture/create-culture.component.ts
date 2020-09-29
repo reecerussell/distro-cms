@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
-import { SupportedCulture } from "src/app/models";
+import { SupportedCultureCreate } from "src/app/models";
 import * as DictionaryActions from "src/app/store/dictionary/dictionary.action";
 import AppState from "src/app/store/app.state";
 import { Observable } from "rxjs";
@@ -20,7 +20,7 @@ export class CreateCultureComponent implements OnInit {
         this.dictionaryState$ = this.store.select((state) => state.dictionary);
     }
 
-    onCreate(culture: SupportedCulture): void {
+    onCreate(culture: SupportedCultureCreate): void {
         this.store.dispatch(new DictionaryActions.CreateCulture(culture));
     }
 }

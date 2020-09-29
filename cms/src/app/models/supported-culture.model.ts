@@ -23,3 +23,7 @@ export default class SupportedCulture {
         };
     }
 }
+
+export class SupportedCultureCreate {
+    constructor(public name: string, private cloneCultureId?: string) {}
+}

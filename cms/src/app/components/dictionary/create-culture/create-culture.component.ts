@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { SupportedCultureService } from "src/app/api";
-import { SupportedCulture } from "src/app/models";
+import { SupportedCulture, SupportedCultureCreate } from "src/app/models";
 
 @Component({
     selector: "app-create-culture",
@@ -8,12 +8,14 @@ import { SupportedCulture } from "src/app/models";
 })
 export class CreateCultureComponent implements OnInit {
     culture: string;
+    cloneCulture: string;
     loading: boolean = false;
 
-    cultures: SupportedCulture[];
+    availableCultures: SupportedCulture[];
+    supportedCultures: SupportedCulture[];
 
     @Output()
-    created = new EventEmitter<SupportedCulture>();
+    created = new EventEmitter<SupportedCultureCreate>();
 
     constructor(private api: SupportedCultureService) {}
 
@@ -28,14 +30,19 @@ export class CreateCultureComponent implements OnInit {
         this.api.GetAvailableDropdownItems$.subscribe((cultures) => {
             this.loading = false;
             this.culture = null;
-            this.cultures = cultures;
+            this.availableCultures = cultures;
+        });
+
+        this.api.GetDropdownItems$(true).subscribe((cultures) => {
+            this.loading = false;
+            this.cloneCulture = null;
+            this.supportedCultures = cultures;
         });
     }
 
     create(): void {
-        const culture = SupportedCulture.generateMockItem();
-        culture.name = this.culture;
-
-        this.created.emit(culture);
+        this.created.emit(
+            new SupportedCultureCreate(this.culture, this.cloneCulture)
+        );
     }
 }

@@ -4,7 +4,9 @@ import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from "../../environments/environment";
 import { ResponseBody } from "./responses";
-import SupportedCulture from "../models/supported-culture.model";
+import SupportedCulture, {
+    SupportedCultureCreate,
+} from "../models/supported-culture.model";
 
 @Injectable({
     providedIn: "root",
@@ -75,7 +77,7 @@ export class SupportedCultureService {
             })
         );
 
-    Create$(culture: SupportedCulture): Observable<SupportedCulture> {
+    Create$(culture: SupportedCultureCreate): Observable<SupportedCulture> {
         const options = {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",

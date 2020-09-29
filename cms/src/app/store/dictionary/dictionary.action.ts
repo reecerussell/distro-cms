@@ -1,4 +1,8 @@
-import { DictionaryItem, SupportedCulture } from "src/app/models";
+import {
+    DictionaryItem,
+    SupportedCulture,
+    SupportedCultureCreate,
+} from "src/app/models";
 import { Action } from "@ngrx/store";
 
 export const GET_ITEMS = "[Dictionary] GET ITEMS";
@@ -162,7 +166,7 @@ export class GetDropdownItemsError implements Action {
 export class CreateCulture implements Action {
     readonly type = CREATE_CULTURE;
 
-    constructor(public culture: SupportedCulture) {}
+    constructor(public culture: SupportedCultureCreate) {}
 }
 
 export class CreateCultureSuccess implements Action {
