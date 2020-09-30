@@ -214,5 +214,24 @@ export const DictionaryReducer = (state = defaultState, action: Action) => {
             };
         case DictionaryActions.CREATE_CULTURE_ERROR:
             return { ...state, loading: false, error: action.error };
+
+        /*
+            GET SUPPORTED CULTURES
+        */
+        case DictionaryActions.GET_CULTURES:
+            return { ...state, loading: true };
+        case DictionaryActions.GET_CULTURES_SUCCESS:
+            return {
+                ...state,
+                cultures: action.cultures,
+                loading: false,
+                error: null,
+            };
+        case DictionaryActions.GET_CULTURES_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
     }
 };

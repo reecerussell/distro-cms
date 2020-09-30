@@ -139,4 +139,24 @@ export class DictionaryEffects {
             )
         )
     );
+
+    GetCultures$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(DictionaryActions.GET_CULTURES),
+            mergeMap((action: DictionaryActions.GetCultures) =>
+                this.cultures.GetList$(action.term).pipe(
+                    map(
+                        (data) => new DictionaryActions.GetCulturesSuccess(data)
+                    ),
+                    catchError((error: Error) =>
+                        of(
+                            new DictionaryActions.GetCulturesError(
+                                error.message
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    );
 }

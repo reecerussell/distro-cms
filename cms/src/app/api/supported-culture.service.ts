@@ -101,4 +101,19 @@ export class SupportedCultureService {
                 })
             );
     }
+
+    GetList$(term: string): Observable<SupportedCulture[]> {
+        return this.http
+            .get(environment.api_base_url + "dictionary/cultures?term=" + term)
+            .pipe(
+                map((responseBody: ResponseBody) => {
+                    const { statusCode, data, error } = responseBody;
+                    if (statusCode === 200) {
+                        return data as SupportedCulture[];
+                    }
+
+                    throw new Error(error);
+                })
+            );
+    }
 }

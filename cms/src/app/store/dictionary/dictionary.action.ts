@@ -28,6 +28,9 @@ export const CREATE_CULTURE = "[Supported Cultures] CREATE CULTURE";
 export const CREATE_CULTURE_SUCCESS =
     "[Supported Cultures] CREATE CULTURE SUCCESS";
 export const CREATE_CULTURE_ERROR = "[Supported Cultures] CREATE CULTURE ERROR";
+export const GET_CULTURES = "[Supported Cultures] GET CULTURES";
+export const GET_CULTURES_SUCCESS = "[Supported Cultures] GET CULTURES SUCCESS";
+export const GET_CULTURES_ERROR = "[Supported Cultures] GET CULTURES ERROR";
 
 /*
     GET DICTIONARY ITEMS
@@ -181,6 +184,28 @@ export class CreateCultureError implements Action {
     constructor(public error: string) {}
 }
 
+/*
+    GET SUPPORTED CULTURES
+*/
+
+export class GetCultures implements Action {
+    readonly type = GET_CULTURES;
+
+    constructor(public term: string) {}
+}
+
+export class GetCulturesSuccess implements Action {
+    readonly type = GET_CULTURES_SUCCESS;
+
+    constructor(public cultures: SupportedCulture[]) {}
+}
+
+export class GetCulturesError implements Action {
+    readonly type = GET_CULTURES_ERROR;
+
+    constructor(public error: string) {}
+}
+
 export type All =
     | GetItems
     | GetItemsSuccess
@@ -201,4 +226,7 @@ export type All =
     | GetDropdownItemsError
     | CreateCulture
     | CreateCultureSuccess
-    | CreateCultureError;
+    | CreateCultureError
+    | GetCultures
+    | GetCulturesSuccess
+    | GetCulturesError;
