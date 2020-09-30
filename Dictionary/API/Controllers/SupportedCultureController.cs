@@ -51,6 +51,23 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetList(string term = null)
+        {
+            try
+            {
+                var culture = await _provider.GetListAsync(term);
+
+                return Ok(culture);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while getting a list of supported cultures.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateSupportedCultureDto dto)
         {
