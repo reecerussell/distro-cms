@@ -116,4 +116,59 @@ export class SupportedCultureService {
                 })
             );
     }
+
+    Get$(id: string): Observable<SupportedCulture> {
+        return this.http
+            .get(environment.api_base_url + "dictionary/cultures/" + id)
+            .pipe(
+                map((responseBody: ResponseBody) => {
+                    const { statusCode, data, error } = responseBody;
+                    if (statusCode === 200) {
+                        return data as SupportedCulture;
+                    }
+
+                    throw new Error(error);
+                })
+            );
+    }
+
+    Update$(culture: SupportedCultureCreate): Observable<SupportedCulture> {
+        const options = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            }),
+        };
+
+        return this.http
+            .put(
+                environment.api_base_url + "dictionary/cultures",
+                JSON.stringify(culture),
+                options
+            )
+            .pipe(
+                map((response: ResponseBody) => {
+                    const { statusCode, data, error } = response;
+                    if (statusCode === 200) {
+                        return data as SupportedCulture;
+                    }
+
+                    throw new Error(error);
+                })
+            );
+    }
+
+    Delete$(id: string): Observable<any> {
+        return this.http
+            .delete(environment.api_base_url + "dictionary/cultures/" + id)
+            .pipe(
+                map((responseBody: ResponseBody) => {
+                    const { statusCode, data, error } = responseBody;
+                    if (statusCode === 200) {
+                        return data;
+                    }
+
+                    throw new Error(error);
+                })
+            );
+    }
 }

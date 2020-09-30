@@ -38,7 +38,11 @@
                 >
                     <td>{{ culture.displayName }}</td>
                     <td>{{ culture.name }}</td>
-                    <td><a>Edit</a></td>
+                    <td>
+                        <a routerLink="/dictionary/cultures/{{ culture.id }}"
+                            >Edit</a
+                        >
+                    </td>
                 </tr>
             </ng-template>
         </tbody>

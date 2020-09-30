@@ -4,6 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { ListComponent } from "./list/list.component";
 import { CreateCultureComponent } from "./create-culture/create-culture.component";
 import { CultureListComponent } from "./culture-list/culture-list.component";
+import { CultureEditComponent } from "./culture-edit/culture-edit.component";
 
 const dictionaryRoutes: Routes = [
     {
@@ -23,6 +24,10 @@ const dictionaryRoutes: Routes = [
                     {
                         path: "create",
                         component: CreateCultureComponent,
+                    },
+                    {
+                        path: ":id",
+                        component: CultureEditComponent,
                     },
                 ],
             },

@@ -233,5 +233,68 @@ export const DictionaryReducer = (state = defaultState, action: Action) => {
                 loading: false,
                 error: action.error,
             };
+
+        /*
+            GET SUPPORTED CULTURE
+        */
+        case DictionaryActions.GET_CULTURE:
+            return { ...state, loading: true };
+        case DictionaryActions.GET_CULTURE_SUCCESS:
+            return {
+                ...state,
+                cultures: mergeCultures(state.cultures, {
+                    ...initializeCultureState(),
+                    ...action.culture,
+                }),
+                loading: false,
+                error: null,
+            };
+        case DictionaryActions.GET_CULTURE_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
+
+        /*
+            UPDATE SUPPORTED CULTURE
+        */
+        case DictionaryActions.UPDATE_CULTURE:
+            return { ...state, loading: true };
+        case DictionaryActions.UPDATE_CULTURE_SUCCESS:
+            return {
+                ...state,
+                cultures: mergeCultures(state.cultures, {
+                    ...initializeCultureState(),
+                    ...action.culture,
+                }),
+                loading: false,
+                error: null,
+            };
+        case DictionaryActions.UPDATE_CULTURE_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
+
+        /*
+            DELETE SUPPORTED CULTURE
+        */
+        case DictionaryActions.DELETE_CULTURE:
+            return { ...state, loading: true };
+        case DictionaryActions.DELETE_CULTURE_SUCCESS:
+            return {
+                ...state,
+                cultures: state.cultures.filter((x) => x.id !== action.id),
+                loading: false,
+                error: null,
+            };
+        case DictionaryActions.DELETE_CULTURE_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
     }
 };

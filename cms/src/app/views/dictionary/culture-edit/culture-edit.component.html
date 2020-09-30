@@ -1,0 +1,40 @@
+<h1>Cultures</h1>
+
+<ng-template [ngIf]="dictionaryState$">
+    <ng-template [ngIf]="(dictionaryState$ | async).loading">
+        <p>Loading...</p>
+    </ng-template>
+    <ng-template [ngIf]="!(dictionaryState$ | async).loading">
+        <h4>
+            {{ culture.name }}
+        </h4>
+    </ng-template>
+
+    <hr />
+
+    <p><a routerLink="/dictionary/cultures">Culture list</a></p>
+
+    <p>
+        <b>Date Created:</b> {{ culture.dateCreated | date }}<br />
+        <b>Date Updated:</b> {{ culture.dateUpdated | date }}
+    </p>
+
+    <form (submit)="save()">
+        <p>
+            <label>Display Name</label>
+            <br />
+            <input
+                type="text"
+                name="displayName"
+                [(ngModel)]="culture.displayName"
+                maxlength="45"
+                required
+            />
+        </p>
+
+        <p>
+            <button type="submit">Save</button>
+            <button type="button" (click)="delete()">Delete</button>
+        </p>
+    </form>
+</ng-template>

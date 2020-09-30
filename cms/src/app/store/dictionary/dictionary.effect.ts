@@ -159,4 +159,65 @@ export class DictionaryEffects {
             )
         )
     );
+
+    GetCulture$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(DictionaryActions.GET_CULTURE),
+            mergeMap((action: DictionaryActions.GetCulture) =>
+                this.cultures.Get$(action.id).pipe(
+                    map(
+                        (data) => new DictionaryActions.GetCultureSuccess(data)
+                    ),
+                    catchError((error: Error) =>
+                        of(new DictionaryActions.GetCultureError(error.message))
+                    )
+                )
+            )
+        )
+    );
+
+    Update$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(DictionaryActions.UPDATE_CULTURE),
+            mergeMap((action: DictionaryActions.UpdateCulture) =>
+                this.cultures.Update$(action.culture).pipe(
+                    map(
+                        (data) =>
+                            new DictionaryActions.UpdateCultureSuccess(data)
+                    ),
+                    catchError((error: Error) =>
+                        of(
+                            new DictionaryActions.UpdateCultureError(
+                                error.message
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    );
+
+    Delete$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(DictionaryActions.DELETE_CULTURE),
+            mergeMap((action: DictionaryActions.DeleteCulture) =>
+                this.cultures.Delete$(action.id).pipe(
+                    map((data) => {
+                        this.router.navigateByUrl("/dictionary/cultures");
+
+                        return new DictionaryActions.DeleteCultureSuccess(
+                            action.id
+                        );
+                    }),
+                    catchError((error: Error) =>
+                        of(
+                            new DictionaryActions.DeleteCultureError(
+                                error.message
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    );
 }

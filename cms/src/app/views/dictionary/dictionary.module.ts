@@ -13,6 +13,7 @@ import { CultureListComponent } from "../../components/dictionary/culture-list/c
 import { ListComponent } from "./list/list.component";
 import { CreateCultureComponent as CreateCultureView } from "./create-culture/create-culture.component";
 import { CultureListComponent as CultureListView } from "./culture-list/culture-list.component";
+import { CultureEditComponent } from "./culture-edit/culture-edit.component";
 
 @NgModule({
     imports: [CommonModule, FormsModule, DictionaryRoutingModule],
@@ -24,6 +25,7 @@ import { CultureListComponent as CultureListView } from "./culture-list/culture-
         CreateCultureView,
         CultureListComponent,
         CultureListView,
+        CultureEditComponent,
     ],
 })
 export class DictionaryModule {}

@@ -31,6 +31,17 @@ export const CREATE_CULTURE_ERROR = "[Supported Cultures] CREATE CULTURE ERROR";
 export const GET_CULTURES = "[Supported Cultures] GET CULTURES";
 export const GET_CULTURES_SUCCESS = "[Supported Cultures] GET CULTURES SUCCESS";
 export const GET_CULTURES_ERROR = "[Supported Cultures] GET CULTURES ERROR";
+export const GET_CULTURE = "[Supported Cultures] GET CULTURE";
+export const GET_CULTURE_SUCCESS = "[Supported Cultures] GET CULTURE SUCCESS";
+export const GET_CULTURE_ERROR = "[Supported Cultures] GET CULTURE ERROR";
+export const UPDATE_CULTURE = "[Supported Cultures] UPDATE CULTURE";
+export const UPDATE_CULTURE_SUCCESS =
+    "[Supported Cultures] UPDATE CULTURE SUCCESS";
+export const UPDATE_CULTURE_ERROR = "[Supported Cultures] UPDATE CULTURE ERROR";
+export const DELETE_CULTURE = "[Supported Cultures] DELETE CULTURE";
+export const DELETE_CULTURE_SUCCESS =
+    "[Supported Cultures] DELETE CULTURE SUCCESS";
+export const DELETE_CULTURE_ERROR = "[Supported Cultures] DELETE CULTURE ERROR";
 
 /*
     GET DICTIONARY ITEMS
@@ -206,6 +217,72 @@ export class GetCulturesError implements Action {
     constructor(public error: string) {}
 }
 
+/*
+    GET SUPPORTED CULTURE
+*/
+
+export class GetCulture implements Action {
+    readonly type = GET_CULTURE;
+
+    constructor(public id: string) {}
+}
+
+export class GetCultureSuccess implements Action {
+    readonly type = GET_CULTURE_SUCCESS;
+
+    constructor(public culture: SupportedCulture) {}
+}
+
+export class GetCultureError implements Action {
+    readonly type = GET_CULTURE_ERROR;
+
+    constructor(public error: string) {}
+}
+
+/*
+    UPDATE SUPPORTED CULTURE
+*/
+
+export class UpdateCulture implements Action {
+    readonly type = UPDATE_CULTURE;
+
+    constructor(public culture: SupportedCulture) {}
+}
+
+export class UpdateCultureSuccess implements Action {
+    readonly type = UPDATE_CULTURE_SUCCESS;
+
+    constructor(public culture: SupportedCulture) {}
+}
+
+export class UpdateCultureError implements Action {
+    readonly type = UPDATE_CULTURE_ERROR;
+
+    constructor(public error: string) {}
+}
+
+/*
+    DELETE SUPPORTED CULTURE
+*/
+
+export class DeleteCulture implements Action {
+    readonly type = DELETE_CULTURE;
+
+    constructor(public id: string) {}
+}
+
+export class DeleteCultureSuccess implements Action {
+    readonly type = DELETE_CULTURE_SUCCESS;
+
+    constructor(public id: string) {}
+}
+
+export class DeleteCultureError implements Action {
+    readonly type = DELETE_CULTURE_ERROR;
+
+    constructor(public error: string) {}
+}
+
 export type All =
     | GetItems
     | GetItemsSuccess
@@ -229,4 +306,13 @@ export type All =
     | CreateCultureError
     | GetCultures
     | GetCulturesSuccess
-    | GetCulturesError;
+    | GetCulturesError
+    | GetCulture
+    | GetCultureSuccess
+    | GetCultureError
+    | UpdateCulture
+    | UpdateCultureSuccess
+    | UpdateCultureError
+    | DeleteCulture
+    | DeleteCultureSuccess
+    | DeleteCultureError;
