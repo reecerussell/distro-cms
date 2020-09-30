@@ -43,6 +43,16 @@ namespace Dictionary.Infrastructure.Providers
             return culture;
         }
 
+        public async Task<IReadOnlyList<SupportedCultureListItemDto>> GetListAsync(string term = null)
+        {
+            var connectionString = await _connectionStringProvider.GetConnectionString();
+            await using var connection = new SqlConnection(connectionString);
+
+            var parameters = new Dictionary<string, object> { { "@SearchTerm", $"%{term}%" } };
+            return (await connection.QueryAsync<SupportedCultureListItemDto>(
+                "GetCultures", parameters, commandType: CommandType.StoredProcedure)).ToList();
+        }
+
         public async Task<IReadOnlyList<SupportedCultureDropdownItemDto>> GetDropdownItemsAsync()
         {
             var connectionString = await _connectionStringProvider.GetConnectionString();
