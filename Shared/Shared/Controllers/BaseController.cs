@@ -46,6 +46,13 @@ namespace Shared.Controllers
             return CreateResponse(HttpStatusCode.OK, value);
         }
 
+        protected new OkObjectResult Ok()
+        {
+            Logger.LogDebug("Creating OK response, no data");
+
+            return CreateResponse(HttpStatusCode.OK);
+        }
+
         protected IActionResult InternalServerError(string error)
         {
             Logger.LogDebug("Creating InternalServerError response, with error: {0}", error);
