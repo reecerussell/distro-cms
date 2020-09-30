@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Dictionary.Domain.Dtos;
+﻿using Dictionary.Domain.Dtos;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Shared;
 using Shared.Entity;
 using Shared.Exceptions;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Dictionary.Domain.Models
 {
@@ -54,6 +54,26 @@ namespace Dictionary.Domain.Models
             }
 
             DictionaryItems = new List<DictionaryItem>();
+        }
+
+        public void Update(UpdateSupportedCultureDto dto)
+        {
+            UpdateDisplayName(dto.DisplayName);
+        }
+
+        private void UpdateDisplayName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ValidationException(ErrorMessages.SupportedCultureDisplayNameRequired);
+            }
+
+            if (name.Length > 45)
+            {
+                throw new ValidationException(ErrorMessages.SupportedCultureDisplayNameTooLong);
+            }
+
+            DisplayName = name;
         }
 
         public void SetAsDefault()

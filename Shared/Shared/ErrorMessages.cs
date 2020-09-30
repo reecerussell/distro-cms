@@ -63,5 +63,7 @@
         public const string SupportedCultureUnrecognisedCulture = "SUPPORTED_CULTURE:UNRECOGNISED_CULTURE";
         public const string SupportedCultureNotFound = "SUPPORTED_CULTURE:NOT_FOUND";
         public const string SupportedCultureAlreadyExists = "SUPPORTED_CULTURE:ALREADY_EXISTS";
+        public const string SupportedCultureDisplayNameRequired = "SUPPORTED_CULTURE:DISPLAY_NAME_REQUIRED";
+        public const string SupportedCultureDisplayNameTooLong = "SUPPORTED_CULTURE:DISPLAY_NAME_TOO_LONG";
     }
 }

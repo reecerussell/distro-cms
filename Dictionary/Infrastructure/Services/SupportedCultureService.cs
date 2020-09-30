@@ -82,6 +82,24 @@ namespace Dictionary.Infrastructure.Services
             _logger.LogDebug("Successfully set supported culture '{0}' as default.", id);
         }
 
+        public async Task UpdateAsync(UpdateSupportedCultureDto dto)
+        {
+            _logger.LogDebug("Updating supported culture '{0}'", dto.Id);
+
+            var supportedCulture = await _repository.FindByIdAsync(dto.Id);
+            if (supportedCulture == null)
+            {
+                _logger.LogDebug("Failed to update supported culture as it could not be found.");
+
+                throw new NotFoundException(ErrorMessages.SupportedCultureNotFound);
+            }
+
+            supportedCulture.Update(dto);
+            await _repository.SaveChangesAsync();
+
+            _logger.LogDebug("Successfully updated supported culture '{0}'", dto.Id);
+        }
+
         public async Task DeleteAsync(string id)
         {
             _logger.LogDebug("Deleting supported culture '{0}'", id);

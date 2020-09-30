@@ -7,6 +7,7 @@ namespace Dictionary.Infrastructure
     {
         Task<string> CreateAsync(CreateSupportedCultureDto dto);
         Task SetAsDefaultAsync(string id);
+        Task UpdateAsync(UpdateSupportedCultureDto dto);
         Task DeleteAsync(string id);
     }
 }

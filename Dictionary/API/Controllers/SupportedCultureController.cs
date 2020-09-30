@@ -89,6 +89,31 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateSupportedCultureDto dto)
+        {
+            try
+            {
+                await _service.UpdateAsync(dto);
+
+                return await Get(dto.Id);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(await _localizer.GetErrorAsync(e.Message));
+            }
+            catch (ValidationException e)
+            {
+                return BadRequest(await _localizer.GetErrorAsync(e.Message));
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while creating a supported culture.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
         [HttpPost("setAsDefault/{id}")]
         public async Task<IActionResult> SetAsDefault(string id)
         {
