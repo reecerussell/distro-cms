@@ -144,7 +144,7 @@ export const RoleReducer = (state = defaultState, action: Action) => {
         case RoleActions.DELETE_ROLE_SUCCESS:
             return {
                 ...state,
-                roles: state.roles.filter((x) => x.id != action.payload),
+                roles: state.roles.filter((x) => x.id != action.id),
                 loading: false,
                 loaded: true,
                 error: null,

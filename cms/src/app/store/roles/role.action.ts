@@ -1,4 +1,3 @@
-import { RoleState } from "./role.state";
 import Role from "../../models/role.model";
 import { Action } from "@ngrx/store";
 
@@ -13,7 +12,7 @@ export class GetRoles implements Action {
 export class GetRolesSuccess implements Action {
     readonly type = GET_ROLES_SUCCESS;
 
-    constructor(public payload: RoleState[]) {}
+    constructor(public payload: Role[]) {}
 }
 
 export class GetRolesError implements Action {
@@ -29,7 +28,7 @@ export const GET_ROLE_ERROR = "[Role] GET ROLE ERROR";
 export class GetRole implements Action {
     readonly type = GET_ROLE;
 
-    constructor(public payload: string) {}
+    constructor(public id: string) {}
 }
 
 export class GetRoleSuccess implements Action {
@@ -51,7 +50,7 @@ export const CREATE_ROLE_ERROR = "[Role] CREATE ROLE ERROR";
 export class CreateRole implements Action {
     readonly type = CREATE_ROLE;
 
-    constructor(public payload: Role) {}
+    constructor(public role: Role) {}
 }
 
 export class CreateRoleSuccess implements Action {
@@ -73,7 +72,7 @@ export const UPDATE_ROLE_ERROR = "[Role] UPDATE ROLE ERROR";
 export class UpdateRole implements Action {
     readonly type = UPDATE_ROLE;
 
-    constructor(public payload: Role) {}
+    constructor(public role: Role) {}
 }
 
 export class UpdateRoleSuccess implements Action {
@@ -97,9 +96,9 @@ export class DeleteRole implements Action {
 
     /**
      *
-     * @param payload The id of the role to be deleted.
+     * @param id The id of the role to be deleted.
      */
-    constructor(public payload: string) {}
+    constructor(public id: string) {}
 }
 
 export class DeleteRoleSuccess implements Action {
@@ -109,7 +108,7 @@ export class DeleteRoleSuccess implements Action {
      *
      * @param payload The id of the role which has been deleted.
      */
-    constructor(public payload: string) {}
+    constructor(public id: string) {}
 }
 
 export class DeleteRoleError implements Action {
