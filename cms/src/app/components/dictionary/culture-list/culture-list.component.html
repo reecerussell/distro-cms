@@ -1,50 +1,87 @@
-<form (submit)="loadCultures($event)">
-    <p>
-        <input
-            type="text"
-            name="term"
-            [(ngModel)]="term"
-            placeholder="Search..."
-        />
-        <button type="submit">Search</button>
-    </p>
-</form>
-
-<ng-template [ngIf]="(dictionaryState$ | async).error">
-    <p>
-        {{ (dictionaryState$ | async).error }}
-    </p>
-</ng-template>
-
 <ng-template [ngIf]="dictionaryState$">
-    <table>
-        <thead>
-            <tr>
-                <th>Display Name</th>
-                <th>Name</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <ng-template [ngIf]="loading">
-                <tr>
-                    <td colspan="3">Loading...</td>
-                </tr>
+    <div class="card">
+        <div class="card-body">
+            <ng-template [ngIf]="(dictionaryState$ | async).error">
+                <p class="alert alert-danger" role="alert">
+                    {{ (dictionaryState$ | async).error }}
+                </p>
             </ng-template>
-            <ng-template [ngIf]="!loading">
-                <tr
-                    *ngFor="let culture of (dictionaryState$ | async).cultures"
-                    [class.default]="culture.isDefault"
-                >
-                    <td>{{ culture.displayName }}</td>
-                    <td>{{ culture.name }}</td>
-                    <td>
-                        <a routerLink="/dictionary/cultures/{{ culture.id }}"
-                            >Edit</a
-                        >
-                    </td>
-                </tr>
-            </ng-template>
-        </tbody>
-    </table>
+            <form (submit)="loadCultures($event)">
+                <div class="btn-toolbar mb-3 float-none float-md-right">
+                    <div class="btn-group mr-2">
+                        <input
+                            type="search"
+                            name="term"
+                            class="form-control form-control-sm border-secondary text-secondary"
+                            [(ngModel)]="term"
+                            placeholder="Search..."
+                        />
+                        <button type="submit" class="btn btn-sm btn-secondary">
+                            <i class="la la-sync"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Display Name</th>
+                            <th>Locale</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-template [ngIf]="loading">
+                            <tr>
+                                <td colspan="3">
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                    <span class="sr-only">Loading...</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template [ngIf]="!loading">
+                            <ng-template
+                                [ngIf]="
+                                    (dictionaryState$ | async).cultures.length <
+                                    1
+                                "
+                                [ngIfElse]="cultures"
+                            >
+                                <tr>
+                                    <td colspan="3">
+                                        <b>No records match!</b>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template #cultures>
+                                <tr
+                                    *ngFor="
+                                        let culture of (
+                                            dictionaryState$ | async
+                                        ).cultures
+                                    "
+                                >
+                                    <td>{{ culture.displayName }}</td>
+                                    <td>{{ culture.name }}</td>
+                                    <td>
+                                        <a
+                                            routerLink="/dictionary/cultures/{{
+                                                culture.id
+                                            }}"
+                                            >View</a
+                                        >
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </ng-template>
