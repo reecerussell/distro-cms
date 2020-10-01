@@ -121,7 +121,7 @@ namespace API.Controllers
             {
                 await _service.SetAsDefaultAsync(id);
 
-                return Ok();
+                return RedirectToAction(nameof(Get), new {id});
             }
             catch (NotFoundException e)
             {
