@@ -42,6 +42,10 @@ export const DELETE_CULTURE = "[Supported Cultures] DELETE CULTURE";
 export const DELETE_CULTURE_SUCCESS =
     "[Supported Cultures] DELETE CULTURE SUCCESS";
 export const DELETE_CULTURE_ERROR = "[Supported Cultures] DELETE CULTURE ERROR";
+export const SET_AS_DEFAULT = "[Supported Cultures] SET AS DEFAULT";
+export const SET_AS_DEFAULT_SUCCESS =
+    "[Supported Cultures] SET AS DEFAULT SUCCESS";
+export const SET_AS_DEFAULT_ERROR = "[Supported Cultures] SET AS DEFAULT ERROR";
 
 /*
     GET DICTIONARY ITEMS
@@ -283,6 +287,28 @@ export class DeleteCultureError implements Action {
     constructor(public error: string) {}
 }
 
+/*
+    SET SUPPORTED CULTURE AS DEFAULT
+*/
+
+export class SetAsDefault implements Action {
+    readonly type = SET_AS_DEFAULT;
+
+    constructor(public id: string) {}
+}
+
+export class SetAsDefaultSuccess implements Action {
+    readonly type = SET_AS_DEFAULT_SUCCESS;
+
+    constructor(public culture: SupportedCulture) {}
+}
+
+export class SetAsDefaultError implements Action {
+    readonly type = SET_AS_DEFAULT_ERROR;
+
+    constructor(public error: string) {}
+}
+
 export type All =
     | GetItems
     | GetItemsSuccess
@@ -315,4 +341,7 @@ export type All =
     | UpdateCultureError
     | DeleteCulture
     | DeleteCultureSuccess
-    | DeleteCultureError;
+    | DeleteCultureError
+    | SetAsDefault
+    | SetAsDefaultSuccess
+    | SetAsDefaultError;

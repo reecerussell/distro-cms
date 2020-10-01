@@ -220,4 +220,25 @@ export class DictionaryEffects {
             )
         )
     );
+
+    SetAsDefault$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(DictionaryActions.SET_AS_DEFAULT),
+            mergeMap((action: DictionaryActions.SetAsDefault) =>
+                this.cultures.SetAsDefault$(action.id).pipe(
+                    map(
+                        (data) =>
+                            new DictionaryActions.SetAsDefaultSuccess(data)
+                    ),
+                    catchError((error: Error) =>
+                        of(
+                            new DictionaryActions.SetAsDefaultError(
+                                error.message
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    );
 }

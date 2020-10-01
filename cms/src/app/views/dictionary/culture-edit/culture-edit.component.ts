@@ -43,4 +43,10 @@ export class CultureEditComponent implements OnInit {
             new DictionaryActions.DeleteCulture(this.culture.id)
         );
     }
+
+    setAsDefault(): void {
+        this.store.dispatch(
+            new DictionaryActions.SetAsDefault(this.culture.id)
+        );
+    }
 }

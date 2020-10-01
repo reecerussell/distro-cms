@@ -171,4 +171,24 @@ export class SupportedCultureService {
                 })
             );
     }
+
+    SetAsDefault$(id: string): Observable<SupportedCulture> {
+        return this.http
+            .post(
+                environment.api_base_url +
+                    "dictionary/cultures/setAsDefault/" +
+                    id,
+                null
+            )
+            .pipe(
+                map((responseBody: ResponseBody) => {
+                    const { statusCode, data, error } = responseBody;
+                    if (statusCode === 200) {
+                        return data as SupportedCulture;
+                    }
+
+                    throw new Error(error);
+                })
+            );
+    }
 }

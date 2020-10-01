@@ -296,5 +296,27 @@ export const DictionaryReducer = (state = defaultState, action: Action) => {
                 loading: false,
                 error: action.error,
             };
+
+        /*
+            SET SUPPORTED CULTURE AS DEFAULT
+        */
+        case DictionaryActions.SET_AS_DEFAULT:
+            return { ...state, loading: true };
+        case DictionaryActions.SET_AS_DEFAULT_SUCCESS:
+            return {
+                ...state,
+                cultures: mergeCultures(state.cultures, {
+                    ...initializeCultureState(),
+                    ...action.culture,
+                }),
+                loading: false,
+                error: null,
+            };
+        case DictionaryActions.SET_AS_DEFAULT_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+            };
     }
 };

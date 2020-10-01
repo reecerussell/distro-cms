@@ -16,7 +16,8 @@
 
     <p>
         <b>Date Created:</b> {{ culture.dateCreated | date }}<br />
-        <b>Date Updated:</b> {{ culture.dateUpdated | date }}
+        <b>Date Updated:</b> {{ culture.dateUpdated | date }}<br />
+        <b>Is Default:</b> {{ culture.isDefault ? "Yes" : "No" }}
     </p>
 
     <form (submit)="save()">
@@ -35,6 +36,9 @@
         <p>
             <button type="submit">Save</button>
             <button type="button" (click)="delete()">Delete</button>
+            <button type="button" (click)="setAsDefault()">
+                Set as default
+            </button>
         </p>
     </form>
 </ng-template>
