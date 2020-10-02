@@ -15,17 +15,15 @@ namespace Users.Infrastructure
             var connectionString = connectionStringProvider.GetConnectionString().Result;
 
             return services
-                .AddDbContext<UserContext>(options =>
-                {
-                    options.UseSqlServer(connectionString);
-                })
+                .AddDbContext<UserContext>(options => { options.UseSqlServer(connectionString); })
                 .AddScoped<DbContext>(s => s.GetRequiredService<UserContext>())
                 .AddTransient<IUserRepository, UserRepository>()
                 .AddTransient<IRoleRepository, RoleRepository>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IUserProvider, UserProvider>()
                 .AddTransient<IRoleService, RoleService>()
-                .AddTransient<IRoleProvider, RoleProvider>();
+                .AddTransient<IRoleProvider, RoleProvider>()
+                .AddTransient<IAuthService, AuthService>();
         }
     }
 }

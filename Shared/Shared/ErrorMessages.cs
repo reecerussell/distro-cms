@@ -69,5 +69,6 @@
         // Authentication errors
         public const string AuthFailedToVerify = "AUTH:FAILED_VERIFICATION";
         public const string AuthInvalidCredentials = "AUTH:INVALID_CREDENTIALS";
+        public const string AuthInvalidAudience = "AUTH:INVALID_AUDIENCE";
     }
 }
