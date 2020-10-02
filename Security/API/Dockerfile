@@ -5,14 +5,20 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+# Generate a private RSA key for the tokens.
+RUN mkdir keys
+ARG rsa_file_path=keys/rsa-private.pem
+RUN openssl genrsa -out $rsa_file_path 2048
+ENV RSA_KEY_FILE=$rsa_file_path
+
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["API/API.csproj", "API/"]
-COPY ["../Shared/Shared/Shared.csproj", "../Shared/Shared/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
-RUN dotnet restore "API/API.csproj"
+COPY ["Security/API/API.csproj", "Security/API/"]
+COPY ["Shared/Shared/Shared.csproj", "Shared/Shared/"]
+COPY ["Security/Infrastructure/Infrastructure.csproj", "Security/Infrastructure/"]
+RUN dotnet restore "Security/API/API.csproj"
 COPY . .
-WORKDIR "/src/API"
+WORKDIR "/src/Security/API"
 RUN dotnet build "API.csproj" -c Release -o /app/build
 
 FROM build AS publish
