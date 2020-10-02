@@ -8,5 +8,6 @@ namespace Users.Infrastructure.Repositories
     {
         Task<bool> ExistsWithEmailAsync(string email);
         Task<bool> ExistsWithEmailAsync(string email, string userIdToIgnore);
+        Task<User> FindByEmailWithRolesAsync(string email);
     }
 }

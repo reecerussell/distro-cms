@@ -24,5 +24,12 @@ namespace Users.Infrastructure.Repositories
         {
             return await Set.AnyAsync(x => x.Email == email && x.Id != userIdToIgnore);
         }
+
+        public async Task<User> FindByEmailWithRolesAsync(string email)
+        {
+            return await Set
+                .Include(x => x.Roles)
+                .FirstOrDefaultAsync(x => x.Email == email);
+        }
     }
 }
