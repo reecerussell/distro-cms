@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Gateway.Middleware
@@ -117,6 +116,16 @@ namespace Gateway.Middleware
                 if (!string.IsNullOrEmpty(baseUrl))
                 {
                     targetUri = new Uri(baseUrl + path + context.Request.QueryString.Value);
+                }
+            }
+            else if (path.StartsWith("/api/oauth", StringComparison.InvariantCultureIgnoreCase))
+            {
+                _logger.LogInformation("Path {0} matches /api/oauth", path);
+
+                var baseUrl = Environment.GetEnvironmentVariable(Constants.SecurityUrlVariable);
+                if (!string.IsNullOrEmpty(baseUrl))
+                {
+                    targetUri = new Uri(baseUrl + path.Replace("/oauth", string.Empty) + context.Request.QueryString.Value);
                 }
             }
 
