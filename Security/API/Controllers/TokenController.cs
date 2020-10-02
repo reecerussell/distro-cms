@@ -1,22 +1,24 @@
-﻿using System;
-using System.Threading.Tasks;
-using Infrastructure;
+﻿using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Shared.Controllers;
 using Shared.Exceptions;
 using Shared.Localization;
 using Shared.Security;
+using System;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    public class OAuthController : BaseController
+    [ApiController]
+    [Route("api/token")]
+    public class TokenController : BaseController
     {
         private readonly ITokenService _tokenService;
         private readonly IAuthService _authService;
         private readonly ILocalizer _localizer;
 
-        public OAuthController(
+        public TokenController(
             ITokenService tokenService,
             IAuthService authService,
             ILocalizer localizer,
@@ -28,6 +30,7 @@ namespace API.Controllers
             _localizer = localizer;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Token(SecurityCredential credential)
         {
             try
