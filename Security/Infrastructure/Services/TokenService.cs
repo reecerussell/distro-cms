@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Microsoft.Extensions.Internal;
+using Microsoft.Extensions.Options;
+using Shared.Extensions;
+using Shared.Security;
+using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Internal;
-using Microsoft.Extensions.Options;
-using Shared.Extensions;
-using Shared.Security;
 
 namespace Infrastructure.Services
 {
@@ -59,19 +59,30 @@ namespace Infrastructure.Services
             }
         }
 
-        private (IReadOnlyList<Claim> Claims, double ExpiryTimestamp) BuildClaims(IReadOnlyList<Claim> userClaims)
+        private (IDictionary<string, object> Claims, double ExpiryTimestamp) BuildClaims(IReadOnlyList<Claim> userClaims)
         {
-            var claims = new List<Claim>();
-
             var timeNow = _systemClock.UtcNow;
             var expiryDate = timeNow.AddSeconds(_tokenOptions.ExpirySeconds);
 
-            claims.Add(new Claim("exp", expiryDate.Unix().ToString(CultureInfo.InvariantCulture)));
-            claims.Add(new Claim("iat", timeNow.Unix().ToString(CultureInfo.InvariantCulture)));
-            claims.Add(new Claim("nbf", timeNow.Unix().ToString(CultureInfo.InvariantCulture)));
-            claims.Add(new Claim("iss", _tokenOptions.Issuer));
+            var claims = new Dictionary<string, object>
+            {
+                { "exp", expiryDate.Unix() },
+                { "iat", timeNow.Unix() },
+                { "nbf", timeNow.Unix() },
+                { "iss", _tokenOptions.Issuer }
+            };
 
-            claims.AddRange(userClaims);
+            foreach (var commonClaims in userClaims.GroupBy(x => x.Type))
+            {
+                if (commonClaims.Count() > 1)
+                {
+                    claims[commonClaims.Key] = commonClaims.Select(x => x.Value);
+                }
+                else
+                {
+                    claims[commonClaims.Key] = commonClaims.First().Value;
+                }
+            }
 
             return (claims, expiryDate.Unix());
         }
