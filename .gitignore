@@ -28,6 +28,7 @@ Dictionary/Infrastructure/obj/*
 
 Security/API/bin/*
 Security/API/obj/*
+Security/API/Properties/PublishProfiles/*
 Security/Infrastructure/bin/*
 Security/Infrastructure/obj/*
 
