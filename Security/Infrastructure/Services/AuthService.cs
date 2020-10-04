@@ -16,14 +16,14 @@ namespace Infrastructure.Services
 {
     internal class AuthService : IAuthService
     {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<AuthService> _logger;
 
         public AuthService(
-            HttpClient client,
+            IHttpClientFactory clientFactory,
             ILogger<AuthService> logger)
         {
-            _client = client;
+            _clientFactory = clientFactory;
             _logger = logger;
         }
 
@@ -49,7 +49,8 @@ namespace Infrastructure.Services
             using var content = new StreamContent(dataStream);
 
             var targetUrl = usersBaseUrl + "/api/auth/password";
-            var response = await _client.PostAsync(targetUrl, content);
+            var client = _clientFactory.CreateClient("default");
+            var response = await client.PostAsync(targetUrl, content);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {

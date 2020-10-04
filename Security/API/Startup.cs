@@ -21,6 +21,7 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
             services.AddShared();
             services.AddInfrastructure(_configuration);
 
