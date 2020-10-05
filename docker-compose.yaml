@@ -69,6 +69,7 @@ services:
         environment:
             - "ASPNETCORE_ENVIRONMENT=Development"
             - "USERS_URL=http://users:80"
+            - "CONNECTION_STRING=${CONNECTION_STRING}"
         networks:
             - cms
         depends_on:
