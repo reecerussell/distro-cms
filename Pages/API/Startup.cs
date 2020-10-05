@@ -18,6 +18,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             // Custom services
+            services.AddMemoryCache();
             services.AddShared();
             services.AddInfrastructure();
 
