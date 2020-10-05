@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/token")]
-    public class TokenController : BaseController
+    [Route("oauth")]
+    public class OAuthController : BaseController
     {
         private readonly ITokenService _tokenService;
         private readonly IAuthService _authService;
         private readonly ILocalizer _localizer;
 
-        public TokenController(
+        public OAuthController(
             ITokenService tokenService,
             IAuthService authService,
             ILocalizer localizer,
@@ -30,13 +30,13 @@ namespace API.Controllers
             _localizer = localizer;
         }
 
-        [HttpPost]
+        [HttpPost("token")]
         public async Task<IActionResult> Token(SecurityCredential credential)
         {
             try
             {
                 var claims = await _authService.AuthenticateAsync(credential);
-                var token = _tokenService.GenerateAsync(claims);
+                var token = await _tokenService.GenerateAsync(claims);
 
                 return Ok(token);
             }
