@@ -118,14 +118,14 @@ namespace Gateway.Middleware
                     targetUri = new Uri(baseUrl + path + context.Request.QueryString.Value);
                 }
             }
-            else if (path.StartsWith("/api/oauth", StringComparison.InvariantCultureIgnoreCase))
+            else if (path.StartsWith("/oauth", StringComparison.InvariantCultureIgnoreCase))
             {
-                _logger.LogInformation("Path {0} matches /api/oauth", path);
+                _logger.LogInformation("Path {0} matches /oauth", path);
 
                 var baseUrl = Environment.GetEnvironmentVariable(Constants.SecurityUrlVariable);
                 if (!string.IsNullOrEmpty(baseUrl))
                 {
-                    targetUri = new Uri(baseUrl + path.Replace("/oauth", string.Empty) + context.Request.QueryString.Value);
+                    targetUri = new Uri(baseUrl + path + context.Request.QueryString.Value);
                 }
             }
 
