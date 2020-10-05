@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -27,7 +27,7 @@ namespace Infrastructure.Services
             _logger = logger;
         }
 
-        public Task<IReadOnlyList<Claim>> AuthenticateAsync(SecurityCredential credential)
+        public Task<IReadOnlyList<ClaimDto>> AuthenticateAsync(SecurityCredential credential)
         {
             return credential.GrantType.ToLower() switch
             {
@@ -36,7 +36,7 @@ namespace Infrastructure.Services
             };
         }
 
-        private async Task<IReadOnlyList<Claim>> AuthenticatePasswordAsync(string email, string password, string audience)
+        private async Task<IReadOnlyList<ClaimDto>> AuthenticatePasswordAsync(string email, string password, string audience)
         {
             var usersBaseUrl = Environment.GetEnvironmentVariable(Constants.UsersUrlVariable);
             if (string.IsNullOrEmpty(usersBaseUrl))
@@ -46,7 +46,8 @@ namespace Infrastructure.Services
 
             await using var dataStream = new MemoryStream();
             await JsonSerializer.SerializeAsync(dataStream, new PasswordGrantData(email, password, audience));
-            using var content = new StreamContent(dataStream);
+            var utf8Json = Encoding.UTF8.GetString(dataStream.ToArray());
+            var content = new StringContent(utf8Json, Encoding.UTF8, "application/json");
 
             var targetUrl = usersBaseUrl + "/api/auth/password";
             var client = _clientFactory.CreateClient("default");
@@ -60,7 +61,10 @@ namespace Infrastructure.Services
             }
 
             await using var contentStream = await response.Content.ReadAsStreamAsync();
-            var responseData = await JsonSerializer.DeserializeAsync<ResponseData<IReadOnlyList<Claim>>>(contentStream);
+            var responseData = await JsonSerializer.DeserializeAsync<ResponseData<IReadOnlyList<ClaimDto>>>(contentStream, 
+                new JsonSerializerOptions{PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
+
+            _logger.LogDebug("Auth response data: {0}", JsonSerializer.Serialize(responseData, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
 
             switch (responseData.StatusCode)
             {
