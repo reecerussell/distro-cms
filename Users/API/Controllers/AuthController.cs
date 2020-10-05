@@ -26,6 +26,8 @@ namespace API.Controllers
         [HttpPost("password")]
         public async Task<IActionResult> VerifyPassword(PasswordGrantData grantData)
         {
+            Logger.LogInformation("Verify password action.");
+
             try
             {
                 var claims = await _service.VerifyPasswordAsync(grantData);
@@ -36,6 +38,8 @@ namespace API.Controllers
             }
             catch (AuthenticationFailedException e)
             {
+                Logger.LogDebug("Authentication failed: " + e.Message);
+
                 return BadRequest(e.Message);
             }
             catch (Exception e)

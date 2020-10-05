@@ -1,12 +1,11 @@
-﻿using Shared;
+﻿using Microsoft.Extensions.Logging;
+using Shared;
 using Shared.Exceptions;
 using Shared.Passwords;
 using Shared.Security;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Users.Domain.Models;
 using Users.Infrastructure.Repositories;
 
@@ -28,7 +27,7 @@ namespace Users.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<IReadOnlyList<Claim>> VerifyPasswordAsync(PasswordGrantData grantData)
+        public async Task<IReadOnlyList<ClaimDto>> VerifyPasswordAsync(PasswordGrantData grantData)
         {
             _logger.LogDebug("Verifying password grant...");
 
@@ -52,17 +51,17 @@ namespace Users.Infrastructure.Services
             return BuildClaims(user);
         }
 
-        private static IReadOnlyList<Claim> BuildClaims(User user)
+        private static IReadOnlyList<ClaimDto> BuildClaims(User user)
         {
-            var claims = new List<Claim>
+            var claims = new List<ClaimDto>
             {
-                new Claim("user_id", user.Id), 
-                new Claim("name", user.Firstname)
+                new ClaimDto("user_id", user.Id), 
+                new ClaimDto("name", user.Firstname)
             };
 
             foreach (var role in user.Roles)
             {
-                claims.Add(new Claim("role", role.RoleId));
+                claims.Add(new ClaimDto("role", role.RoleId));
             }
 
             return claims;
