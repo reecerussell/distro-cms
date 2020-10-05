@@ -7,12 +7,12 @@ using System.Buffers.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Infrastructure.Services
 {
@@ -28,7 +28,7 @@ namespace Infrastructure.Services
             _systemClock = systemClock;
         }
 
-        public async Task<Token> GenerateAsync(IReadOnlyList<Claim> claims)
+        public async Task<Token> GenerateAsync(IReadOnlyList<ClaimDto> claims)
         {
             var header = Serialize(new Dictionary<string, string>
             {
@@ -53,13 +53,12 @@ namespace Infrastructure.Services
             static byte[] Serialize(object value)
             {
                 var json = JsonSerializer.SerializeToUtf8Bytes(value);
-                var base64 = new byte[Base64.GetMaxEncodedToUtf8Length(json.Length)];
-                Base64.EncodeToUtf8(json, base64, out _, out _);
-                return base64;
+                var base64 = WebEncoders.Base64UrlEncode(json);
+                return Encoding.UTF8.GetBytes(base64);
             }
         }
 
-        private (IDictionary<string, object> Claims, double ExpiryTimestamp) BuildClaims(IReadOnlyList<Claim> userClaims)
+        private (IDictionary<string, object> Claims, double ExpiryTimestamp) BuildClaims(IReadOnlyList<ClaimDto> userClaims)
         {
             var timeNow = _systemClock.UtcNow;
             var expiryDate = timeNow.AddSeconds(_tokenOptions.ExpirySeconds);
@@ -72,7 +71,7 @@ namespace Infrastructure.Services
                 { "iss", _tokenOptions.Issuer }
             };
 
-            foreach (var commonClaims in userClaims.GroupBy(x => x.Type))
+            foreach (var commonClaims in userClaims.GroupBy(x => x.Key))
             {
                 if (commonClaims.Count() > 1)
                 {
@@ -99,9 +98,7 @@ namespace Infrastructure.Services
 
             using var rsa = await LoadPrivateKeyAsync();
             var signature = rsa.SignHash(digest, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-
-            var base64 = new byte[Base64.GetMaxEncodedToUtf8Length(signature.Length)];
-            Base64.EncodeToUtf8(signature, base64, out _, out _);
+            var base64 = Encoding.UTF8.GetBytes(WebEncoders.Base64UrlEncode(signature));
 
             var signedData = new byte[data.Length + 1 + base64.Length];
             Buffer.BlockCopy(data, 0, signedData, 0, data.Length);
@@ -111,7 +108,7 @@ namespace Infrastructure.Services
             return Encoding.UTF8.GetString(signedData);
         }
 
-        private static async Task<RSA> LoadPrivateKeyAsync()
+        private async Task<RSA> LoadPrivateKeyAsync()
         {
             var filepath = Environment.GetEnvironmentVariable(Constants.RsaKeyFileVariable);
             if (string.IsNullOrEmpty(filepath))
@@ -119,13 +116,17 @@ namespace Infrastructure.Services
                 throw new InvalidOperationException($"The environment variable '{Constants.RsaKeyFileVariable}' must be set.");
             }
 
-            await using var reader = File.OpenRead(filepath);
-            await using var stream = new MemoryStream();
-            await reader.CopyToAsync(stream);
-            var data = stream.ToArray();
+            using var reader = new StreamReader(filepath, Encoding.UTF8);
+            var data = await reader.ReadToEndAsync();
 
-            var cert = new X509Certificate2(data);
-            return cert.GetRSAPrivateKey();
+            var fi = data.IndexOf('\n');
+            var li = data[..data.LastIndexOf('\n')].LastIndexOf('\n');
+            var pemData = data.Substring(fi + 1, li - fi - 1);
+            
+            var rsa = RSA.Create();
+            rsa.ImportRSAPrivateKey(Convert.FromBase64String(pemData), out _);
+
+            return rsa;
         }
     }
 }
