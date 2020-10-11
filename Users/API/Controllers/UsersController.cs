@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Shared.Controllers;
 using Shared.Exceptions;
+using Shared.OAuth;
 using System;
 using System.Threading.Tasks;
 using Users.Domain.Dtos;
@@ -11,6 +13,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/users")]
+    [Authorize(AuthenticationSchemes = OAuthConstants.AuthenticationScheme)]
     public class UsersController : BaseController
     {
         private readonly IUserService _service;
