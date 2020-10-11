@@ -7,5 +7,6 @@ namespace Infrastructure
     public interface ITokenService
     {
         Task<Token> GenerateAsync(IReadOnlyList<ClaimDto> claims);
+        Task<string> VerifyAsync(string accessToken, string clientId);
     }
 }

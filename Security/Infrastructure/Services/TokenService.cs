@@ -1,30 +1,38 @@
-﻿using Microsoft.Extensions.Internal;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Internal;
 using Microsoft.Extensions.Options;
+using Shared.Exceptions;
 using Shared.Extensions;
 using Shared.Security;
 using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.WebUtilities;
+using Shared.OAuth;
 
 namespace Infrastructure.Services
 {
     internal class TokenService : ITokenService
     {
         private readonly TokenOptions _tokenOptions;
+        private readonly SecurityClients _securityClients;
         private readonly ISystemClock _systemClock;
 
-        public TokenService(IOptions<TokenOptions> tokenOptions, ISystemClock systemClock)
+        public TokenService(
+            IOptions<TokenOptions> tokenOptions, 
+            SecurityClients securityClients,
+            ISystemClock systemClock)
         {
             _tokenOptions = tokenOptions?.Value ??
                             throw new InvalidOperationException("TokenOptions must be configured.");
+            _securityClients = securityClients;
             _systemClock = systemClock;
         }
 
@@ -56,6 +64,44 @@ namespace Infrastructure.Services
                 var base64 = WebEncoders.Base64UrlEncode(json);
                 return Encoding.UTF8.GetBytes(base64);
             }
+        }
+
+        public async Task<string> VerifyAsync(string accessToken, string clientId)
+        {
+            var lastDot = accessToken.LastIndexOf('.');
+
+            var tokenData = Encoding.UTF8.GetBytes(accessToken.Substring(0, lastDot));
+            var signature = WebEncoders.Base64UrlDecode(accessToken.Substring(lastDot + 1));
+
+            using var alg = SHA256.Create();
+            var digest = alg.ComputeHash(tokenData);
+            using var rsa = await LoadPrivateKeyAsync();
+
+            if (!rsa.VerifyHash(digest, signature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1))
+            {
+                throw new AuthenticationFailedException("Token is invalid.");
+            }
+
+            var payloadBase64 = accessToken.Split('.')[1];
+            var payload = JwtPayload.Base64UrlDeserialize(payloadBase64);
+            
+            // Validate 'Not before'
+            if (Convert.ToDouble(payload["nbf"]) > _systemClock.UtcNow.Unix())
+            {
+                throw new AuthenticationFailedException("Token is not yet valid.");
+            }
+
+            // Validate 'Expiry'
+            if (Convert.ToDouble(payload["exp"]) < _systemClock.UtcNow.Unix())
+            {
+                throw new AuthenticationFailedException("Token has expired.");
+            }
+
+            var clientSecret = _securityClients[clientId];
+            using var checkAlg = SHA1.Create();
+            var hash = checkAlg.ComputeHash(Encoding.UTF8.GetBytes(accessToken + clientSecret));
+
+            return Convert.ToBase64String(hash);
         }
 
         private (IDictionary<string, object> Claims, double ExpiryTimestamp) BuildClaims(IReadOnlyList<ClaimDto> userClaims)
