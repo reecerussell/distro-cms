@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Shared.Controllers;
 using Shared.Exceptions;
 using Shared.Localization;
+using Shared.OAuth;
 using Shared.Security;
 using System;
 using System.Threading.Tasks;
@@ -49,6 +50,29 @@ namespace API.Controllers
             catch (Exception e)
             {
                 Logger.LogError(e, "An error occured while attempting to authenticate user.");
+
+                return InternalServerError(e.Message);
+            }
+        }
+
+        [HttpPost("verify")]
+        public async Task<IActionResult> Verify(VerifyTokenRequest requestData)
+        {
+            try
+            {
+                var hash = await _tokenService.VerifyAsync(requestData.AccessToken, requestData.ClientId);
+
+                return Ok(new VerifyTokenResponse {Checksum = hash});
+            }
+            catch (AuthenticationFailedException e)
+            {
+                Logger.LogDebug("Verification failed: {0}", e.Message);
+
+                return BadRequest(await _localizer.GetErrorAsync(e.Message));
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while attempting to verify a token.");
 
                 return InternalServerError(e.Message);
             }
