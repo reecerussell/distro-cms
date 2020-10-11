@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shared.Extensions;
 using Shared.Middleware;
+using Shared.OAuth;
 using System.Globalization;
 using System.Text.Json;
 using Users.Infrastructure;
@@ -15,6 +17,13 @@ namespace API
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             // Custom services
@@ -31,6 +40,8 @@ namespace API
             // Extensions
             services.AddLocalization();
             services.AddLogging(options => options.AddConsole());
+
+            services.AddOAuthentication(_configuration);
 
             // MVC/API
             services.AddControllers()
@@ -68,6 +79,9 @@ namespace API
                 options.SupportedCultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
                 options.RequestCultureProviders.Insert(0, new HeaderRequestCultureProvider());
             });
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
