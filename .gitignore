@@ -26,10 +26,14 @@ Dictionary/Domain/obj/*
 Dictionary/Infrastructure/bin/*
 Dictionary/Infrastructure/obj/*
 
+Security/API/bin/*
+Security/API/obj/*
+Security/API/Properties/PublishProfiles/*
+Security/Infrastructure/bin/*
+Security/Infrastructure/obj/*
+
 Shared/Shared/bin/*
 Shared/Shared/obj/*
-Shared/Shared.Localization/bin/*
-Shared/Shared.Localization/obj/*
 Migrations/Migrations/bin/*
 Migrations/Migrations/obj/*
 Gateway/Gateway/bin/*

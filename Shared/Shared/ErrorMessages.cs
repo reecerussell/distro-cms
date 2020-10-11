@@ -65,5 +65,10 @@
         public const string SupportedCultureAlreadyExists = "SUPPORTED_CULTURE:ALREADY_EXISTS";
         public const string SupportedCultureDisplayNameRequired = "SUPPORTED_CULTURE:DISPLAY_NAME_REQUIRED";
         public const string SupportedCultureDisplayNameTooLong = "SUPPORTED_CULTURE:DISPLAY_NAME_TOO_LONG";
+
+        // Authentication errors
+        public const string AuthFailedToVerify = "AUTH:FAILED_VERIFICATION";
+        public const string AuthInvalidCredentials = "AUTH:INVALID_CREDENTIALS";
+        public const string AuthInvalidAudience = "AUTH:INVALID_AUDIENCE";
     }
 }

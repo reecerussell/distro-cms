@@ -117,6 +117,16 @@ namespace Users.Domain.Models
             SetPassword(dto.NewPassword, hasher, validator);
         }
 
+        public bool VerifyPassword(string password, IPasswordHasher hasher)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                return false;
+            }
+
+            return hasher.Verify(password, PasswordHash);
+        }
+
         /// <summary>
         /// Sets the user's password, ensuring it is also valid.
         /// </summary>

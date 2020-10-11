@@ -9,7 +9,7 @@ namespace Shared.Extensions
     {
         public static IApplicationBuilder UseCustomRequestLocalization(this IApplicationBuilder app)
         {
-            return app.UseRequestLocalization(async options =>
+            return app.UseRequestLocalization(options =>
             {
                 options.DefaultRequestCulture = new RequestCulture(CultureInfo.CurrentCulture);
                 options.SupportedCultures = CultureInfo.GetCultures(CultureTypes.AllCultures);

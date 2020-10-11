@@ -23,12 +23,14 @@ services:
             - DICTIONARY_URL=http://dictionary:80
             - PAGES_URL=http://pages:80
             - USERS_URL=http://users:80
+            - SECURITY_URL=http://security:80
         networks:
             - cms
         depends_on:
             - dictionary
             - users
             - pages
+            - security
 
     dictionary:
         build:
@@ -47,6 +49,7 @@ services:
         environment:
             - "ASPNETCORE_ENVIRONMENT=Development"
             - "CONNECTION_STRING=${CONNECTION_STRING}"
+            - SECURITY_URL=http://security:80
         networks:
             - cms
 
@@ -59,3 +62,16 @@ services:
             - "CONNECTION_STRING=${CONNECTION_STRING}"
         networks:
             - cms
+
+    security:
+        build:
+            context: .
+            dockerfile: ./Security/API/Dockerfile
+        environment:
+            - "ASPNETCORE_ENVIRONMENT=Development"
+            - "USERS_URL=http://users:80"
+            - "CONNECTION_STRING=${CONNECTION_STRING}"
+        networks:
+            - cms
+        depends_on:
+            - users
