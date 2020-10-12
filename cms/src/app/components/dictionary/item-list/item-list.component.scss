@@ -1,0 +1,36 @@
+#valuesHeader {
+    font-size: 16px;
+}
+
+#nameColumn {
+    width: 150px;
+}
+
+#valueColumn {
+    width: calc(100% - 150px - 100px);
+}
+
+#actionColumn {
+    width: 100px;
+}
+
+th,
+td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+td.actions {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    button.action {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        font-size: 20px;
+        height: 40px;
+        padding: 0 5px;
+    }
+}

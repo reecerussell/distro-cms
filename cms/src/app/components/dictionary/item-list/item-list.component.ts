@@ -10,6 +10,7 @@ import { DictionaryState } from "src/app/store/dictionary/dictionary.state";
 @Component({
     selector: "app-dictionary-item-list",
     templateUrl: "./item-list.component.html",
+    styleUrls: ["./item-list.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemListComponent implements OnInit {
@@ -30,7 +31,6 @@ export class ItemListComponent implements OnInit {
                 localStorage.getItem("DICTIONARY_CULTURE") ?? navigator.language
             )
         );
-        this.store.dispatch(new ItemActions.GetDropdownItems());
 
         this.store
             .select((state) => state.dictionary)

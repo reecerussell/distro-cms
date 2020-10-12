@@ -161,6 +161,15 @@ body {
                 background-color: #f8f9fa;
             }
 
+            #cultures.form-control {
+                border: 0;
+                height: 79px;
+                max-width: 120px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
             a {
                 height: 80px;
                 padding: 10px 16px;

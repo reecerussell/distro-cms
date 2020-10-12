@@ -1,97 +1,85 @@
 <ng-template [ngIf]="itemListState$ | async">
-    <p>
-        <label
-            >Culture (<a routerLink="/dictionary/cultures/create">new culture</a
-            >):</label
-        >
-        <br />
-        <select
-            name="culture"
-            id="culture"
-            (change)="onCultureChange()"
-            [(ngModel)]="culture"
-        >
-            <option
-                *ngFor="let culture of (itemListState$ | async).cultures"
-                value="{{ culture.name }}"
+    <div class="card">
+        <div class="card-header">
+            <h2 id="valuesHeader">Values</h2>
+        </div>
+        <div class="card-body">
+            <ng-template [ngIf]="(itemListState$ | async).error">
+                <p>
+                    {{ (itemListState$ | async).error }}
+                </p>
+            </ng-template>
+        
+            <app-create-item (created)="onCreated($event)"></app-create-item>
+        
+            <ng-template
+                [ngIf]="
+                    (itemListState$ | async).loading &&
+                    (itemListState$ | async).items.length < 1
+                "
+                [ngIfElse]="table"
             >
-                {{ culture.displayName }}
-            </option>
-        </select>
-    </p>
-
-    <ng-template [ngIf]="(itemListState$ | async).error">
-        <p>
-            {{ (itemListState$ | async).error }}
-        </p>
-    </ng-template>
-
-    <app-create-item (created)="onCreated($event)"></app-create-item>
-
-    <ng-template
-        [ngIf]="
-            (itemListState$ | async).loading &&
-            (itemListState$ | async).items.length < 1
-        "
-        [ngIfElse]="table"
-    >
-        <p>Loading...</p>
-    </ng-template>
-
-    <ng-template #table>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Value</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of items">
-                    <ng-template [ngIf]="item.loading">
-                        <td colspan="3">Loading...</td>
-                    </ng-template>
-                    <ng-template [ngIf]="!item.loading && !item.editing">
-                        <td>{{ item.displayName }}</td>
-                        <td>{{ item.value }}</td>
-                        <td>
-                            <button type="button" (click)="toggleEdit(item)">
-                                Edit
-                            </button>
-                            <button type="button" (click)="deleteItem(item)">
-                                Delete
-                            </button>
-                        </td>
-                    </ng-template>
-                    <ng-template [ngIf]="!item.loading && item.editing">
-                        <td>
-                            <input
-                                type="text"
-                                name="displayName"
-                                maxlength="255"
-                                [(ngModel)]="item.displayName"
-                            />
-                        </td>
-                        <td>
-                            <input
-                                type="text"
-                                name="value"
-                                maxlength="255"
-                                [(ngModel)]="item.value"
-                            />
-                        </td>
-                        <td>
-                            <button type="button" (click)="saveItem(item)">
-                                Save
-                            </button>
-                            <button type="button" (click)="deleteItem(item)">
-                                Delete
-                            </button>
-                        </td>
-                    </ng-template>
-                </tr>
-            </tbody>
-        </table>
-    </ng-template>
+                <p>Loading...</p>
+            </ng-template>
+        
+            <ng-template #table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th id="nameColumn">Name</th>
+                            <th id="valueColumn">Value</th>
+                            <th id="actionColumn"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of items">
+                            <ng-template [ngIf]="item.loading">
+                                <td colspan="3">Loading...</td>
+                            </ng-template>
+                            <ng-template [ngIf]="!item.loading && !item.editing">
+                                <td>{{ item.displayName }}</td>
+                                <td>{{ item.value }}</td>
+                                <td class="actions">
+                                    <button type="button" class="action" (click)="toggleEdit(item)">
+                                        <i class="la la-edit"></i>
+                                    </button>
+                                    <button type="button" class="action" (click)="deleteItem(item)">
+                                        <i class="la la-trash"></i>
+                                    </button>
+                                </td>
+                            </ng-template>
+                            <ng-template [ngIf]="!item.loading && item.editing">
+                                <td class="editing">
+                                    <input
+                                        type="text"
+                                        name="displayName"
+                                        maxlength="255"
+                                        [(ngModel)]="item.displayName"
+                                        class="form-control"
+                                    />
+                                </td>
+                                <td class="editing">
+                                    <input
+                                        type="text"
+                                        name="value"
+                                        maxlength="255"
+                                        [(ngModel)]="item.value"
+                                        class="form-control"
+                                    />
+                                </td>
+                                <td class="actions">
+                                    <button type="button" class="action" (click)="saveItem(item)">
+                                        <i class="la la-save"></i>
+                                    </button>
+                                    <button type="button" class="action" (click)="deleteItem(item)">
+                                        <i class="la la-trash"></i>
+                                    </button>
+                                </td>
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </div>
+    </div>
 </ng-template>
