@@ -1,0 +1,9 @@
+.navbar {
+    color: $navbar-text-color;
+    background-color: $navbar-background-color;
+
+    a.nav-link,
+    a.navbar-brand {
+        color: $navbar-text-color;
+    }
+}
