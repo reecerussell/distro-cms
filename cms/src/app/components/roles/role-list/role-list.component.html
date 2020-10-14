@@ -1,16 +1,46 @@
-<ng-template [ngIf]="roleListState$ | async">
-    <ng-template
-        [ngIf]="(roleListState$ | async).loading"
-        [ngIfElse]="roleList"
-    >
-        <p>Loading...</p>
-    </ng-template>
+<div class="card">
+    <div class="card-body">
+        <form (submit)="loadRoles()">
+            <div class="btn-toolbar mb-3 float-none float-md-right">
+                <div class="btn-group mr-2">
+                    <input type="search"
+                           name="term"
+                           class="form-control form-control-sm border-secondary text-secondary"
+                           [(ngModel)]="searchTerm"
+                           placeholder="Search..." />
+                    <button type="submit"
+                            class="btn btn-sm btn-secondary">
+                        <i class="la la-sync"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
 
-    <ng-template #roleList>
-        <ul>
-            <li *ngFor="let role of (roleListState$ | async).roles">
-                <a routerLink="/roles/{{ role.id }}/edit">{{ role.name }}</a>
-            </li>
-        </ul>
-    </ng-template>
-</ng-template>
+
+        <ng-template [ngIf]="roleListState$ | async">
+            <ng-template [ngIf]="(roleListState$ | async).loading"
+                         [ngIfElse]="roleList">
+                <p>Loading...</p>
+            </ng-template>
+
+            <ng-template #roleList>
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let role of (roleListState$ | async).roles">
+                            <td>{{role.name}}</td>
+                            <td>
+                                <a routerLink="/roles/{{role.id}}/edit">View</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ng-template>
+    </div>
+</div>

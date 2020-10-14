@@ -11,12 +11,17 @@ import Role from "src/app/models/role.model";
 })
 export class RoleListComponent implements OnInit {
     roleListState$: Observable<RoleState[]>;
+    searchTerm: string;
 
     constructor(private store: Store<RoleListState>) {}
 
     ngOnInit(): void {
         this.roleListState$ = this.store.select((state) => state.roles);
-        this.store.dispatch(new RoleAction.GetRoles());
+        this.loadRoles()
+    }
+
+    loadRoles() {
+        this.store.dispatch(new RoleAction.GetRoles(this.searchTerm));
     }
 
     onCreate(role) {
