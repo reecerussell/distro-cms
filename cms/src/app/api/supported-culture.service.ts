@@ -99,6 +99,7 @@ export class SupportedCultureService {
                         return data as SupportedCulture;
                     }
 
+                    this.toastr.error(error)
                     throw new Error(error);
                 })
             );

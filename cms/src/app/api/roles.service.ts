@@ -5,12 +5,13 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Role } from "../models";
 import { environment } from "../../environments/environment";
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
     providedIn: "root",
 })
 export class RolesService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private toastr: ToastrService) {}
 
     GetList$(term: string = ""): Observable<Role[]> {
         return this.http
@@ -22,6 +23,7 @@ export class RolesService {
                         return data as Role[];
                     }
 
+                    this.toastr.error(error);
                     throw new Error(error);
                 })
             );
