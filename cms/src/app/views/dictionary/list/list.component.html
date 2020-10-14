@@ -2,16 +2,11 @@
     <div class="taskbar mb-4">
         <h1>{{(dictionaryState$ | async).loading ? "Loading..." : "Dictionary"}}</h1>
         <ul>
-            <li class="w-auto">
-                <select [(ngModel)]="culture" (change)="onCultureChange()" id="cultures" class="form-control">
-                    <option value="--">Create</option>
-                    
-                    <optgroup label="Supported">
-                        <option *ngFor="let item of (dictionaryState$ | async).cultures" value="{{item.name}}">
-                            {{item.displayName}}
-                        </option>
-                    </optgroup>
-                </select>
+            <li>
+                <a routerLink="/dictionary/cultures">
+                    <i class="la la-folder"></i>
+                    Cultures
+                </a>
             </li>
         </ul>
     </div>

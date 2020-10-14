@@ -21,9 +21,11 @@ import AppState from "./store/app.state";
 // Toastr
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavbarComponent } from './components/layout/navbar/navbar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, NavbarComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -34,7 +36,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         } as ActionReducerMap<AppState>),
         EffectsModule.forRoot([RoleEffects, DictionaryEffects]),
         BrowserAnimationsModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        FormsModule
     ],
     providers: [Interceptors],
     bootstrap: [AppComponent],
