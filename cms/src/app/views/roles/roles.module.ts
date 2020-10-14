@@ -6,7 +6,6 @@ import { RolesRoutingModule } from "./roles-routing.module";
 // Components
 import { RoleListComponent } from "../../components/roles/role-list/role-list.component";
 import { CreateRoleComponent } from "../../components/roles/create-role/create-role.component";
-import { EditRoleComponent } from "../../components/roles/edit-role/edit-role.component";
 
 import { ListComponent } from "./list/list.component";
 import { CreateComponent } from './create/create.component';
@@ -18,7 +17,6 @@ import { EditComponent } from './edit/edit.component';
         ListComponent,
         RoleListComponent,
         CreateRoleComponent,
-        EditRoleComponent,
         CreateComponent,
         EditComponent,
     ],

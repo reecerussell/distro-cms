@@ -1,7 +1,65 @@
-<h1>Edit Role</h1>
+<div class="taskbar mb-4">
+    <ng-template [ngIf]="roleState$ | async">
+        <h1>{{ (roleState$ | async).loading ? "Loading..." : "Roles" }}</h1>
+    </ng-template>
+    <ng-template [ngIf]="!(roleState$ | async)">
+        <h1>Roles</h1>
+    </ng-template>
+    <ul>
+        <li>
+            <a routerLink="/roles">
+                <i class="la la-user-tag"></i>
+                Roles
+            </a>
+        </li>
+    </ul>
+</div>
 
-<p>
-    <a routerLink="/roles">Back to list</a>
-</p>
-
-<app-edit-role [id]="id"></app-edit-role>
+<ng-template [ngIf]="roleState$">
+    <ng-template [ngIf]="role">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Edit Role</h2>
+                    </div>
+                    <form (submit)="onSave()">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" id="name" name="name" [(ngModel)]="role.name" class="form-control" maxlength="255" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex flex-row-reverse">
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Metadata</h4>
+                    </div>
+                    <div class="card-body">
+                        <dl>
+                            <dt>Date Created</dt>
+                            <dd>{{ role.dateCreated | date }}</dd>
+                            <ng-template [ngIf]="role.dateUpdated">
+                                <dt>Date Updated</dt>
+                                <dd>{{ role.dateUpdated | date }}</dd>
+                            </ng-template>
+                        </dl>
+                    </div>
+                    <div class="card-footer d-flex flex-row-reverse">
+                        <button type="button" class="btn btn-sm btn-danger" (click)="onDelete()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</ng-template>

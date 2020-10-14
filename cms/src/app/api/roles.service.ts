@@ -39,6 +39,7 @@ export class RolesService {
                         return data as Role;
                     }
 
+                    this.toastr.error(error);
                     throw new Error(error);
                 })
             );
@@ -61,9 +62,11 @@ export class RolesService {
                 map((response: ResponseBody) => {
                     const { statusCode, data, error } = response;
                     if (statusCode === 200) {
+                        this.toastr.success("Successfully created a new role.")
                         return data as Role;
                     }
 
+                    this.toastr.error(error);
                     throw new Error(error);
                 })
             );
@@ -86,9 +89,11 @@ export class RolesService {
                 map((response: ResponseBody) => {
                     const { statusCode, data, error } = response;
                     if (statusCode === 200) {
+                        this.toastr.success("Successfully updated role.")
                         return data as Role;
                     }
 
+                    this.toastr.error(error);
                     throw new Error(error);
                 })
             );
@@ -101,9 +106,11 @@ export class RolesService {
                 map((responseBody: ResponseBody) => {
                     const { statusCode, data, error } = responseBody;
                     if (statusCode === 200) {
+                        this.toastr.success("Successfully deleted role.")
                         return data;
                     }
 
+                    this.toastr.error(error);
                     throw new Error(error);
                 })
             );
