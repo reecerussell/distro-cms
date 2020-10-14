@@ -1,7 +1,13 @@
 @import "variables";
 @import "scss/checkboxes";
+@import "scss/cards";
 @import "scss/navbar";
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+@import "~bootstrap/scss/bootstrap.scss";
+
+// regular style toast
+@import "~ngx-toastr/toastr";
+@import "scss/toastr";
 
 .bd-placeholder-img {
     font-size: 1.125rem;

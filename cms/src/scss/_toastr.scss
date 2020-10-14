@@ -1,0 +1,13 @@
+.toast-container {
+    .ngx-toastr {
+        border-radius: 0;
+
+        &.toast-error {
+            background-color: $danger;
+        }
+
+        &.toast-success {
+            background-color: $success;
+        }
+    }
+}

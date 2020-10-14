@@ -7,12 +7,13 @@ import { ResponseBody } from "./responses";
 import SupportedCulture, {
     SupportedCultureCreate,
 } from "../models/supported-culture.model";
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
     providedIn: "root",
 })
 export class SupportedCultureService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private toastr: ToastrService) {}
 
     GetDropdownItems$(forceRefresh?: boolean): Observable<SupportedCulture[]> {
         const cacheKey = "SUPPORTED_CULTURES:DROPDOWN_ITEMS";
@@ -94,6 +95,7 @@ export class SupportedCultureService {
                 map((response: ResponseBody) => {
                     const { statusCode, data, error } = response;
                     if (statusCode === 200) {
+                        this.toastr.success("Successfully created a new supported culture.")
                         return data as SupportedCulture;
                     }
 
@@ -149,6 +151,7 @@ export class SupportedCultureService {
                 map((response: ResponseBody) => {
                     const { statusCode, data, error } = response;
                     if (statusCode === 200) {
+                        this.toastr.success("Successfully saved supported culture.")
                         return data as SupportedCulture;
                     }
 
@@ -164,6 +167,7 @@ export class SupportedCultureService {
                 map((responseBody: ResponseBody) => {
                     const { statusCode, data, error } = responseBody;
                     if (statusCode === 200) {
+                        this.toastr.success("Successfully deleted supported culture.")
                         return data;
                     }
 
@@ -184,6 +188,7 @@ export class SupportedCultureService {
                 map((responseBody: ResponseBody) => {
                     const { statusCode, data, error } = responseBody;
                     if (statusCode === 200) {
+                        this.toastr.success("Successfully set the supported culture as default.")
                         return data as SupportedCulture;
                     }
 

@@ -1,44 +1,97 @@
-<h1>Cultures</h1>
-
 <ng-template [ngIf]="dictionaryState$">
-    <ng-template [ngIf]="(dictionaryState$ | async).loading">
-        <p>Loading...</p>
+    <div class="taskbar mb-4">
+        <h1>{{ (dictionaryState$ | async).loading ? "Loading..." : "Cultures" }}</h1>
+        <ul>
+            <li>
+                <a routerLink="/dictionary/cultures">
+                    <i class="la la-folder"></i>
+                    Cultures
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <ng-template [ngIf]="(dictionaryState$ | async).error">
+        <div class="alert alert-danger" role="alert">
+            <h5 class="alert-heading">
+                Oops, an error occured!
+            </h5>
+            <p>
+                {{(dictionaryState$ | async).error}}
+            </p>
+        </div>
     </ng-template>
-    <ng-template [ngIf]="!(dictionaryState$ | async).loading">
-        <h4>
-            {{ culture.name }}
-        </h4>
+
+    <ng-template [ngIf]="culture">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Edit Culture</h2>
+                    </div><form (submit)="save()">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" id="name" value="{{culture.name}}" disabled />
+                                        <small class="form-text">The culture name cannot be changed.</small>
+                                    </div>
+                    
+                                    <div class="form-group">
+                                        <label for="displayName">Display Name</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="displayName"
+                                            id="displayName"
+                                            [(ngModel)]="culture.displayName"
+                                            maxlength="45"
+                                            required
+                                        />
+                                    </div>
+                            
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex flex-row-reverse">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+    
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Metadata</h4>
+                    </div>
+                    <div class="card-body">
+                        <dl>
+                            <dt>Date Created</dt>
+                            <dd>{{ culture.dateCreated | date }}</dd>
+                            <ng-template [ngIf]="culture.dateUpdate !== null">
+                                <dt>Date Updated</dt>
+                                <dd>{{ culture.dateUpdated | date }}</dd>
+                            </ng-template>
+                            <dt>Is Default</dt>
+                            <dd>{{ culture.isDefault ? "Yes" : "No" }}</dd>
+                        </dl>
+                    </div>
+                    <div class="card-footer d-flex flex-row-reverse">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-warning" (click)="setAsDefault()" [disabled]="culture.isDefault">
+                                Set as default
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="delete()">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
     </ng-template>
 
-    <hr />
-
-    <p><a routerLink="/dictionary/cultures">Culture list</a></p>
-
-    <p>
-        <b>Date Created:</b> {{ culture.dateCreated | date }}<br />
-        <b>Date Updated:</b> {{ culture.dateUpdated | date }}<br />
-        <b>Is Default:</b> {{ culture.isDefault ? "Yes" : "No" }}
-    </p>
-
-    <form (submit)="save()">
-        <p>
-            <label>Display Name</label>
-            <br />
-            <input
-                type="text"
-                name="displayName"
-                [(ngModel)]="culture.displayName"
-                maxlength="45"
-                required
-            />
-        </p>
-
-        <p>
-            <button type="submit">Save</button>
-            <button type="button" (click)="delete()">Delete</button>
-            <button type="button" (click)="setAsDefault()">
-                Set as default
-            </button>
-        </p>
-    </form>
 </ng-template>
