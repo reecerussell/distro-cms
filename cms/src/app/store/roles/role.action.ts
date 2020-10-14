@@ -7,6 +7,8 @@ export const GET_ROLES_ERROR = "[Role] GET ROLES ERROR";
 
 export class GetRoles implements Action {
     readonly type = GET_ROLES;
+
+    constructor(public searchTerm?: string) {}
 }
 
 export class GetRolesSuccess implements Action {

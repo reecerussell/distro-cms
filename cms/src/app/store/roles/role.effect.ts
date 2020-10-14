@@ -22,8 +22,8 @@ export class RoleEffects {
     GetRoles$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
             ofType(RoleActions.GET_ROLES),
-            mergeMap((action) =>
-                this.roles.GetList$().pipe(
+            mergeMap((action: RoleActions.GetRoles) =>
+                this.roles.GetList$(action.searchTerm).pipe(
                     map((data) => new RoleActions.GetRolesSuccess(data)),
                     catchError((error: Error) =>
                         of(new RoleActions.GetRolesError(error.message))
