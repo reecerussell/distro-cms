@@ -1,28 +1,26 @@
 <ng-template [ngIf]="roleListState$">
-    <ng-template [ngIf]="(roleListState$ | async)?.error !== null">
-        <p>{{ (roleListState$ | async).error }}</p>
-    </ng-template>
-
-    <ng-template [ngIf]="role.loading">
-        <p>Loading...</p>
-    </ng-template>
-
-    <form (submit)="onSubmit()">
-        <p>
-            <label for="name">Name</label>
-            <br />
-            <input
-                type="text"
-                id="name"
-                name="name"
-                autocomplete="off"
-                required
-                [(ngModel)]="role.name"
-            />
-        </p>
-
-        <p>
-            <button type="submit">Create</button>
-        </p>
-    </form>
+    <div class="card">
+        <div class="card-header">
+            <h2>Create Role</h2>
+        </div>
+        <form (submit)="create()">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control"
+                        [(ngModel)]="role.name"
+                        maxlength="45"
+                        required
+                    />
+                </div>
+            </div>
+            <div class="card-footer d-flex flex-row-reserve">
+                <button type="submit" class="btn btn-success">Create</button>
+            </div>
+        </form>
+    </div>
 </ng-template>

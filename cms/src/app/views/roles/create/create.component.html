@@ -1,7 +1,22 @@
-<h1>Create Role</h1>
+<div class="taskbar mb-4">
+    <ng-template [ngIf]="roleState$ | async">
+        <h1>{{ (roleState$ | async).loading ? "Loading..." : "Roles" }}</h1>
+    </ng-template>
+    <ng-template [ngIf]="!(roleState$ | async)">
+        <h1>Roles</h1>
+    </ng-template>
+    <ul>
+        <li>
+            <a routerLink="/roles">
+                <i class="la la-user-tag"></i>
+                Roles
+            </a>
+        </li>
+    </ul>
+</div>
 
-<p>
-    <a routerLink="/roles">Back to list</a>
-</p>
-
-<app-create-role></app-create-role>
+<div class="row">
+    <div class="col-md-4">
+        <app-create-role></app-create-role>
+    </div>
+</div>
