@@ -1,15 +1,22 @@
-<h1>Cultures</h1>
-<h4>Create</h4>
-<hr />
-
-<ng-template [ngIf]="dictionaryState$">
-    <ng-template [ngIf]="(dictionaryState$ | async)?.loading">
-        <p>Loading...</p>
+<div class="taskbar mb-4">
+    <ng-template [ngIf]="(dictionaryState$ | async)">
+        <h1>{{ (dictionaryState$ | async).loading ? "Loading..." : "Culture" }}</h1>
     </ng-template>
-
-    <ng-template [ngIf]="(dictionaryState$ | async)?.error">
-        <p>{{ (dictionaryState$ | async)?.error }}</p>
+    <ng-template [ngIf]="!(dictionaryState$ | async)">
+        <h1>Culture</h1>
     </ng-template>
+    <ul>
+        <li>
+            <a routerLink="/dictionary/cultures">
+                <i class="la la-folder"></i>
+                Cultures
+            </a>
+        </li>
+    </ul>
+</div>
 
-    <app-create-culture (created)="onCreate($event)"></app-create-culture>
-</ng-template>
+<div class="row">
+    <div class="col-md-4">
+        <app-create-culture (created)="onCreate($event)"></app-create-culture>
+    </div>
+</div>

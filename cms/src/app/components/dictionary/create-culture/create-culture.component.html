@@ -1,45 +1,62 @@
-<form (submit)="create()">
-    <p>
-        <label>Culture</label>
-        <br />
-        <select name="culture" [(ngModel)]="culture" [disabled]="loading">
-            <ng-template [ngIf]="loading">
-                <option value="">Loading...</option>
-            </ng-template>
-            <ng-template [ngIf]="!loading">
-                <option
-                    *ngFor="let culture of availableCultures"
-                    value="{{ culture.name }}"
+<div class="card">
+    <div class="card-header">
+        <h2>New Culture</h2>
+    </div>
+    <form (submit)="create()">
+        <div class="card-body">
+            <div class="form-group">
+                <label for="culture">Culture</label>
+                <select
+                    id="culture"
+                    name="culture"
+                    [(ngModel)]="culture"
+                    [disabled]="loading"
+                    class="form-control"
                 >
-                    {{ culture.displayName }}
-                </option>
-            </ng-template>
-        </select>
-    </p>
-
-    <p>
-        <label>Clone Culture (optional):</label>
-        <br />
-        <select
-            name="cloneCulture"
-            [(ngModel)]="cloneCulture"
-            [disabled]="loading"
-        >
-            <ng-template [ngIf]="loading">
-                <option value="">Loading...</option>
-            </ng-template>
-            <ng-template [ngIf]="!loading">
-                <option
-                    *ngFor="let culture of supportedCultures"
-                    value="{{ culture.id }}"
+                    <ng-template [ngIf]="loading">
+                        <option value="">Loading...</option>
+                    </ng-template>
+                    <ng-template [ngIf]="!loading">
+                        <option
+                            *ngFor="let culture of availableCultures"
+                            value="{{ culture.name }}"
+                        >
+                            {{ culture.displayName }}
+                        </option>
+                    </ng-template>
+                </select>
+                <small class="form-text text-muted"
+                    >Choose from the list of cultures.</small
                 >
-                    {{ culture.displayName }}
-                </option>
-            </ng-template>
-        </select>
-    </p>
+            </div>
 
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+            <div class="form-group">
+                <label for="cloneCulture">Clone</label>
+                <select
+                    name="cloneCulture"
+                    [(ngModel)]="cloneCulture"
+                    [disabled]="loading"
+                    class="form-control"
+                >
+                    <ng-template [ngIf]="loading">
+                        <option value="">Loading...</option>
+                    </ng-template>
+                    <ng-template [ngIf]="!loading">
+                        <option
+                            *ngFor="let culture of supportedCultures"
+                            value="{{ culture.id }}"
+                        >
+                            {{ culture.displayName }}
+                        </option>
+                    </ng-template>
+                </select>
+                <small class="form-text text-muted"
+                    >Optionally, create a new culture based of another.</small
+                >
+            </div>
+        </div>
+        <div class="card-footer d-flex flex-row-reverse">
+            <button type="submit" class="btn btn-success">Create</button>
+        </div>
+    </form>
+</div>

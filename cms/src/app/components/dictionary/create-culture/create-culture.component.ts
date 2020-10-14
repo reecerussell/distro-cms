@@ -1,6 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { Store } from '@ngrx/store';
 import { SupportedCultureService } from "src/app/api";
 import { SupportedCulture, SupportedCultureCreate } from "src/app/models";
+import * as DictionaryActions from "src/app/store/dictionary/dictionary.action";
+import AppState from 'src/app/store/app.state';
 
 @Component({
     selector: "app-create-culture",
@@ -14,10 +17,7 @@ export class CreateCultureComponent implements OnInit {
     availableCultures: SupportedCulture[];
     supportedCultures: SupportedCulture[];
 
-    @Output()
-    created = new EventEmitter<SupportedCultureCreate>();
-
-    constructor(private api: SupportedCultureService) {}
+    constructor(private api: SupportedCultureService, private store: Store<AppState>) {}
 
     ngOnInit(): void {
         this.loadCultures();
@@ -41,8 +41,6 @@ export class CreateCultureComponent implements OnInit {
     }
 
     create(): void {
-        this.created.emit(
-            new SupportedCultureCreate(this.culture, this.cloneCulture)
-        );
+        this.store.dispatch(new DictionaryActions.CreateCulture(new SupportedCultureCreate(this.culture, this.cloneCulture)));
     }
 }
