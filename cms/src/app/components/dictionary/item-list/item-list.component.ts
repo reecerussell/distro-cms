@@ -59,8 +59,4 @@ export class ItemListComponent implements OnInit {
     deleteItem(item: ItemState): void {
         this.store.dispatch(new ItemActions.DeleteItem(item.id));
     }
-
-    onCreated(item: DictionaryItem): void {
-        this.store.dispatch(new ItemActions.CreateItem(item, this.culture));
-    }
 }

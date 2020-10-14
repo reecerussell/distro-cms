@@ -1,33 +1,57 @@
-<form (submit)="create()">
-    <h3>New item</h3>
-    <p>
-        <label id="newItemKey">Key:&nbsp;</label>
-        <input
-            type="text"
-            name="key"
-            id="newItemKey"
-            [(ngModel)]="key"
-            maxlength="45"
-            required
-        />
-        <label id="newItemDisplayName">Display Name:&nbsp;</label>
-        <input
-            type="text"
-            name="displayName"
-            id="newItemDisplayName"
-            [(ngModel)]="displayName"
-            maxlength="255"
-            required
-        />
-        <label id="newItemValue">Value:&nbsp;</label>
-        <input
-            type="text"
-            name="key"
-            id="newItemValue"
-            [(ngModel)]="value"
-            maxlength="255"
-            required
-        />
-        <button type="submit">Save</button>
-    </p>
-</form>
+<div class="card">
+    <div class="card-header">
+        <h4>Add Value</h4>
+    </div>
+    <form (submit)="create()">
+        <div class="card-body">
+
+            <div class="form-group">
+                <label for="newItemKey">Key</label>
+                <input type="text"
+                       name="key"
+                       class="form-control"
+                       id="newItemKey"
+                       [(ngModel)]="key"
+                       maxlength="45"
+                       required />
+                <ng-template [ngIf]="errorMap.get('key')">
+                    <small class="form-text text-danger">{{errorMap.get('key')}}</small>
+                </ng-template>
+            </div>
+
+            <div class="form-group">
+                <label for="newItemDisplayName">Display Name</label>
+                <input type="text"
+                       name="displayName"
+                       class="form-control"
+                       id="newItemDisplayName"
+                       [(ngModel)]="displayName"
+                       placeholder="{{key}}"
+                       maxlength="255"
+                       required />
+                       <ng-template [ngIf]="errorMap.get('displayName')">
+                        <small class="form-text text-danger">{{errorMap.get('displayName')}}</small>
+                    </ng-template>
+            </div>
+
+            <div class="form-group">
+                <label for="newItemValue">Value:&nbsp;</label>
+                <input type="text"
+                       name="key"
+                       class="form-control"
+                       id="newItemValue"
+                       [(ngModel)]="value"
+                       maxlength="255"
+                       required />
+                       <ng-template [ngIf]="errorMap.get('value')">
+                        <small class="form-text text-danger">{{errorMap.get('value')}}</small>
+                    </ng-template>
+            </div>
+
+        </div>
+        <div class="card-footer d-flex flex-row-reverse">
+            <button type="submit"
+                    class="btn btn-sm btn-success">Add</button>
+        </div>
+    </form>
+</div>
