@@ -1,20 +1,21 @@
-<div class="taskbar mb-4">
-    <h1>Dictionary</h1>
-    <ul>
-        <ng-template [ngIf]="dictionaryState$">
+<ng-template [ngIf]="dictionaryState$">
+    <div class="taskbar mb-4">
+        <h1>{{(dictionaryState$ | async).loading ? "Loading..." : "Dictionary"}}</h1>
+        <ul>
             <li class="w-auto">
                 <select [(ngModel)]="culture" (change)="onCultureChange()" id="cultures" class="form-control">
                     <option value="--">Create</option>
+                    
                     <optgroup label="Supported">
-                        <option *ngFor="let culture of (dictionaryState$ | async).cultures" value="{{ culture.name }}">
-                            {{culture.displayName}}
+                        <option *ngFor="let item of (dictionaryState$ | async).cultures" value="{{item.name}}">
+                            {{item.displayName}}
                         </option>
                     </optgroup>
                 </select>
             </li>
-        </ng-template>
-    </ul>
-</div>
+        </ul>
+    </div>
+</ng-template>
 
 <div class="row">
     <div class="col-md-9">

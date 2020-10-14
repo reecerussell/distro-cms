@@ -1,24 +1,35 @@
-$primary: #00a6c0;
-$success: #a5e65a;
-$dark: #5f7174;
-$secondary: #6a888c;
-$info: #32d8cb;
+// $primary: #00a6c0;
+// $success: #a5e65a;
+// $dark: #5f7174;
+// $secondary: #6a888c;
+// $info: #32d8cb;
+// $warning: #ffb347;
+// $danger: #ff6464;
+
+// $navbar-text-color: #fff;
+// $navbar-background-color: $dark;
+
+// $body-background-color: #f4f4f4;
+
+// $alert-background-success: $success;
+// $alert-background-danger: $danger;
+
+// Greenish
+$primary: #abc270;
+$success: #abc270;
+$dark: #463c33;
+$secondary: #fec868;
+$info: #fda769;
 $warning: #ffb347;
 $danger: #ff6464;
 
 $navbar-text-color: #fff;
-$navbar-background-color: $dark;
+$navbar-background-color: $primary;
 
-// Greenish
-// $primary: #abc270;
-// $success: #a5e65a;
-// $dark: #463c33;
-// $secondary: #fec868;
-// $info: #fda769;
-// $warning: #ffb347;
+$body-background-color: #f4f4f4;
 
-// $navbar-text-color: #fff;
-// $navbar-background-color: $primary;
+$alert-background-success: $primary;
+$alert-background-danger: $danger;
 
 // Brownish
 // $primary: #ff2525;

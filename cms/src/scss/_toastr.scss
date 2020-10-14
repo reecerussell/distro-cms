@@ -3,11 +3,11 @@
         border-radius: 0;
 
         &.toast-error {
-            background-color: $danger;
+            background-color: $alert-background-danger;
         }
 
         &.toast-success {
-            background-color: $success;
+            background-color: $alert-background-success;
         }
     }
 }

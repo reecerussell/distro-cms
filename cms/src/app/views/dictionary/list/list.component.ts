@@ -21,10 +21,9 @@ export class ListComponent implements OnInit {
     ngOnInit(): void {
         this.store.dispatch(new DictionaryActions.GetDropdownItems())
 
+        this.culture = localStorage.getItem("DICTIONARY_CULTURE") ?? navigator.language;
         this.dictionaryState$.subscribe(state => {
-            this.culture = state?.culture ??
-            localStorage.getItem("DICTIONARY_CULTURE") ??
-            navigator.language;
+            this.culture = state?.culture ?? localStorage.getItem("DICTIONARY_CULTURE") ?? navigator.language;
         })
     }
 
