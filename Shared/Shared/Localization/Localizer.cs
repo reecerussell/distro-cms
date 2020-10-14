@@ -35,7 +35,7 @@ namespace Shared.Localization
             var cacheKey = $"Localizer:{key}";
             if (_cache.TryGetValue(cacheKey, out string cachedValue))
             {
-                _logger.LogDebug("Using cached value '{0}'", cachedValue);
+                _logger.LogDebug("Using cached value '{0}' for string: '{1}'", cachedValue, key);
 
                 return cachedValue;
             }
@@ -51,7 +51,7 @@ namespace Shared.Localization
             var value = await connection.QuerySingleOrDefaultAsync<string>("GetDictionaryString", parameters,
                 commandType: CommandType.StoredProcedure);
 
-            _logger.LogDebug("Using database value '{0}'", value);
+            _logger.LogDebug("Using database value '{0}' for string '{1}'", value, key);
             _logger.LogDebug("Caching value for 5 minutes.");
 
             _cache.Set(cacheKey, value, TimeSpan.FromMinutes(5));
