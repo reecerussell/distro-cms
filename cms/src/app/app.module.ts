@@ -4,6 +4,7 @@ import { ActionReducerMap, StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { HttpClientModule } from "@angular/common/http";
 import Interceptors from "./api/interceptor";
+import {environment} from "../environments/environment";
 
 // App
 import { AppRoutingModule } from "./app-routing.module";
@@ -23,6 +24,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './components/layout/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
     declarations: [AppComponent, NavbarComponent],
@@ -34,6 +36,10 @@ import { FormsModule } from '@angular/forms';
             roles: RoleReducer.RoleReducer,
             dictionary: DictionaryReducer.DictionaryReducer,
         } as ActionReducerMap<AppState>),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            logOnly: environment.production, // Restrict extension to log-only mode
+          }),
         EffectsModule.forRoot([RoleEffects, DictionaryEffects]),
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
