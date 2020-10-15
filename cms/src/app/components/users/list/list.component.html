@@ -1,0 +1,66 @@
+<div class="card">
+    <div class="card-body">
+        <form (submit)="loadUsers()">
+            <div class="btn-toolbar mb-3 float-none float-md-right">
+                <div class="btn-group mr-2">
+                    <select
+                        name="roleId"
+                        [(ngModel)]="roleId"
+                        (change)="loadUsers()"
+                        class="form-control form-control-sm border-secondary text-secondary"
+                    >
+                        <option value="">Role</option>
+                        <option
+                            *ngFor="let role of roles"
+                            value="{{ role.id }}"
+                        >
+                            {{ role.name }}
+                        </option>
+                    </select>
+                    <input
+                        type="search"
+                        name="term"
+                        class="form-control form-control-sm border-secondary text-secondary"
+                        [(ngModel)]="searchTerm"
+                        placeholder="Search..."
+                    />
+                    <button type="submit" class="btn btn-sm btn-secondary">
+                        <i class="la la-sync"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <ng-template [ngIf]="usersState$ | async">
+            <ng-template
+                [ngIf]="(usersState$ | async).loading"
+                [ngIfElse]="userList"
+            >
+                <p>Loading...</p>
+            </ng-template>
+
+            <ng-template #userList>
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Email</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of (usersState$ | async).users">
+                            <td>{{ user.firstname }}</td>
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <a routerLink="/">View</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ng-template>
+    </div>
+</div>

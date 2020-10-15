@@ -140,5 +140,22 @@ namespace API.Controllers
                 return InternalServerError(e.Message);
             }
         }
+
+        [HttpGet("dropdown")]
+        public async Task<IActionResult> Dropdown()
+        {
+            try
+            {
+                var roles = await _provider.GetDropdownItemsAsync();
+
+                return Ok(roles);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while getting a list of role dropdown items.");
+
+                return InternalServerError(e.Message);
+            }
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace Users.Infrastructure
     {
         Task<IReadOnlyList<RoleListItemDto>> GetListAsync(string term);
         Task<RoleDto> GetAsync(string id);
+        Task<IReadOnlyList<RoleDropdownDto>> GetDropdownItemsAsync();
     }
 }
