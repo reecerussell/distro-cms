@@ -33,7 +33,7 @@ namespace Users.Infrastructure.Providers
 
             var parameters = new Dictionary<string, object>
             {
-                {"@Id", id }
+                {"@UserId", id }
             };
             var user = await connection.QuerySingleOrDefaultAsync<UserDto>("GetUser", parameters, commandType: CommandType.StoredProcedure);
             if (user == null)

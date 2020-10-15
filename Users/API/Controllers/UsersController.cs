@@ -108,7 +108,7 @@ namespace API.Controllers
 
                 Logger.LogDebug("Successfully updated user with id '{0}'.", dto.Id);
 
-                return Ok();
+                return await Get(dto.Id);
             }
             catch (NotFoundException e)
             {

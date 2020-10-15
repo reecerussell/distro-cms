@@ -55,7 +55,9 @@
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.email }}</td>
                             <td>
-                                <a routerLink="/">View</a>
+                                <a routerLink="/users/{{ user.id }}/edit"
+                                    >View</a
+                                >
                             </td>
                         </tr>
                     </tbody>

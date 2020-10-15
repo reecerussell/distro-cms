@@ -93,7 +93,7 @@ namespace Users.Infrastructure.Services
 
             user.Update(dto);
 
-            if (await _repository.ExistsWithEmailAsync(user.Email))
+            if (await _repository.ExistsWithEmailAsync(user.Email, user.Id))
             {
                 _logger.LogDebug("The email address '{0}' has already been taken.", user.Email);
 

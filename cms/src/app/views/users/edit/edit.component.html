@@ -1,0 +1,97 @@
+<div class="taskbar mb-4">
+    <ng-template [ngIf]="usersState$ | async">
+        <h1>{{ (usersState$ | async).loading ? "Loading..." : "User" }}</h1>
+    </ng-template>
+    <ng-template [ngIf]="!(usersState$ | async)">
+        <h1>User</h1>
+    </ng-template>
+    <ul>
+        <li>
+            <a routerLink="/users">
+                <i class="la la-users"></i>
+                Users
+            </a>
+        </li>
+    </ul>
+</div>
+
+<ng-template [ngIf]="user">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Edit User</h2>
+                </div>
+                <form (submit)="save()">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="firstname">Firstname</label>
+                                    <input
+                                        type="text"
+                                        id="firstname"
+                                        name="firstname"
+                                        class="form-control"
+                                        [(ngModel)]="user.firstname"
+                                        maxlength="255"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="lastname">Lastname</label>
+                                    <input
+                                        type="text"
+                                        id="lastname"
+                                        name="lastname"
+                                        class="form-control"
+                                        [(ngModel)]="user.lastname"
+                                        maxlength="255"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                [(ngModel)]="user.email"
+                                maxlength="255"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex flex-row-reverse">
+                        <button type="submit" class="btn btn-sm btn-success">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Metadata</h4>
+                </div>
+                <div class="card-body">
+                    <dl>
+                        <dt>Date Created</dt>
+                        <dd>{{ user.dateCreated | date }}</dd>
+                        <ng-template [ngIf]="user.dateUpdated">
+                            <dt>Date Updated</dt>
+                            <dd>{{ user.dateUpdated | date }}</dd>
+                        </ng-template>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
