@@ -19,7 +19,7 @@ export class UserEffects {
         this.actions$.pipe(
             ofType(UserActions.GET_USERS),
             mergeMap((action: UserActions.GetUsers) =>
-                this.users.GetList$(action.type, action.roleId).pipe(
+                this.users.GetList$(action.searchTerm, action.roleId).pipe(
                     map((data) => new UserActions.GetUsersSuccess(data)),
                     catchError((error: Error) =>
                         of(new UserActions.GetUsersError(error.message))

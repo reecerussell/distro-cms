@@ -1,4 +1,4 @@
-import { initializeUsersState } from "./User.state";
+import { initializeUsersState } from "./user.state";
 import * as UserActions from "./user.action";
 
 type Action = UserActions.All;

@@ -14,6 +14,11 @@ export const routes: Routes = [
                 (c) => c.DictionaryModule
             ),
     },
+    {
+        path: "users",
+        loadChildren: () =>
+            import("./views/users/users.module").then((x) => x.UsersModule),
+    },
 ];
 
 @NgModule({
