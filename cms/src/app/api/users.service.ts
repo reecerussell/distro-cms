@@ -31,4 +31,20 @@ export class UsersService {
                 })
             );
     }
+
+    Get$(id: string): Observable<User> {
+        return this.http
+            .get(environment.api_base_url + "auth/users/" + id)
+            .pipe(
+                map((responseBody: ResponseBody) => {
+                    const { statusCode, data, error } = responseBody;
+                    if (statusCode === 200) {
+                        return data as User;
+                    }
+
+                    this.toastr.error(error);
+                    throw new Error(error);
+                })
+            );
+    }
 }
