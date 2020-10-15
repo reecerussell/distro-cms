@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Shared.Controllers;
 using Shared.Exceptions;
-using Shared.OAuth;
 using System;
 using System.Threading.Tasks;
 using Users.Domain.Dtos;
@@ -13,7 +11,6 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/users")]
-    [Authorize(AuthenticationSchemes = OAuthConstants.AuthenticationScheme)]
     public class UsersController : BaseController
     {
         private readonly IUserService _service;
@@ -56,7 +53,26 @@ namespace API.Controllers
             }
         }
 
-        // TODO: list
+        [HttpGet]
+        public async Task<IActionResult> GetList(string term = null, string roleId = null)
+        {
+            Logger.LogDebug("Requesting users...");
+
+            try
+            {
+                var users = await _provider.GetListAsync(term, roleId);
+
+                Logger.LogDebug("{0} users found.", users.Count);
+
+                return Ok(users);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while requesting a list of users");
+
+                return InternalServerError(e.Message);
+            }
+        }
         
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserDto dto)
