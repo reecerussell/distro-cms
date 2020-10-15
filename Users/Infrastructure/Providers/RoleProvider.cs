@@ -55,5 +55,16 @@ namespace Users.Infrastructure.Providers
 
             return role;
         }
+
+        public async Task<IReadOnlyList<RoleDropdownDto>> GetDropdownItemsAsync()
+        {
+            var connectionString = await _connectionStringProvider.GetConnectionString();
+            await using var connection = new SqlConnection(connectionString);
+
+            var roles = await connection.QueryAsync<RoleDropdownDto>("GetRolesForDropdown",
+                commandType: CommandType.StoredProcedure);
+
+            return roles.ToList();
+        }
     }
 }
