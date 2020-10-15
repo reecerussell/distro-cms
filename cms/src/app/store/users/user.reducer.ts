@@ -56,5 +56,21 @@ export const UserReducer = (state = defaultState, action: Action) => {
                 error: action.error,
                 loading: false,
             };
+
+        case UserActions.UPDATE_USER:
+            return { ...state, loading: true };
+        case UserActions.UPDATE_USER_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                loading: false,
+                users: mergeUsers(state.users, action.user),
+            };
+        case UserActions.UPDATE_USER_ERROR:
+            return {
+                ...state,
+                error: action.error,
+                loading: false,
+            };
     }
 };

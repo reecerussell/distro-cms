@@ -1,4 +1,4 @@
-import User from "../../models/user.model";
+import User, { UserUpdate } from "../../models/user.model";
 import { Action } from "@ngrx/store";
 
 export const GET_USERS = "[User] GET USERS";
@@ -7,6 +7,9 @@ export const GET_USERS_ERROR = "[User] GET USERS ERROR";
 export const GET_USER = "[User] GET USER";
 export const GET_USER_SUCCESS = "[User] GET USER SUCCESS";
 export const GET_USER_ERROR = "[User] GET USER ERROR";
+export const UPDATE_USER = "[User] UPDATE USER";
+export const UPDATE_USER_SUCCESS = "[User] UPDATE USER SUCCESS";
+export const UPDATE_USER_ERROR = "[User] UPDATE USER ERROR";
 
 export class GetUsers implements Action {
     readonly type = GET_USERS;
@@ -44,10 +47,31 @@ export class GetUserError implements Action {
     constructor(public error: string) {}
 }
 
+export class UpdateUser implements Action {
+    readonly type = UPDATE_USER;
+
+    constructor(public user: UserUpdate) {}
+}
+
+export class UpdateUserSuccess implements Action {
+    readonly type = UPDATE_USER_SUCCESS;
+
+    constructor(public user: User) {}
+}
+
+export class UpdateUserError implements Action {
+    readonly type = UPDATE_USER_ERROR;
+
+    constructor(public error: string) {}
+}
+
 export type All =
     | GetUsers
     | GetUsersSuccess
     | GetUsersError
     | GetUser
     | GetUserSuccess
-    | GetUserError;
+    | GetUserError
+    | UpdateUser
+    | UpdateUserSuccess
+    | UpdateUserError;

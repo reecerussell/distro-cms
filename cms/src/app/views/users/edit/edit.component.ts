@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
-import User from "src/app/models/user.model";
+import User, { UserUpdate } from "src/app/models/user.model";
 import AppState from "src/app/store/app.state";
 import { UsersState } from "src/app/store/users/user.state";
 import * as UserActions from "src/app/store/users/user.action";
@@ -30,7 +30,13 @@ export class EditComponent implements OnInit {
     onIdChange(id: string): void {
         this.store.dispatch(new UserActions.GetUser(id));
         this.usersState$.subscribe(
-            (state) => (this.user = state.users.find((x) => x.id === id))
+            (state) => (this.user = { ...state.users.find((x) => x.id === id) })
+        );
+    }
+
+    save(): void {
+        this.store.dispatch(
+            new UserActions.UpdateUser(this.user as UserUpdate)
         );
     }
 }

@@ -37,4 +37,18 @@ export class UserEffects {
             )
         )
     );
+
+    Update$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(UserActions.UPDATE_USER),
+            mergeMap((action: UserActions.UpdateUser) =>
+                this.users.Update$(action.user).pipe(
+                    map((data) => new UserActions.UpdateUserSuccess(data)),
+                    catchError((error: Error) =>
+                        of(new UserActions.UpdateUserError(error.message))
+                    )
+                )
+            )
+        )
+    );
 }

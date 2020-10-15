@@ -22,7 +22,7 @@
                 <div class="card-header">
                     <h2>Edit User</h2>
                 </div>
-                <form>
+                <form (submit)="save()">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
@@ -74,6 +74,23 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Metadata</h4>
+                </div>
+                <div class="card-body">
+                    <dl>
+                        <dt>Date Created</dt>
+                        <dd>{{ user.dateCreated | date }}</dd>
+                        <ng-template [ngIf]="user.dateUpdated">
+                            <dt>Date Updated</dt>
+                            <dd>{{ user.dateUpdated | date }}</dd>
+                        </ng-template>
+                    </dl>
+                </div>
             </div>
         </div>
     </div>
