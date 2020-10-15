@@ -20,3 +20,8 @@ export default class Role {
         };
     }
 }
+
+export class RoleDropdownItem {
+    id: string;
+    name: string;
+}

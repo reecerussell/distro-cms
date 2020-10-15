@@ -3,6 +3,20 @@
         <form (submit)="loadUsers()">
             <div class="btn-toolbar mb-3 float-none float-md-right">
                 <div class="btn-group mr-2">
+                    <select
+                        name="roleId"
+                        [(ngModel)]="roleId"
+                        (change)="loadUsers()"
+                        class="form-control form-control-sm border-secondary text-secondary"
+                    >
+                        <option value="">Role</option>
+                        <option
+                            *ngFor="let role of roles"
+                            value="{{ role.id }}"
+                        >
+                            {{ role.name }}
+                        </option>
+                    </select>
                     <input
                         type="search"
                         name="term"
