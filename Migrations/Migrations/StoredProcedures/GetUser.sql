@@ -6,7 +6,9 @@ BEGIN
 		Id,
 		Firstname,
 		Lastname,
-		Email
+		Email,
+		DateCreated,
+		DateUpdated
 	FROM Users 
 	WHERE Id = @UserId;
 END
