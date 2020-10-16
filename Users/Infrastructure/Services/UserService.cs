@@ -220,5 +220,35 @@ namespace Users.Infrastructure.Services
 
             _logger.LogDebug("Successfully removed the user '{0}' from the role '{1}'", user.Id, role.Id);
         }
+
+        /// <summary>
+        /// Deletes the user with the <paramref name="id"/>, along with any related entities, such as roles etc.
+        /// </summary>
+        /// <param name="id">The id of the user to be deleted.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws if <paramref name="id"/> is null or empty.</exception>
+        /// <exception cref="NotFoundException">Throws is no user could be found with this given <paramref name="id"/>.</exception>
+        public async Task DeleteAsync(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            _logger.LogDebug("Deleting user '{0}'...", id);
+
+            var user = await _repository.FindByIdAsync(id);
+            if (user == null)
+            {
+                _logger.LogDebug("Could not find user with id '{0}'", id);
+
+                throw new NotFoundException(ErrorMessages.UserNotFound);
+            }
+
+            _repository.Remove(user);
+            await _repository.SaveChangesAsync();
+
+            _logger.LogDebug("Successfully deleted user '{0}'.", id);
+        }
     }
 }
