@@ -5,10 +5,15 @@ import { Observable, of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { UsersService } from "../../api/users.service";
 import * as UserActions from "./user.action";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class UserEffects {
-    constructor(private actions$: Actions, private users: UsersService) {}
+    constructor(
+        private actions$: Actions,
+        private users: UsersService,
+        private router: Router
+    ) {}
 
     GetUsers$: Observable<Action> = createEffect(() =>
         this.actions$.pipe(
@@ -46,6 +51,24 @@ export class UserEffects {
                     map((data) => new UserActions.UpdateUserSuccess(data)),
                     catchError((error: Error) =>
                         of(new UserActions.UpdateUserError(error.message))
+                    )
+                )
+            )
+        )
+    );
+
+    Delete$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(UserActions.DELETE_USER),
+            mergeMap((action: UserActions.DeleteUser) =>
+                this.users.Delete$(action.id).pipe(
+                    map((data) => {
+                        this.router.navigateByUrl("/users");
+
+                        return new UserActions.DeleteUserSuccess(data);
+                    }),
+                    catchError((error: Error) =>
+                        of(new UserActions.DeleteUserError(error.message))
                     )
                 )
             )

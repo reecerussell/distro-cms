@@ -10,6 +10,9 @@ export const GET_USER_ERROR = "[User] GET USER ERROR";
 export const UPDATE_USER = "[User] UPDATE USER";
 export const UPDATE_USER_SUCCESS = "[User] UPDATE USER SUCCESS";
 export const UPDATE_USER_ERROR = "[User] UPDATE USER ERROR";
+export const DELETE_USER = "[User] DELETE USER";
+export const DELETE_USER_SUCCESS = "[User] DELETE USER SUCCESS";
+export const DELETE_USER_ERROR = "[User] DELETE USER ERROR";
 
 export class GetUsers implements Action {
     readonly type = GET_USERS;
@@ -65,6 +68,24 @@ export class UpdateUserError implements Action {
     constructor(public error: string) {}
 }
 
+export class DeleteUser implements Action {
+    readonly type = DELETE_USER;
+
+    constructor(public id: string) {}
+}
+
+export class DeleteUserSuccess implements Action {
+    readonly type = DELETE_USER_SUCCESS;
+
+    constructor(public id: string) {}
+}
+
+export class DeleteUserError implements Action {
+    readonly type = DELETE_USER_ERROR;
+
+    constructor(public error: string) {}
+}
+
 export type All =
     | GetUsers
     | GetUsersSuccess
@@ -74,4 +95,7 @@ export type All =
     | GetUserError
     | UpdateUser
     | UpdateUserSuccess
-    | UpdateUserError;
+    | UpdateUserError
+    | DeleteUser
+    | DeleteUserSuccess
+    | DeleteUserError;

@@ -74,4 +74,21 @@ export class UsersService {
                 })
             );
     }
+
+    Delete$(id: string): Observable<any> {
+        return this.http
+            .delete(environment.api_base_url + `auth/users/${id}`)
+            .pipe(
+                map((responseBody: ResponseBody) => {
+                    const { statusCode, data, error } = responseBody;
+                    if (statusCode === 200) {
+                        this.toastr.success("Successfully deleted user.");
+                        return data;
+                    }
+
+                    this.toastr.error(error);
+                    throw new Error(error);
+                })
+            );
+    }
 }
