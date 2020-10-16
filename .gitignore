@@ -34,6 +34,9 @@ Security/Infrastructure/obj/*
 
 Shared/Shared/bin/*
 Shared/Shared/obj/*
+Shared/Shared.Tests/bin/*
+Shared/Shared.Tests/obj/*
+
 Migrations/Migrations/bin/*
 Migrations/Migrations/obj/*
 Gateway/Gateway/bin/*

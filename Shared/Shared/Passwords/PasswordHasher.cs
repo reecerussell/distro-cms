@@ -2,13 +2,19 @@
 using Microsoft.Extensions.Options;
 using Shared.Exceptions;
 using System;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
+[assembly: InternalsVisibleTo("Shared.Tests")]
 namespace Shared.Passwords
 {
+    /// <summary>
+    /// Similar to the password hasher from Identity, but only containing the hashing logic
+    /// for a single approach.
+    /// </summary>
     internal class PasswordHasher : IPasswordHasher
     {
-        private const byte FormatMarker = 0x01;
+        internal const byte FormatMarker = 0x01;
         private const KeyDerivationPrf Algorithm = KeyDerivationPrf.HMACSHA256;
 
         private readonly RandomNumberGenerator _rng;
@@ -16,7 +22,7 @@ namespace Shared.Passwords
 
         public PasswordHasher(IOptions<PasswordOptions> optionsProvider)
         {
-            var options = optionsProvider.Value?.Hasher;
+            var options = optionsProvider?.Value?.Hasher;
             if (options == null)
             {
                 throw new NullReferenceException("PasswordHasherOptions must be configured before the PasswordService is used.");
