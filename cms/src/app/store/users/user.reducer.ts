@@ -72,5 +72,21 @@ export const UserReducer = (state = defaultState, action: Action) => {
                 error: action.error,
                 loading: false,
             };
+
+        case UserActions.DELETE_USER:
+            return { ...state, loading: true };
+        case UserActions.DELETE_USER_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                loading: false,
+                users: state.users.filter((x) => x.id !== action.id),
+            };
+        case UserActions.DELETE_USER_ERROR:
+            return {
+                ...state,
+                error: action.error,
+                loading: false,
+            };
     }
 };

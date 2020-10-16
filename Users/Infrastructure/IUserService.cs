@@ -10,5 +10,6 @@ namespace Users.Infrastructure
         Task ChangePasswordAsync(ChangePasswordDto dto);
         Task AddToRoleAsync(UserRoleDto dto);
         Task RemoveFromRoleAsync(UserRoleDto dto);
+        Task DeleteAsync(string id);
     }
 }
