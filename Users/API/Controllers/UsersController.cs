@@ -217,5 +217,26 @@ namespace API.Controllers
                 return InternalServerError(e.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                await _service.DeleteAsync(id);
+
+                return Ok();
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error occured while deleting a user.");
+
+                return InternalServerError(e.Message);
+            }
+        }
     }
 }
