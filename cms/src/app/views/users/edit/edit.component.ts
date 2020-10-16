@@ -39,4 +39,8 @@ export class EditComponent implements OnInit {
             new UserActions.UpdateUser(this.user as UserUpdate)
         );
     }
+
+    delete(): void {
+        this.store.dispatch(new UserActions.DeleteUser(this.user.id));
+    }
 }
