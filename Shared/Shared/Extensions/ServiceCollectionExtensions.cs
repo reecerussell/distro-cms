@@ -18,6 +18,7 @@ namespace Shared.Extensions
             services.Configure(options);
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<IPasswordValidator, PasswordValidator>();
+            services.AddTransient<IPasswordGenerator, PasswordGenerator>();
         }
     }
 }
