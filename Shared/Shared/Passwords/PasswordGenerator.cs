@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
 
 [assembly: InternalsVisibleTo("Shared.Tests")]
 namespace Shared.Passwords
@@ -8,6 +9,7 @@ namespace Shared.Passwords
     internal class PasswordGenerator : IPasswordGenerator
     {
         private readonly PasswordGeneratorOptions _options;
+        private readonly RandomNumberGenerator _rng;
 
         public PasswordGenerator(IOptions<PasswordOptions> options)
         {
@@ -38,6 +40,7 @@ namespace Shared.Passwords
             }
 
             _options = generatorOptions;
+            _rng = new RNGCryptoServiceProvider();
         }
 
         public string Generate(int length)
@@ -47,13 +50,26 @@ namespace Shared.Passwords
 
             for (var i = 0; i < length; i++)
             {
-                var rnd = new Random();
-                var character = possibleChars[rnd.Next(0, possibleChars.Length - 1)];
-
-                password[i] = character;
+                var randIndex = GetRandomIndex(0, possibleChars.Length - 1);
+                password[i] = possibleChars[randIndex];
             }
 
             return new string(password);
+        }
+
+        // https://github.com/prjseal/PasswordGenerator/blob/f86da8e021c3f0f47b5a120c404e1df27106ca99/PasswordGenerator/Password.cs#L183
+        internal int GetRandomIndex(int min, int max)
+        {
+            if (min > max)
+            {
+                throw new ArgumentOutOfRangeException(nameof(min), "min cannot be greater than max");
+            }
+
+            var data = new byte[sizeof(int)];
+            _rng.GetBytes(data);
+            var randomIndex = BitConverter.ToInt32(data, 0);
+
+            return (int)Math.Floor((double)(min + Math.Abs(randomIndex % (max - min))));
         }
     }
 }

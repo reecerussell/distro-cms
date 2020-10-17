@@ -78,5 +78,24 @@ namespace Shared.Tests.Passwords
 
             _testOutputHelper.WriteLine(password);
         }
+
+        [Theory]
+        [InlineData(10, 5)]
+        [InlineData(5, 0)]
+        public void TestGetRandomIndexWithMinGreaterThanMax(int min, int max)
+        {
+            var generator = new PasswordGenerator(Options.Create(new PasswordOptions()));
+            Assert.Throws<ArgumentOutOfRangeException>(() => generator.GetRandomIndex(min, max));
+        }
+
+        [Theory]
+        [InlineData(5, 10)]
+        [InlineData(0, 10)]
+        public void TestGetRandomIndex(int min, int max)
+        {
+            var generator = new PasswordGenerator(Options.Create(new PasswordOptions()));
+            var randIndex = generator.GetRandomIndex(min, max);
+            Assert.True(min <= randIndex && randIndex <= max);
+        }
     }
 }
