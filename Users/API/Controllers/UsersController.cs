@@ -79,11 +79,14 @@ namespace API.Controllers
         {
             try
             {
-                var userId = await _service.CreateAsync(dto);
+                var (userId, password) = await _service.CreateAsync(dto);
 
                 Logger.LogDebug("Successfully created user with id '{0}'.", userId);
 
-                return Ok(userId);
+                var user = (NewlyCreatedUserDto)await _provider.GetAsync(userId);
+                user.Password = password;
+
+                return Ok(user);
             }
             catch (ValidationException e)
             {
