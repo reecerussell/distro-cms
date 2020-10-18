@@ -2,7 +2,9 @@
 using Shared.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Shared.Tests")]
 namespace Shared.Passwords
 {
     internal class PasswordValidator : IPasswordValidator
@@ -11,7 +13,7 @@ namespace Shared.Passwords
 
         public PasswordValidator(IOptions<PasswordOptions> optionsProvider)
         {
-            var options = optionsProvider.Value?.Validation;
+            var options = optionsProvider?.Value?.Validation;
             if (options == null)
             {
                 throw new InvalidOperationException("PasswordValidatorOptions must be configured before the PasswordValidator is used.");
