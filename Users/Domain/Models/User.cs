@@ -141,6 +141,19 @@ namespace Users.Domain.Models
         }
 
         /// <summary>
+        /// Randomly generates the user's password.
+        /// </summary>
+        /// <param name="hasher">Used to hash the generated password.</param>
+        /// <param name="generator">Used to generate the password.</param>
+        /// <returns>Returns the randomly generated password in plain text.</returns>
+        private string SetPassword(IPasswordHasher hasher, IPasswordGenerator generator)
+        {
+            var password = generator.Generate(16);
+            PasswordHash = hasher.Hash(password);
+            return password;
+        }
+
+        /// <summary>
         /// Updates a user's core values (not including password).
         /// </summary>
         /// <param name="dto">The data needed to update.</param>
@@ -193,15 +206,15 @@ namespace Users.Domain.Models
         /// <param name="validator">The password validator.</param>
         /// <returns>A new instance of <see cref="User"/>.</returns>
         /// <exception cref="ValidationException">Throws if any of the given data is invalid.</exception>
-        public static User Create(CreateUserDto dto, IPasswordHasher hasher, IPasswordValidator validator)
+        public static (User user, string password) Create(CreateUserDto dto, IPasswordHasher hasher, IPasswordGenerator generator)
         {
             var user = new User();
             user.UpdateFirstname(dto.Firstname);
             user.UpdateLastname(dto.Lastname);
             user.UpdateEmail(dto.Email);
-            user.SetPassword(dto.Password, hasher, validator);
+            var password = user.SetPassword(hasher, generator);
 
-            return user;
+            return (user, password);
         }
     }
 }
