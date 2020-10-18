@@ -6,13 +6,17 @@ using Shared.Passwords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Users.Domain.Dtos;
 
+[assembly: InternalsVisibleTo("Domain.Tests")]
 namespace Users.Domain.Models
 {
     public class User : Aggregate
     {
+        public const int RandomPasswordLength = 16;
+
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Email { get; set; }
@@ -28,7 +32,7 @@ namespace Users.Domain.Models
         
         private readonly ILazyLoader _lazyLoader;
 
-        private User(ILazyLoader lazyLoader)
+        internal User(ILazyLoader lazyLoader)
         {
             _lazyLoader = lazyLoader;
         }
@@ -38,7 +42,7 @@ namespace Users.Domain.Models
             Roles = new List<UserRole>();
         }
 
-        internal void UpdateFirstname(string firstname)
+        private void UpdateFirstname(string firstname)
         {
             if (string.IsNullOrEmpty(firstname))
             {
@@ -53,7 +57,7 @@ namespace Users.Domain.Models
             Firstname = firstname;
         }
 
-        internal void UpdateLastname(string lastname)
+        private void UpdateLastname(string lastname)
         {
             if (string.IsNullOrEmpty(lastname))
             {
@@ -68,7 +72,7 @@ namespace Users.Domain.Models
             Lastname = lastname;
         }
 
-        internal void UpdateEmail(string email)
+        private void UpdateEmail(string email)
         {
             if (string.IsNullOrEmpty(email))
             {
@@ -80,7 +84,7 @@ namespace Users.Domain.Models
                 throw new ValidationException(ErrorMessages.UserEmailTooLong);
             }
 
-            var match = Regex.IsMatch(email, "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}");
+            var match = Regex.IsMatch(email, "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
             if (!match)
             {
                 throw new ValidationException(ErrorMessages.UserEmailInvalid);
@@ -148,7 +152,7 @@ namespace Users.Domain.Models
         /// <returns>Returns the randomly generated password in plain text.</returns>
         private string SetPassword(IPasswordHasher hasher, IPasswordGenerator generator)
         {
-            var password = generator.Generate(16);
+            var password = generator.Generate(RandomPasswordLength);
             PasswordHash = hasher.Hash(password);
             return password;
         }
@@ -203,7 +207,7 @@ namespace Users.Domain.Models
         /// </summary>
         /// <param name="dto">A DTO containing the data needed to create a user.</param>
         /// <param name="hasher">The hasher used to hash the password.</param>
-        /// <param name="validator">The password validator.</param>
+        /// <param name="generator">The password generator.</param>
         /// <returns>A new instance of <see cref="User"/>.</returns>
         /// <exception cref="ValidationException">Throws if any of the given data is invalid.</exception>
         public static (User user, string password) Create(CreateUserDto dto, IPasswordHasher hasher, IPasswordGenerator generator)
