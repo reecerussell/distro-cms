@@ -16,6 +16,7 @@ namespace Users.Infrastructure.Services
         private readonly IRoleRepository _roleRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IPasswordValidator _passwordValidator;
+        private readonly IPasswordGenerator _passwordGenerator;
         private readonly ILogger<UserService> _logger;
 
         public UserService(
@@ -23,12 +24,14 @@ namespace Users.Infrastructure.Services
             IRoleRepository roleRepository,
             IPasswordHasher passwordHasher,
             IPasswordValidator passwordValidator,
+            IPasswordGenerator passwordGenerator,
             ILogger<UserService> logger)
         {
             _repository = repository;
             _roleRepository = roleRepository;
             _passwordHasher = passwordHasher;
             _passwordValidator = passwordValidator;
+            _passwordGenerator = passwordGenerator;
             _logger = logger;
         }
 
@@ -39,7 +42,8 @@ namespace Users.Infrastructure.Services
         /// <returns>The newly created user's id.</returns>
         /// <exception cref="ArgumentNullException">Throws if <paramref name="dto"/> is null.</exception>
         /// <exception cref="ValidationException">Throws if the data is invalid.</exception>
-        public async Task<string> CreateAsync(CreateUserDto dto)
+        /// <returns>The newly created user's id and randomly generated password.</returns>
+        public async Task<(string id, string password)> CreateAsync(CreateUserDto dto)
         {
             if (dto == null)
             {
@@ -48,7 +52,7 @@ namespace Users.Infrastructure.Services
 
             _logger.LogDebug("Creating user with email: {0}", dto.Email);
 
-            var user = User.Create(dto, _passwordHasher, _passwordValidator);
+            var (user, password) = User.Create(dto, _passwordHasher, _passwordGenerator);
             if (await _repository.ExistsWithEmailAsync(user.Email))
             {
                 _logger.LogDebug("The email address '{0}' has already been taken.", user.Email);
@@ -63,7 +67,7 @@ namespace Users.Infrastructure.Services
 
             _logger.LogDebug("Created user, with id: {0}", user.Id);
 
-            return user.Id;
+            return (user.Id, password);
         }
 
         /// <summary>
