@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
 [assembly: InternalsVisibleTo("Shared.Tests")]
+[assembly: InternalsVisibleTo("Users.Domain.Tests")]
 namespace Shared.Passwords
 {
     /// <summary>
