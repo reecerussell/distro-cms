@@ -1,0 +1,82 @@
+<div class="card">
+    <div class="card-header">
+        <h2>Create User</h2>
+    </div>
+    <ng-template [ngIf]="!user">
+        <form (submit)="save()">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="firstname">Firstname</label>
+                    <input
+                        class="form-control"
+                        id="firstname"
+                        name="firstname"
+                        [(ngModel)]="firstname"
+                        maxlength="255"
+                        required
+                    />
+                    <ng-template [ngIf]="getError('firstname')">
+                        <small class="form-text text-danger">{{
+                            getError("firstname")
+                        }}</small>
+                    </ng-template>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Lastname</label>
+                    <input
+                        class="form-control"
+                        id="lastname"
+                        name="lastname"
+                        [(ngModel)]="lastname"
+                        maxlength="255"
+                        required
+                    />
+                    <ng-template [ngIf]="getError('lastname')">
+                        <small class="form-text text-danger">{{
+                            getError("lastname")
+                        }}</small>
+                    </ng-template>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        [(ngModel)]="email"
+                        maxlength="255"
+                        required
+                    />
+                    <ng-template [ngIf]="getError('email')">
+                        <small class="form-text text-danger">{{
+                            getError("email")
+                        }}</small>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="card-footer d-flex flex-row-reverse">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template [ngIf]="user">
+        <div class="card-body">
+            <div class="alert alert-success mb-0" role="alert">
+                <h4 class="alert-heading">Created!</h4>
+                <p>
+                    The user was created successfully, here is the user's
+                    password: <b>{{ user.password }}</b
+                    >.
+                </p>
+                <p class="mb-0">
+                    You won't be able to see their password again!
+                </p>
+            </div>
+        </div>
+        <div class="card-footer d-flex flex-row-reverse">
+            <a class="btn btn-success" routerLink="/users/{{ user.id }}/edit"
+                >View user</a
+            >
+        </div>
+    </ng-template>
+</div>

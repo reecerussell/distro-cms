@@ -1,0 +1,22 @@
+<div class="taskbar mb-4">
+    <ng-template [ngIf]="usersState$ | async">
+        <h1>{{ (usersState$ | async).loading ? "Loading..." : "User" }}</h1>
+    </ng-template>
+    <ng-template [ngIf]="!(usersState$ | async)">
+        <h1>User</h1>
+    </ng-template>
+    <ul>
+        <li>
+            <a routerLink="/users">
+                <i class="la la-users"></i>
+                Users
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <app-user-create-form></app-user-create-form>
+    </div>
+</div>
