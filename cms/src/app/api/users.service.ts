@@ -3,7 +3,11 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ResponseBody } from "./responses";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import User, { UserUpdate } from "../models/user.model";
+import User, {
+    NewlyCreatedUser,
+    UserCreate,
+    UserUpdate,
+} from "../models/user.model";
 import { environment } from "../../environments/environment";
 import { ToastrService } from "ngx-toastr";
 
@@ -84,6 +88,33 @@ export class UsersService {
                     if (statusCode === 200) {
                         this.toastr.success("Successfully deleted user.");
                         return data;
+                    }
+
+                    this.toastr.error(error);
+                    throw new Error(error);
+                })
+            );
+    }
+
+    Create$(user: UserCreate): Observable<NewlyCreatedUser> {
+        const options = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            }),
+        };
+
+        return this.http
+            .post(
+                environment.api_base_url + "auth/users",
+                JSON.stringify(user),
+                options
+            )
+            .pipe(
+                map((responseBody: ResponseBody) => {
+                    const { statusCode, data, error } = responseBody;
+                    if (statusCode === 200) {
+                        this.toastr.success("Successfully create user.");
+                        return data as NewlyCreatedUser;
                     }
 
                     this.toastr.error(error);
