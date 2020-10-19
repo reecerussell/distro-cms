@@ -20,6 +20,9 @@ export class UserCreate {
     firstname: string;
     lastname: string;
     email: string;
+}
+
+export class NewlyCreatedUser extends User {
     password: string;
 }
 

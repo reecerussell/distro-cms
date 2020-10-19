@@ -74,4 +74,18 @@ export class UserEffects {
             )
         )
     );
+
+    Create$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(UserActions.CREATE_USER),
+            mergeMap((action: UserActions.CreateUser) =>
+                this.users.Create$(action.user).pipe(
+                    map((data) => new UserActions.CreateUserSuccess(data)),
+                    catchError((error: Error) =>
+                        of(new UserActions.CreateUserError(error.message))
+                    )
+                )
+            )
+        )
+    );
 }

@@ -1,4 +1,8 @@
-import User, { UserUpdate } from "../../models/user.model";
+import User, {
+    NewlyCreatedUser,
+    UserCreate,
+    UserUpdate,
+} from "../../models/user.model";
 import { Action } from "@ngrx/store";
 
 export const GET_USERS = "[User] GET USERS";
@@ -13,6 +17,9 @@ export const UPDATE_USER_ERROR = "[User] UPDATE USER ERROR";
 export const DELETE_USER = "[User] DELETE USER";
 export const DELETE_USER_SUCCESS = "[User] DELETE USER SUCCESS";
 export const DELETE_USER_ERROR = "[User] DELETE USER ERROR";
+export const CREATE_USER = "[User] CREATE USER";
+export const CREATE_USER_SUCCESS = "[User] CREATE USER SUCCESS";
+export const CREATE_USER_ERROR = "[User] CREATE USER ERROR";
 
 export class GetUsers implements Action {
     readonly type = GET_USERS;
@@ -86,6 +93,24 @@ export class DeleteUserError implements Action {
     constructor(public error: string) {}
 }
 
+export class CreateUser implements Action {
+    readonly type = CREATE_USER;
+
+    constructor(public user: UserCreate) {}
+}
+
+export class CreateUserSuccess implements Action {
+    readonly type = CREATE_USER_SUCCESS;
+
+    constructor(public user: NewlyCreatedUser) {}
+}
+
+export class CreateUserError implements Action {
+    readonly type = CREATE_USER_ERROR;
+
+    constructor(public error: string) {}
+}
+
 export type All =
     | GetUsers
     | GetUsersSuccess
@@ -98,4 +123,7 @@ export type All =
     | UpdateUserError
     | DeleteUser
     | DeleteUserSuccess
-    | DeleteUserError;
+    | DeleteUserError
+    | CreateUser
+    | CreateUserSuccess
+    | CreateUserError;
