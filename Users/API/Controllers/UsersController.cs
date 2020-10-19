@@ -83,8 +83,8 @@ namespace API.Controllers
 
                 Logger.LogDebug("Successfully created user with id '{0}'.", userId);
 
-                var user = (NewlyCreatedUserDto)await _provider.GetAsync(userId);
-                user.Password = password;
+                var user = new NewlyCreatedUserDto(
+                    await _provider.GetAsync(userId)) {Password = password};
 
                 return Ok(user);
             }
