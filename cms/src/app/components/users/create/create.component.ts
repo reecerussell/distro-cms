@@ -38,7 +38,7 @@ export class CreateComponent implements OnInit {
                     const newUser = state.users.find(
                         (x) => x.email === this.email
                     );
-                    if (newUser) {
+                    if (newUser && !state.error) {
                         this.user = newUser;
                     }
 
